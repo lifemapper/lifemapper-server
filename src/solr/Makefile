@@ -16,6 +16,7 @@ SCRIPTS = solr.txt solr solr-index
 
 SEDSPEC += \
         -e 's%@LMHOME@%$(LMHOME)%g' \
+        -e 's%@LMCOREDISK@%$(LMCOREDISK)%g' \
         -e 's%@SOLRDATA@%$(SOLRDATA)%g' \
         -e 's%@SOLRDIR@%$(SOLRDIR)%g' \
         -e 's%@SOLRUSER@%$(SOLRUSER)%g' \
