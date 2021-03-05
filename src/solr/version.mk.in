@@ -7,6 +7,9 @@ TARBALL_POSTFIX	= tgz
 
 SOLRDIR			= /opt/solr
 JTSDIR			= /opt/solr/server/solr-webapp/webapp/WEB-INF/lib
+
+## TODO: move to data dir common to all lifemapper rolls
+## SOLRDATA     = $(LMDISK)/solr
 SOLRDATA		= $(DATADIR_SERVER)/solr
 SOLRUSER		= solr
 
