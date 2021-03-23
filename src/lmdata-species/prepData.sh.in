@@ -12,6 +12,10 @@
 #     "OccurrenceStatus is Present"
 #   ]
 # }
+# 
+# Taxonomic data:
+# https://api.gbif.org/v1/species/search?datasetKey=d7dddbf4-2cf0-4f39-9b2a-bb099caae36c&nameType=SCIENTIFIC&status=ACCEPTED&rank=SPECIES&rank=GENUS
+# https://www.gbif.org/species/search?dataset_key=d7dddbf4-2cf0-4f39-9b2a-bb099caae36c&name_type=SCIENTIFIC&status=ACCEPTED
 
 create_species_data () {
    echo "Fetch gbif occurrence data subset, taxonomy and provider metadata"
