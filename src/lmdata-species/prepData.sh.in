@@ -1,6 +1,17 @@
 #!/bin/bash
 
 # Purpose: fetch species data 
+# Requested through https://www.gbif.org/occurrence/search
+# https://www.gbif.org/occurrence/search?basis_of_record=PRESERVED_SPECIMEN&has_coordinate=true&has_geospatial_issue=false&occurrence_status=present
+# Filter used:
+# {
+#   "and" : [
+#     "BasisOfRecord is Specimen",
+#     "HasCoordinate is true",
+#     "HasGeospatialIssue is false",
+#     "OccurrenceStatus is Present"
+#   ]
+# }
 
 create_species_data () {
    echo "Fetch gbif occurrence data subset, taxonomy and provider metadata"
