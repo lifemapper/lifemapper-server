@@ -5,22 +5,23 @@ RELEASE		= 1
 WHEEL_POSTFIX	= whl
 
 # cherrypy dependencies
-PYTZ        = pytz-2020.1-py2.py3-none-any.$(WHEEL_POSTFIX)
-JFUNCTOOLS  = jaraco.functools-3.0.1-py3-none-any.$(WHEEL_POSTFIX)
-TEMPORA     = tempora-4.0.0-py3-none-any.$(WHEEL_POSTFIX)
-PORTEND     = portend-2.6-py2.py3-none-any.$(WHEEL_POSTFIX)
-JCLASSES    = jaraco.classes-3.1.0-py2.py3-none-any.$(WHEEL_POSTFIX)
-IMPLIB      = importlib_resources-3.0.0-py2.py3-none-any.$(WHEEL_POSTFIX)
-JTEXT       = jaraco.text-3.2.0-py2.py3-none-any.$(WHEEL_POSTFIX)
-JCOLLECTIONS= jaraco.collections-3.0.0-py2.py3-none-any.$(WHEEL_POSTFIX)
-CHEROOT     = cheroot-8.4.5-py2.py3-none-any.$(WHEEL_POSTFIX)
+CHEROOT     = cheroot-8.5.2-py2.py3-none-any.$(WHEEL_POSTFIX)
+SIX         = six-1.15.0-py2.py3-none-any.$(WHEEL_POSTFIX)
+JFTOOLS  = jaraco.functools-3.2.1-py3-none-any.$(WHEEL_POSTFIX)
+PORTEND     = portend-2.7.1-py3-none-any.$(WHEEL_POSTFIX)
+TEMPORA     = tempora-4.0.1-py3-none-any.$(WHEEL_POSTFIX)
+PYTZ        = pytz-2021.1-py2.py3-none-any.$(WHEEL_POSTFIX)
+MITERTOOLS  = more_itertools-8.7.0-py3-none-any.$(WHEEL_POSTFIX)
+JCOLLS      = jaraco.collections-3.2.0-py3-none-any.$(WHEEL_POSTFIX)
+JCLASSES    = jaraco.classes-3.2.1-py3-none-any.$(WHEEL_POSTFIX)
+JTEXT       = jaraco.text-3.5.0-py3-none-any.$(WHEEL_POSTFIX)
+IMPLIB      = importlib_resources-5.1.2-py3-none-any.$(WHEEL_POSTFIX)
+ZIPP        = zipp-3.4.1-py3-none-any.$(WHEEL_POSTFIX)
 ZC          = zc.lockfile-2.0-py2.py3-none-any.$(WHEEL_POSTFIX)
-SETUPT      = setuptools-50.2.0-py3-none-any.$(WHEEL_POSTFIX)
+SETUPT      = setuptools-54.2.0-py3-none-any.$(WHEEL_POSTFIX)
+WHEEL       = wheel-0.36.2-py2.py3-none-any.$(WHEEL_POSTFIX)
+
 # handles CORS, pulls in httpagentparser
 CP_CORS     = cherrypy_cors-1.6-py2.py3-none-any.$(WHEEL_POSTFIX)
-
-#     more-itertools    (separate rpm)
-#     zipp              (separate rpm)
-#     six               (separate rpm)
 
 RPM.FILES =  $(PKGROOT)/*

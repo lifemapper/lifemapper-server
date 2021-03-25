@@ -131,19 +131,20 @@ echo "/opt/python/lib/" >> /etc/ld.so.conf.d/lifemapper-server.conf
 # echo "/opt/rocks/fcgi/lib" >> /etc/ld.so.conf.d/lifemapper-server.conf
 /sbin/ldconfig
 
-# pip for numpy and scipy
+# pip, wheel for wheel installs and numpy/scipy
 module load opt-python
 python3.6 -m ensurepip --default-pip
+pip3 install --upgrade pip
 module unload opt-python
 
-# setuptools and wheel for backports.functools_lru_cache install
-cd src/setuptools
-make prep
-cd ../..
-module load opt-python
-compile setuptools
-module unload opt-python
-install opt-lifemapper-setuptools
+# # setuptools and wheel for backports.functools_lru_cache install
+# cd src/setuptools
+# make prep
+# cd ../..
+# module load opt-python
+# compile setuptools
+# module unload opt-python
+# install opt-lifemapper-setuptools
 
 cd src/wheel
 make prep
@@ -219,16 +220,8 @@ rpm -i src/RPMS/postgresql96-server-9.6.15-1PGDG.rhel7.x86_64.rpm
 rpm -i src/RPMS/postgresql96-contrib-9.6.15-1PGDG.rhel7.x86_64.rpm
 /sbin/ldconfig  /usr/pgsql-9.6/lib/
 
-# cherrypy 17.4.2 requires six>=1.11.0, cheroot>=6.2.4, portend>=2.1.1, 
-#                    and for exec, not build:
-#                          more-itertools=5.0.0 
-#                          contextlib2==0.6.0.post1
-#                          zc.lockfile=2.0
-#                          backports.functools_lru_cache=1.6.1
-#                          jaraco.functools=2.0
-# cheroot requires six and setuptools
-# portend requires tempora requires six, pytz
 
+# pytest-cov requires:
 
 # needed for cheroot build (on devapp, not in LM install?)
 cd src/six

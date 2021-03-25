@@ -1,8 +1,0 @@
-NAME		= opt-lifemapper-six
-VERSION		= 1.15.0
-ARCHIVENAME	= six
-RELEASE		= 0
-
-RPM.FILES	= $(PYTHON36_PACKAGES)/*
-
-# TODO: update

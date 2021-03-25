@@ -1,59 +1,85 @@
 #!/bin/bash
 
 # Install collected packages: 
-# pytz, more-itertools, jaraco.functools, tempora, portend, jaraco.classes, six, 
-# zipp, importlib-resources, jaraco.text, jaraco.collections, cheroot, zc.lockfile, cherrypy
+# cherrypy 18.6 
+#     cheroot>=8.2.1
+#         six>=1.11.0
+#         jaraco.functools
+#     portend>=2.1.1
+#         tempora>=1.8
+#             pytz
+#     more-itertools
+#     jaraco.collections
+#         jaraco.classes
+#         jaraco.text
+#             importlib-resources; python_version < "3.7"
+#                 zipp>=0.4; python_version < "3.8"
+#     zc-lockfile
+#         setuptools
+#
+# cherrypy_cors 1.6
+#     pulls in httpagentparser which uses wheel for build
 
-# # more-itertools (from cherrypy)
-# # six>=1.7.0 (from jaraco.collections->cherrypy)
-# # zipp>=0.4; python_version < "3.8" (from importlib-resources; python_version < "3.7"->jaraco.text->jaraco.collections->cherrypy)
-# pytz (from tempora>=1.8->portend>=2.1.1->cherrypy)
-PYTZ_URL=@PYPI_URL@/4f/a4/879454d49688e2fad93e59d7d4efda580b783c745fd2ec2a3adf87b0808d
-# jaraco.functools (from cheroot>=8.2.1->cherrypy)
-JFUNCTOOLS_URL=@PYPI_URL@/4f/2b/bbab94f3e461adaf3c7a3a25da0c67c91d8cf7a4ddae7096028601ff940f
-# tempora>=1.8 (from portend>=2.1.1->cherrypy)
-TEMPORA_URL=@PYPI_URL@/b1/a3/c2bb79aa42ef7c56eec7f12a7d403b6b06b1194bf0736a93b120b5c680f2
-# portend>=2.1.1 (from cherrypy)
-PORTEND_URL=@PYPI_URL@/d7/79/eee70a512bffe5ceb5008f8e3326581948f50ca393c3bcb4d557e4818bd1
-# jaraco.classes (from jaraco.collections->cherrypy)
-JCLASSES_URL=@PYPI_URL@/68/ce/8f43aa0d0f18120e687ae0192fe3168630040841a3e87bed93c5fe024dbe
-# importlib-resources; python_version < "3.7" (from jaraco.text->jaraco.collections->cherrypy)
-IMPLIB_URL=@PYPI_URL@/ba/03/0f9595c0c2ef12590877f3c47e5f579759ce5caf817f8256d5dcbd8a1177
-# jaraco.text (from jaraco.collections->cherrypy)
-JTEXT_URL=@PYPI_URL@/50/cd/6eda44738065e844bed8fae60a229b6c46f42d0ba8d48205e9fb57e254cd
-# jaraco.collections (from cherrypy)
-JCOLLECTIONS_URL=@PYPI_URL@/fe/06/a89652069f0a13a33701714c0c8e0cc8656bf6d21b7c6b85fde86cf06ff6
-# cheroot>=8.2.1 (from cherrypy)
-CHEROOT_URL=@PYPI_URL@/bd/39/942862090e73344fc60461449ae2755c71de4a8ce735174474dc283bfda7
-# zc.lockfile (from cherrypy)
+# cheroot>=8.2.1 (8.5.2)
+CHEROOT_URL=@PYPI_URL@/46/95/86fe6480af78fea7b0e7e1bf02e6acd4cb9e561ea200bd6d6e1398fe5426
+# six>=1.11.0 (1.15.0)
+SIX_URL=@PYPI_URL@/ee/ff/48bde5c0f013094d729fe4b0316ba2a24774b3ff1c52d924a8a4cb04078a
+# jaraco.functools (3.2.1)
+JFTOOLS_URL=@PYPI_URL@/44/de/f387dbe1a7738e97220e52934dd95fca9e2e7bc238cacd103de60c01a61f
+# portend>=2.1.1 (2.7.1)
+PORTEND_URL=@PYPI_URL@/b8/a1/fd29409cced540facdd29abb986d988cb1f22c8170d10022ea73af77fa55
+# tempora>=1.8 (4.0.1)
+TEMPORA_URL=@PYPI_URL@/06/e0/b2a0c95bebd29c757b332a2a373e8cc0debcaba801ae5dc5b7d03db1979f
+# pytz (2021.1)
+PYTZ_URL=@PYPI_URL@/70/94/784178ca5dd892a98f113cdd923372024dc04b8d40abe77ca76b5fb90ca6
+# more-itertools (8.7.0)
+MITERTOOLS_URL=@PYPI_URL@/05/47/514062a0798c2e9bdfd4514bacf9971fc8961b715f01487e4cfda3cc45a7
+# jaraco.collections (3.2.0)
+JCOLLS_URL=@PYPI_URL@/7c/38/2b10ed4e0fbd1e12e98e9acb1e2ab942087ec911cfeaf302c14b39fce4f0
+# jaraco.classes (3.2.1)
+JCLASSES_URL=@PYPI_URL@/b8/74/bee5fc11594974746535117546404678fc7b899476e769c3c55bc0cfaa02
+# jaraco.text (3.5.0)
+JTEXT_URL=@PYPI_URL@/c1/74/2a3c4835c079df16db8a9c50263eebb0125849fee5b16de353a059b7545d
+# importlib-resources; python_version < "3.7" (5.1.2)
+IMPLIB_URL=@PYPI_URL@/f0/5e/69e6a0602c1f18d390952177de648468c4a380252858b0022affc3ce7811
+# zipp>=0.4; python_version < "3.8" (3.4.1)
+ZIPP_URL=@PYPI_URL@/0f/8c/715c54e9e34c0c4820f616a913a7de3337d0cd79074dd1bed4dd840f16ae
+# zc-lockfile (2.0)
 ZC_URL=@PYPI_URL@/6c/2a/268389776288f0f26c7272c70c36c96dcc0bdb88ab6216ea18e19df1fadd
-# setuptools (from zc.lockfile->cherrypy)
-SETUPT_URL=@PYPI_URL@/7d/53/cd47a7799c5e82de7e408fecd72266dcc6cd7be32629b6022d4d6d91a2fc
+# setuptools (54.2.0)
+SETUPT_URL=@PYPI_URL@/9e/d4/b99a960314121a003e9f39c61dfde01a1010bb47661e193a7722f7f32d52
+
 # cherrypy
 DL_URL=@PYPI_URL@/a8/f9/e11f893dcabe6bc222a1442bf5e14f0322a2d363c92910ed41947078a35a
 DL_PKG=@ARCHIVENAME@-@VERSION@-py2.py3-none-any.@WHEEL_POSTFIX@
+
 # cherrypy-cors
-CORS_URL=https://files.pythonhosted.org/packages/8c/eb/2dde33117abfb7a856e0ed2f554f0f4ad97477465c7708a53531e3661370
+CORS_URL=@PYPI_URL@/8c/eb/2dde33117abfb7a856e0ed2f554f0f4ad97477465c7708a53531e3661370
+WHEEL_URL=@PYPI_URL@/65/63/39d04c74222770ed1589c0eaba06c05891801219272420b40311cd60c880
 
 get_wheel_files () {
   echo "Fetch CherryPy dependencies"
-  wget $PYTZ_URL/@PYTZ@
-  wget $JFUNCTOOLS_URL/@JFUNCTOOLS@
-  wget $TEMPORA_URL/@TEMPORA@
-  wget $PORTEND_URL/@PORTEND@
-  wget $JCLASSES_URL/@JCLASSES@
-  wget $IMPLIB_URL/@IMPLIB@
-  wget $JTEXT_URL/@JTEXT@
-  wget $JCOLLECTIONS_URL/@JCOLLECTIONS@
   wget $CHEROOT_URL/@CHEROOT@
+  wget $SIX_URL/@SIX@
+  wget $JFTOOLS_URL/@JFTOOLS@
+  wget $PORTEND_URL/@PORTEND@
+  wget $TEMPORA_URL/@TEMPORA@
+  wget $PYTZ_URL/@PYTZ@
+  wget $MITERTOOLS_URL/@MITERTOOLS@
+  wget $JCOLLS_URL/@JCOLLS@
+  wget $JCLASSES_URL/@JCLASSES@
+  wget $JTEXT_URL/@JTEXT@
+  wget $IMPLIB_URL/@IMPLIB@
+  wget $ZIPP_URL/@ZIPP@
   wget $ZC_URL/@ZC@
   wget $SETUPT_URL/@SETUPT@
 
   echo "Fetch CherryPy"
   wget $DL_URL/$DL_PKG
 
-  echo "Fetch CherryPy CORS handler"
+  echo "Fetch CherryPy CORS handler and wheel to build httpagentparser dependency"
   wget $CORS_URL/@CP_CORS@
+  wget $WHEEL_URL/@WHEEL_CORS@
 }
 
 ### main ###
