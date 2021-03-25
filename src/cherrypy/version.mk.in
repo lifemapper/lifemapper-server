@@ -1,9 +1,26 @@
 NAME		= opt-lifemapper-cherrypy
-VERSION		= 17.4.2
+VERSION     = 18.6.0
 ARCHIVENAME = CherryPy
 RELEASE		= 1
-TARBALL_POSTFIX	= tar.gz
+WHEEL_POSTFIX	= whl
 
-RPM.FILES	= $(PYTHON36_PACKAGES)/*
+# cherrypy dependencies
+PYTZ        = pytz-2020.1-py2.py3-none-any.$(WHEEL_POSTFIX)
+JFUNCTOOLS  = jaraco.functools-3.0.1-py3-none-any.$(WHEEL_POSTFIX)
+TEMPORA     = tempora-4.0.0-py3-none-any.$(WHEEL_POSTFIX)
+PORTEND     = portend-2.6-py2.py3-none-any.$(WHEEL_POSTFIX)
+JCLASSES    = jaraco.classes-3.1.0-py2.py3-none-any.$(WHEEL_POSTFIX)
+IMPLIB      = importlib_resources-3.0.0-py2.py3-none-any.$(WHEEL_POSTFIX)
+JTEXT       = jaraco.text-3.2.0-py2.py3-none-any.$(WHEEL_POSTFIX)
+JCOLLECTIONS= jaraco.collections-3.0.0-py2.py3-none-any.$(WHEEL_POSTFIX)
+CHEROOT     = cheroot-8.4.5-py2.py3-none-any.$(WHEEL_POSTFIX)
+ZC          = zc.lockfile-2.0-py2.py3-none-any.$(WHEEL_POSTFIX)
+SETUPT      = setuptools-50.2.0-py3-none-any.$(WHEEL_POSTFIX)
+# handles CORS, pulls in httpagentparser
+CP_CORS     = cherrypy_cors-1.6-py2.py3-none-any.$(WHEEL_POSTFIX)
 
-# TODO: update
+#     more-itertools    (separate rpm)
+#     zipp              (separate rpm)
+#     six               (separate rpm)
+
+RPM.FILES =  $(PKGROOT)/*
