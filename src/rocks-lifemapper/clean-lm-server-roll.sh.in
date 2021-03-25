@@ -144,24 +144,6 @@ del-shared-user-group () {
 }
 
 
-# stop Lifemapper daemons if running
-stop-lm-daemons () {
-    TRYAGAIN=0
-    if [[ -f /state/partition1/lmscratch/run/mattDaemon.pid ]]; then
-        echo "-- login as lmwriter to stop mattDaemon" >> $LOG
-        TRYAGAIN=1
-    fi
-
-    if [[ -f /state/partition1/lmscratch/run/daboom.pid ]]; then
-        echo "-- login as lmwriter to stop daboom daemon" >> $LOG
-        TRYAGAIN=1
-    fi
-
-    if [[ $TRYAGAIN -eq ]]; then
-        exit
-    fi
-}
-
 # stop services if running
 stop-services () {
     PG=postgresql-@PGSQLVER@
@@ -315,7 +297,7 @@ del-attr () {
    		$ROCKS_CMD remove host attr localhost LM_dbserver
    fi
 
-   rocks list host attr localhost | /bin/egrep -i LM_webserver
+   $ROCKS_CMD list host attr localhost | /bin/egrep -i LM_webserver
    if [[ $? -eq 0 ]]; then
    	echo "Remove attribute LM_webserver" >> $LOG
    	$ROCKS_CMD remove host attr localhost LM_webserver
@@ -351,42 +333,49 @@ finish-cleanup () {
 
 
 check-lm-processes () {
+    TRYLATER=0
     LMUSER_PROCESSES=`ps -Alf | grep lmwriter | grep -v grep | wc -l`
     if [[ $LMUSER_PROCESSES -ne 0 ]]; then
         echo "Stop all lmwriter processes before running this script"
-        exit 0
+        TRYLATER=1
     fi 
+    if [[ -f /state/partition1/lmscratch/run/mattDaemon.pid ]]; then
+        echo "-- login as lmwriter to stop mattDaemon before running this script"
+        TRYLATER=1
+    fi
 }
 
 ### main ###
 
 check-lm-processes
-
-set_defaults
-TimeStamp "# Start"
-
-stop-lm-daemons
-stop-services
-
-del-postgres
-del-mapserver 
-
-del-opt-python 
-del-lifemapper
-del-sysRPM
-del-directories
-del-webstuff
-del-attr
-del-cron-jobs
-del-automount-entry
-
-if [[ $LMROLL_COUNT -eq 1 ]]; then
-    del-shared-solr-stuff
-	del-lifemapper-shared
-	del-shared-directories
-	del-shared-user-group
+if [[ $TRYLATER -eq 0 ]]; then 
+    
+    set_defaults
+    TimeStamp "# Start"
+    
+    stop-services
+    
+    del-postgres
+    del-mapserver 
+    
+    del-opt-python 
+    del-lifemapper
+    del-sysRPM
+    del-directories
+    del-webstuff
+    del-attr
+    del-cron-jobs
+    del-automount-entry
+    
+    if [[ $LMROLL_COUNT -eq 1 ]]; then
+        del-shared-solr-stuff
+    	del-lifemapper-shared
+    	del-shared-directories
+    	del-shared-user-group
+    fi
+    
+    finish-cleanup
+else
+    echo 'Try again'
 fi
-
-finish-cleanup
-
 TimeStamp "# End"
