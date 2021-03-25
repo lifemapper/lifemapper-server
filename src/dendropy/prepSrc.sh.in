@@ -1,8 +1,7 @@
 #!/bin/bash
 
 # Purpose: Fetch DendroPy source
-
-DENDROPY_URL=https://files.pythonhosted.org/packages/f5/21/17e4fbb1c2a68421eec43930b1e118660c7483229f1b28ba4402e8856884
+DENDROPY_URL=https://files.pythonhosted.org/packages/f9/10/125c181b1d97ffc4661a60ec897cfe058dc46cb53900d807819464c3510f
 DENDROPY_PKG=@ARCHIVENAME@-@VERSION@.@TARBALL_POSTFIX@
 
 get_source_files () {

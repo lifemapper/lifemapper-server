@@ -1,8 +1,7 @@
 NAME		= opt-lifemapper-six
-VERSION		= 1.12.0
+VERSION		= 1.15.0
 ARCHIVENAME	= six
-RELEASE		= 1
-TARBALL_POSTFIX	= tar.gz
+RELEASE		= 0
 
 RPM.FILES	= $(PYTHON36_PACKAGES)/*
 
