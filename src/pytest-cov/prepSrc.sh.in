@@ -1,0 +1,73 @@
+#!/bin/bash
+
+# Purpose: Fetch @ARCHIVENAME@ wheel and all dependencies
+
+#Installing collected packages: py, importlib-metadata, iniconfig, toml, pluggy, attrs, pyparsing, packaging, pytest
+
+# Requirement already satisfied: more-itertools>=4.0.0 (from pytest) (8.5.0)
+# py>=1.8.2
+D1_URL=@PYPI_URL@/68/0f/41a43535b52a81e4f29e420a151032d26f08b62206840c48d14b70e53376
+D1_PKG=py-1.9.0-py2.py3-none-any.@WHEEL_POSTFIX@
+
+#  importlib-metadata>=0.12; python_version < "3.8"
+D2_URL=@PYPI_URL@/8e/58/cdea07eb51fc2b906db0968a94700866fc46249bdc75cac23f9d13168929
+D2_PKG=importlib_metadata-1.7.0-py2.py3-none-any.@WHEEL_POSTFIX@
+
+# iniconfig
+D3_URL=@PYPI_URL@/20/46/d2f4919cc48c39c2cb48b589ca9016aae6bad050b8023667eb86950d3da2
+D3_PKG=iniconfig-1.0.1-py3-none-any.@WHEEL_POSTFIX@
+
+# toml
+D4_URL=@PYPI_URL@/9f/e1/1b40b80f2e1663a6b9f497123c11d7d988c0919abbf3c3f2688e448c5363
+D4_PKG=toml-0.10.1-py2.py3-none-any.@WHEEL_POSTFIX@
+
+# pluggy<1.0,>=0.12
+D5_URL=@PYPI_URL@/a0/28/85c7aa31b80d150b772fbe4a229487bc6644da9ccb7e427dd8cc60cb8a62
+D5_PKG=pluggy-0.13.1-py2.py3-none-any.@WHEEL_POSTFIX@
+
+# attrs>=17.4.0
+D6_URL=@PYPI_URL@/d6/e1/3aa3b03e7643ffd6e499b203fd2a44f79893443e8b0b520d05d3e5c638d5
+D6_PKG=attrs-20.1.0-py2.py3-none-any.@WHEEL_POSTFIX@
+
+# packaging
+D7_URL=@PYPI_URL@/46/19/c5ab91b1b05cfe63cccd5cfc971db9214c6dd6ced54e33c30d5af1d2bc43
+D7_PKG=packaging-20.4-py2.py3-none-any.@WHEEL_POSTFIX@
+
+# more-itertools>=4.0.0 (from pytest>=4.6->pytest-cov)
+# zipp>=0.5 (from importlib-metadata>=0.12; python_version < "3.8"->pytest)
+# six (from packaging->pytest)
+
+# pyparsing>=2.0.2
+D8_URL=@PYPI_URL@/8a/bb/488841f56197b13700afd5658fc279a2025a39e22449b7cf29864669b15d
+D8_PKG=pyparsing-2.4.7-py2.py3-none-any.@WHEEL_POSTFIX@
+
+# coverage
+D9_URL=@PYPI_URL@/43/36/6bad97e1d647fcb131ba898fc07dad9dd07ab9e3a963bfc097559ad938d5
+D9_PKG=coverage-5.2.1-cp36-cp36m-manylinux1_x86_64.@WHEEL_POSTFIX@
+
+# pytest
+D10_URL=@PYPI_URL@/98/db/712bee56f9ab20373508a5a1c662e1db49b407dacf03b5224c6171ed0a3d
+D10_PKG=pytest-6.0.1-py3-none-any.@WHEEL_POSTFIX@
+
+DL_URL=@PYPI_URL@/e5/18/401594af67eda194a8b9167208621761927c937db7d60292608342bbac0a
+DL_PKG=@ARCHIVENAME@-@VERSION@-py2.py3-none-any.@WHEEL_POSTFIX@
+
+get_wheel_files () {
+  echo "Fetch @ARCHIVENAME@ dependencies"
+  wget "$D1_URL/$D1_PKG"
+  wget "$D2_URL/$D2_PKG"
+  wget "$D3_URL/$D3_PKG"
+  wget "$D4_URL/$D4_PKG"
+  wget "$D5_URL/$D5_PKG"
+  wget "$D6_URL/$D6_PKG"
+  wget "$D7_URL/$D7_PKG"
+  wget "$D8_URL/$D8_PKG"
+  wget "$D9_URL/$D9_PKG"
+  wget "$D10_URL/$D10_PKG"
+  
+  echo "Fetch @ARCHIVENAME@ wheel"
+  wget "$DL_URL/$DL_PKG"
+}
+
+### main ###
+get_wheel_files
