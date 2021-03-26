@@ -1,9 +1,17 @@
 #!/bin/bash
 
 # Purpose: Fetch Requests source
+CERTIFI_URL=https://files.pythonhosted.org/packages/5e/a0/5f06e1e1d463903cf0c0eebeb751791119ed7a4b3737fdc9a77f1cdfb51f
+
+
 DL_URL=https://github.com/kennethreitz/@ARCHIVENAME@/archive
 DL_PKG=v@VERSION@.@TARBALL_POSTFIX@
+
 OUTFILE=@ARCHIVENAME@-@VERSION@.@TARBALL_POSTFIX@
+
+get_dependencies () {
+    echo "Fetch `requests` dependencies"
+    wget $CERTIFI/$CERTIFI_URL
 
 get_source_files () {
   echo "Fetch python requests source code"

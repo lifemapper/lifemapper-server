@@ -4,38 +4,20 @@ VERSION 		= 2.11.1
 RELEASE 		= 0
 WHEEL_POSTFIX		= whl
 
+# TODO: bundle dependencies and update
 # pytest-cov 2.11.1
 #     pytest>=4.6 (6.2.2)
-#     coverage>=5.2.1 (5.5)
-#     py>=1.8.2 (1.10.0)
-#     importlib-metadata>=0.12 (3.7.3)
-#     iniconfig (1.1.1)
-#     toml (0.10.2)
-#     packaging (20.9)
-#     pluggy<1.0.0a1,>=0.12 (0.13.1)
-#     attrs>=19.2.0 (20.3.0)
-#     zipp>=0.5 in /opt/python/lib/python3.6/site-packages (from importlib-metadata>=0.12->pytest>=4.6->pytest-cov) (3.4.1)
-#     typing-extensions>=3.6.4 (3.7.4.3)
-#     pyparsing>=2.0.2 (2.4.7)
-
-Installing collected packages: typing-extensions, pyparsing, importlib-metadata, toml, py, pluggy, packaging, iniconfig, attrs, pytest, coverage, pytest-cov
-Successfully installed attrs-20.3.0 coverage-5.5 importlib-metadata-3.7.3 iniconfig-1.1.1 packaging-20.9 pluggy-0.13.1 py-1.10.0 pyparsing-2.4.7 pytest-6.2.2 pytest-cov-2.11.1 toml-0.10.2 typing-extensions-3.7.4.3
-
-# (ordered) dependencies for pytest-cov
-#     coverage
-#     more-itertools        (separate rpm)
-#     py
-#     importlib-metadata
-#     iniconfig
-#     toml
-#     pluggy
-#     attrs
-#     pyparsing
-#     six                   (separate rpm)
-#     packaging
-#     zipp                  (separate rpm)
-#     pytest
-#     pytest-cov
+#         attrs>=19.2.0 (20.3.0)
+#         iniconfig (1.1.1)
+#         coverage>=5.2.1 (5.5)
+#         py>=1.8.2 (1.10.0)
+#         importlib-metadata>=0.12 (3.7.3)
+#             typing-extensions>=3.6.4 (3.7.4.3)
+#             zipp>=0.5  (3.4.1)
+#         toml (0.10.2)
+#         packaging (20.9)
+#             pyparsing>=2.0.2 (2.4.7)
+#         pluggy<1.0.0a1,>=0.12 (0.13.1)
 
 RPM.EXTRAS = "AutoReq: no"
 

@@ -1,72 +1,63 @@
 #!/bin/bash
-
 # Purpose: Fetch @ARCHIVENAME@ wheel and all dependencies
 
-#Installing collected packages: py, importlib-metadata, iniconfig, toml, pluggy, attrs, pyparsing, packaging, pytest
+ATTRS_URL=https://files.pythonhosted.org/packages/c3/aa/cb45262569fcc047bf070b5de61813724d6726db83259222cd7b4c79821a
+ATTRS=attrs-20.3.0-py2.py3-none-any.@WHEEL_POSTFIX@
 
-# Requirement already satisfied: more-itertools>=4.0.0 (from pytest) (8.5.0)
-# py>=1.8.2
-D1_URL=@PYPI_URL@/68/0f/41a43535b52a81e4f29e420a151032d26f08b62206840c48d14b70e53376
-D1_PKG=py-1.9.0-py2.py3-none-any.@WHEEL_POSTFIX@
+INICFG_URL=https://files.pythonhosted.org/packages/9b/dd/b3c12c6d707058fa947864b67f0c4e0c39ef8610988d7baea9578f3c48f3
+INICFG=iniconfig-1.1.1-py2.py3-none-any.@WHEEL_POSTFIX@
 
-#  importlib-metadata>=0.12; python_version < "3.8"
-D2_URL=@PYPI_URL@/8e/58/cdea07eb51fc2b906db0968a94700866fc46249bdc75cac23f9d13168929
-D2_PKG=importlib_metadata-1.7.0-py2.py3-none-any.@WHEEL_POSTFIX@
+COV_URL=https://files.pythonhosted.org/packages/af/a7/c4d5a5f0dc3f06184ec5c4fdd3d8d57a8e454e677945386859238ab220e7
+COV=coverage-5.5-cp36-cp36m-manylinux1_x86_64.@WHEEL_POSTFIX@
 
-# iniconfig
-D3_URL=@PYPI_URL@/20/46/d2f4919cc48c39c2cb48b589ca9016aae6bad050b8023667eb86950d3da2
-D3_PKG=iniconfig-1.0.1-py3-none-any.@WHEEL_POSTFIX@
+PYY_URL=https://files.pythonhosted.org/packages/67/32/6fe01cfc3d1a27c92fdbcdfc3f67856da8cbadf0dd9f2e18055202b2dc62
+PYY=py-1.10.0-py2.py3-none-any.@WHEEL_POSTFIX@
 
-# toml
-D4_URL=@PYPI_URL@/9f/e1/1b40b80f2e1663a6b9f497123c11d7d988c0919abbf3c3f2688e448c5363
-D4_PKG=toml-0.10.1-py2.py3-none-any.@WHEEL_POSTFIX@
+TYPING_URL=https://files.pythonhosted.org/packages/3b/c0/e44213fcb799eac02881e2485724ba5b0914600bc9df6ed922e364fdc059
+TYPING=typing-3.7.4.3-py2-none-any.@WHEEL_POSTFIX@
 
-# pluggy<1.0,>=0.12
-D5_URL=@PYPI_URL@/a0/28/85c7aa31b80d150b772fbe4a229487bc6644da9ccb7e427dd8cc60cb8a62
-D5_PKG=pluggy-0.13.1-py2.py3-none-any.@WHEEL_POSTFIX@
+ZIPP_URL=https://files.pythonhosted.org/packages/0f/8c/715c54e9e34c0c4820f616a913a7de3337d0cd79074dd1bed4dd840f16ae
+ZIPP=zipp-3.4.1-py3-none-any.@WHEEL_POSTFIX@
 
-# attrs>=17.4.0
-D6_URL=@PYPI_URL@/d6/e1/3aa3b03e7643ffd6e499b203fd2a44f79893443e8b0b520d05d3e5c638d5
-D6_PKG=attrs-20.1.0-py2.py3-none-any.@WHEEL_POSTFIX@
+IMPLIB_URL=https://files.pythonhosted.org/packages/80/5d/0bbca82b16e01313cf0343167d4cfb90f6fade747cd4d10d368094b2883a
+IMPLIB=importlib_metadata-3.7.3-py3-none-any.@WHEEL_POSTFIX@
 
-# packaging
-D7_URL=@PYPI_URL@/46/19/c5ab91b1b05cfe63cccd5cfc971db9214c6dd6ced54e33c30d5af1d2bc43
-D7_PKG=packaging-20.4-py2.py3-none-any.@WHEEL_POSTFIX@
+TOML_URL=https://files.pythonhosted.org/packages/44/6f/7120676b6d73228c96e17f1f794d8ab046fc910d781c8d151120c3f1569e
+TOML=toml-0.10.2-py2.py3-none-any.@WHEEL_POSTFIX@
 
-# more-itertools>=4.0.0 (from pytest>=4.6->pytest-cov)
-# zipp>=0.5 (from importlib-metadata>=0.12; python_version < "3.8"->pytest)
-# six (from packaging->pytest)
+PYPARS_URL=https://files.pythonhosted.org/packages/8a/bb/488841f56197b13700afd5658fc279a2025a39e22449b7cf29864669b15d
+PYPARS=pyparsing-2.4.7-py2.py3-none-any.@WHEEL_POSTFIX@
 
-# pyparsing>=2.0.2
-D8_URL=@PYPI_URL@/8a/bb/488841f56197b13700afd5658fc279a2025a39e22449b7cf29864669b15d
-D8_PKG=pyparsing-2.4.7-py2.py3-none-any.@WHEEL_POSTFIX@
+PKGING_URL=https://files.pythonhosted.org/packages/3e/89/7ea760b4daa42653ece2380531c90f64788d979110a2ab51049d92f408af 
+PKGING=packaging-20.9-py2.py3-none-any.@WHEEL_POSTFIX@
 
-# coverage
-D9_URL=@PYPI_URL@/43/36/6bad97e1d647fcb131ba898fc07dad9dd07ab9e3a963bfc097559ad938d5
-D9_PKG=coverage-5.2.1-cp36-cp36m-manylinux1_x86_64.@WHEEL_POSTFIX@
+PLGGY_URL=https://files.pythonhosted.org/packages/a0/28/85c7aa31b80d150b772fbe4a229487bc6644da9ccb7e427dd8cc60cb8a62
+PLGGY=pluggy-0.13.1-py2.py3-none-any.@WHEEL_POSTFIX@
 
-# pytest
-D10_URL=@PYPI_URL@/98/db/712bee56f9ab20373508a5a1c662e1db49b407dacf03b5224c6171ed0a3d
-D10_PKG=pytest-6.0.1-py3-none-any.@WHEEL_POSTFIX@
+PYTEST_URL=https://files.pythonhosted.org/packages/a1/cf/7f67585bd2fc0359ec482cf3c430bce3ef6d3f40bc468137225a733e3069
+PYTEST=pytest-6.2.2-py3-none-any.@WHEEL_POSTFIX@
 
-DL_URL=@PYPI_URL@/e5/18/401594af67eda194a8b9167208621761927c937db7d60292608342bbac0a
-DL_PKG=@ARCHIVENAME@-@VERSION@-py2.py3-none-any.@WHEEL_POSTFIX@
+PYTESTCOV_URL=https://files.pythonhosted.org/packages/e3/1a/6affecd2344efee7f2487fac82242474cbac09f9e04929da5944907baf11
+PYTESTCOV=@ARCHIVENAME@-@VERSION@-py2.py3-none-any.@WHEEL_POSTFIX@
 
 get_wheel_files () {
   echo "Fetch @ARCHIVENAME@ dependencies"
-  wget "$D1_URL/$D1_PKG"
-  wget "$D2_URL/$D2_PKG"
-  wget "$D3_URL/$D3_PKG"
-  wget "$D4_URL/$D4_PKG"
-  wget "$D5_URL/$D5_PKG"
-  wget "$D6_URL/$D6_PKG"
-  wget "$D7_URL/$D7_PKG"
-  wget "$D8_URL/$D8_PKG"
-  wget "$D9_URL/$D9_PKG"
-  wget "$D10_URL/$D10_PKG"
+  wget "$ATTRS_URL/$ATTRS"
+  wget "$INICFG_URL/$INICFG"
+  wget "$COV_URL/$COV"
+  wget "$PYY_URL/$PYY"
+  wget "$TYPING_URL/$TYPING"
+  wget "$ZIPP_URL/$ZIPP"
+  wget "$IMPLIB_URL/$IMPLIB"
+  wget "$TOML_URL/$TOML"
+  wget "$PYPARS_URL/$PYPARS"
+  wget "$PKGING_URL/$PKGING"
+  wget "$PLGGY_URL/$PLGGY"
+  wget "$PYTEST_URL/$PYTEST"
+  wget "$PYTESTCOV_URL/$PYTESTCOV"
   
   echo "Fetch @ARCHIVENAME@ wheel"
-  wget "$DL_URL/$DL_PKG"
+  wget "$DL_URL/$DL"
 }
 
 ### main ###
