@@ -75,21 +75,14 @@
     <package>opt-lifemapper-gdal</package>
 	<package>opt-lifemapper-cython</package>
     <package>opt-lifemapper-numpy</package> 
-    <package>opt-lifemapper-scipy</package> 
-	<package>opt-lifemapper-dendropy</package>	
+    <package>opt-lifemapper-pydep</package>
 	<package>opt-lifemapper-pytest-cov</package>
     <package>opt-lifemapper-lmpy</package>    
     <package>opt-lifemapper-matplotlib</package>
-	<!-- # for requests -->
-	<!-- <package>opt-lifemapper-certifi</package>
-	<package>opt-lifemapper-chardet</package>
-	<package>opt-lifemapper-idna</package>
-	<package>opt-lifemapper-urllib3</package> -->
 	<package>opt-lifemapper-requests</package>
 	
 	<!-- biotaphy connectors -->
     <package>opt-lifemapper-biotaphypy</package>
-	<package>opt-lifemapper-idigbio</package>
 
 	<!-- lifemapper distro -->
 	<package>lifemapper-lmserver</package>

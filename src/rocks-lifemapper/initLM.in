@@ -38,7 +38,7 @@ set_python_dependency_arrays() {
     MATPLOTLIB_DEPS="six cycler numpy kiwisolver Pillow python_dateutil pyparsing matplotlib"
     PYTESTCOV_DEPS="attrs iniconfig coverage py typing-extensions zipp importlib-metadata toml pyparsing packaging pluggy pytest pytest-cov"
     LMPY_DEPS="Rtree numpy DendroPy"
-    OTHER_DEPS="idigbio"
+    OTHER_DEPS="cython idigbio"
 }
 
 set_defaults() {
