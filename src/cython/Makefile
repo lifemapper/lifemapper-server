@@ -68,8 +68,18 @@ SEDSPEC += \
         -e 's%@VERSION@%$(VERSION)%g'  \
         -e 's%@WHEEL@%$(WHEEL)%g'
 
+prepSrc.sh: prepSrc.sh.in
+    $(SED) $(SEDSPEC) $^ > $@
+    chmod 755 $@
+
+prep: prepSrc.sh
+    rm -rf version.mk
+    make version.mk
+    make prepSrc.sh
+    ./prepSrc.sh
+
 version.mk:
-	cat ../version.mk version.mk.in > version.mk
+    cat ../version.mk version.mk.in > version.mk
 
 PY.PATH = /opt/python/bin/$(PYTHONVER)
 

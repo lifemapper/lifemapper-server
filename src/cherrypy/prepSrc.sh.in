@@ -66,12 +66,11 @@ get_wheel_files () {
   wget $JCOLLS_URL/$JCOLLS
   wget $JCLASSES_URL/$JCLASSES
 
-  echo "Fetch CherryPy CORS handler and wheel to build httpagentparser dependency"
-  wget $WHEEL_URL/$WHEEL_CORS
+  echo "Fetch CherryPy CORS handler and which pulls httpagentparser dependency on install"
   wget $CORS_URL/$CP_CORS
 
   echo "Fetch CherryPy"
-  wget $DL_URL/$$DL_PKG
+  wget $DL_URL/$DL_PKG
 }
 
 ### main ###
