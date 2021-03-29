@@ -3,7 +3,7 @@
 # Purpose: Fetch cython source
 PYPI_URL=https://files.pythonhosted.org/packages
 
-DL_URL=$PYPI_URL/
+DL_URL=$PYPI_URL/72/40/87b8e2baad5120c3e715206d44f28591cb6c57d0c5435660358aa323f482
 DL_PKG=@ARCHIVENAME@-@VERSION@-cp36-cp36m-manylinux1_x86_64.@WHEEL@
 
 get_wheel () {
