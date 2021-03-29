@@ -66,26 +66,16 @@ PY.PATH = /opt/python/bin/$(PYTHONVER)
 
 SEDSPEC += \
         -e 's%@ARCHIVENAME@%$(ARCHIVENAME)%g'  \
-        -e 's%@PKGROOT@%$(PKGROOT)%g' \
-        -e 's%@VERSION@%$(VERSION)%g'
-
-prepSrc.sh: prepSrc.sh.in
-	$(SED) $(SEDSPEC) $^ > $@
-	chmod 755 $@
-
-prep: prepSrc.sh
-	rm -rf version.mk
-	make version.mk
-	make prepSrc.sh
-	./prepSrc.sh
+        -e 's%@VERSION@%$(VERSION)%g' \
+        -e 's%@WHEEL@%$(WHEEL)%g'
 
 build: 
 	echo $(ARCHIVENAME)-$(VERSION)
 
 install::
 	mkdir -p $(ROOT)/$(PKGROOT)/rocks/etc
-	install -m 664 $(ARCHIVENAME)-$(VERSION)-py3-none-any.whl $(ROOT)/$(PKGROOT)/rocks/etc
+	install -m 664 *.$(WHEEL)  $(ROOT)/$(PKGROOT)/rocks/etc
 
 clean::
-	rm -rf $(ARCHIVENAME)-$(VERSION) version.mk prepSrc.sh
+	rm -rf $(ARCHIVENAME)-$(VERSION) version.mk
 

@@ -68,19 +68,7 @@ PY.PATH = /opt/python/bin/$(PYTHONVER)
 SEDSPEC += \
         -e 's%@ARCHIVENAME@%$(ARCHIVENAME)%g'  \
         -e 's%@VERSION@%$(VERSION)%g'  \
-        -e 's%@PYPI_URL@%$(PYPI_URL)%g'  \
-        -e 's%@WHEEL_POSTFIX@%$(WHEEL_POSTFIX)%g'  \
-        -e 's%@PYTZ@%$(PYTZ)%g'  \
-        -e 's%@JFUNCTOOLS@%$(JFUNCTOOLS)%g'  \
-        -e 's%@TEMPORA@%$(TEMPORA)%g'  \
-        -e 's%@PORTEND@%$(PORTEND)%g'  \
-        -e 's%@JCLASSES@%$(JCLASSES)%g'  \
-        -e 's%@IMPLIB@%$(IMPLIB)%g'  \
-        -e 's%@JTEXT@%$(JTEXT)%g'  \
-        -e 's%@JCOLLECTIONS@%$(JCOLLECTIONS)%g'  \
-        -e 's%@CHEROOT@%$(CHEROOT)%g'  \
-        -e 's%@ZC@%$(ZC)%g'  \
-        -e 's%@SETUPT@%$(SETUPT)%g'
+        -e 's%@WHEEL@%$(WHEEL)%g'
 
 prepSrc.sh: prepSrc.sh.in
 	$(SED) $(SEDSPEC) $^ > $@
@@ -97,7 +85,7 @@ build: version.mk
 
 install::
 	mkdir -p $(ROOT)/$(PKGROOT)/rocks/etc
-	install -m 664 *.whl $(ROOT)/$(PKGROOT)/rocks/etc
+	install -m 664 *.$(WHEEL)  $(ROOT)/$(PKGROOT)/rocks/etc
 
 clean::
 	rm -rf $(ARCHIVENAME)-$(VERSION) version.mk prepSrc.sh

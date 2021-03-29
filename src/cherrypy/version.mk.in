@@ -2,7 +2,7 @@ NAME		= opt-lifemapper-cherrypy
 VERSION     = 18.6.0
 ARCHIVENAME = CherryPy
 RELEASE		= 0
-WHEEL_POSTFIX	= whl
+
 
 # cherrypy (18.6.0)
 #     more-itertools (from cherrypy) (8.7.0)
@@ -19,5 +19,9 @@ WHEEL_POSTFIX	= whl
 #             importlib-resources (from jaraco.text->jaraco.collections->cherrypy) (5.1.2)
 #                 zipp>=0.4 (from importlib-resources->jaraco.text->jaraco.collections->cherrypy) (3.4.1)
 #         jaraco.classes (from jaraco.collections->cherrypy) (3.2.1)
+# cherrypy-cors in /opt/python/lib/python3.6/site-packages (1.6)
+#     httpagentparser>=1.5 in /opt/python/lib/python3.6/site-packages (from cherrypy-cors) (1.9.1)
+#         wheel
+# 
 
 RPM.FILES =  $(PKGROOT)/*

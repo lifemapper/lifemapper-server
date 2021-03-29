@@ -28,6 +28,19 @@ if [[ $# -ne 0 ]]; then
     exit 0
 fi 
 
+set_python_dependency_arrays() {
+    # shared dependencies
+    BASE_DEPS="numpy pyparsing pytz setuptools six wheel zipp"
+    REQUESTS_DEPS="chardet certifi idna urllib3 requests"
+    # ordered package dependencies (some dependencies repeated for clarity)
+    CHERRYPY_DEPS="more-itertools pytz tempora portend six jaraco.functools cheroot setuptools zc.lockfile jaraco.classes zipp importlib-resources jaraco.text jaraco.collections CherryPy"
+    CHERRYPY_CORS_DEPS="wheel httpagentparser cherrypy-cors"
+    MATPLOTLIB_DEPS="six cycler numpy kiwisolver Pillow python_dateutil pyparsing matplotlib"
+    PYTESTCOV_DEPS="attrs iniconfig coverage py typing-extensions zipp importlib-metadata toml pyparsing packaging pluggy pytest pytest-cov"
+    LMPY_DEPS="Rtree numpy DendroPy"
+    OTHER_DEPS="idigbio"
+}
+
 set_defaults() {
     LOG=@LMSCRATCHDISK@/log/`/bin/basename $0`.log
     rm -f $LOG
@@ -202,21 +215,34 @@ finish_mapserver_install () {
     )     
 }
 
+order_wheel_installs () {
+    DEPENDENCIES=("$@")
+    echo "Install dependencies " $DEPENDENCIES
+    for d in $DEPENDENCIES
+        do
+            echo "install $d ..."
+            #wname=$WHL_DIR/$dep*whl
+            #@PYBIN@ -m pip install $wname
+        done    
+}
+
 # Install all python wheel files with pip
 finish_wheel_installs () {
     @PYBIN@ -m ensurepip --default-pip
     @PYBIN@ -m pip install --upgrade pip
     WHL_DIR=@PKGROOT@/rocks/etc
-    # these are filename prefixes
-    echo "-- install ordered wheel dependencies ..." >> $LOG
-    ORDERED_DEPS="numpy python_dateutil pyparsing kiwisolver cycler matplotlib scipy"
-    for dep in $ORDERED_DEPS
-        do
-            wname=$WHL_DIR/$dep*whl
-            echo "install ordered dependency $dep ..." >> $LOG
-            @PYBIN@ -m pip install $wname
-        done
 
+    echo "-- install python wheels with dependencies ..." >> $LOG
+    set_python_dependency_arrays
+    
+    order_wheel_installs "${BASE_DEPS[@]}"
+    order_wheel_installs "${REQUESTS_DEPS[@]}"
+    order_wheel_installs "${CHERRYPY_DEPS[@]}"
+    order_wheel_installs "${CHERRYPY_CORS_DEPS[@]}"
+    order_wheel_installs "${MATPLOTLIB_DEPS[@]}"
+    order_wheel_installs "${PYTESTCOV_DEPS[@]}"
+    order_wheel_installs "${OTHER_DEPS[@]}"
+    
     INSTALLED_PKGS=`@PYBIN@ -m pip list | /usr/bin/grep -v Package | /usr/bin/grep -v "^----" | /usr/bin/awk '{print $1}'`
     # install rest of wheel files, ignore previously installed files
     echo "-- install remaining wheel dependencies ..." >> $LOG

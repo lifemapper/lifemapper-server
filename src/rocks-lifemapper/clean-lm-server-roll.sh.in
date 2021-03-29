@@ -28,38 +28,41 @@ set_defaults() {
 
     echo "-- enable modules"  | tee -a $LOG
     source /usr/share/Modules/init/bash
+    set_python_dependency_arrays
+}
+
+set_python_dependency_arrays() {
+    # shared dependencies
+    BASE_DEPS="numpy pyparsing pytz setuptools six wheel zipp"
+    REQUESTS_DEPS="chardet certifi idna urllib3 requests"
+    # ordered package dependencies (some dependencies repeated for clarity)
+    CHERRYPY_DEPS="more-itertools pytz tempora portend six jaraco.functools cheroot setuptools zc.lockfile jaraco.classes zipp importlib-resources jaraco.text jaraco.collections CherryPy"
+    CHERRYPY_CORS_DEPS="wheel httpagentparser cherrypy-cors"
+    MATPLOTLIB_DEPS="six cycler numpy kiwisolver Pillow python_dateutil pyparsing matplotlib"
+    PYTESTCOV_DEPS="attrs iniconfig coverage py typing-extensions zipp importlib-metadata toml pyparsing packaging pluggy pytest pytest-cov"
+    LMPY_DEPS="Rtree numpy DendroPy"
+    OTHER_DEPS="idigbio"
+}
+
+del_lifemapper_shared_pydeps () {
+    DEPENDENCIES=("$@")
+    module load opt-python
+    echo "Uninstall shared python dependencies " $DEPENDENCIES
+    for d in $DEPENDENCIES
+        do
+            $PY3 -m pip uninstall -y $d
+        done    
+    module unload opt-python
 }
 
 del-lifemapper-shared() {
     echo "Removing lifemapper RPMs shared" >> $LOG
-    # for requests
-    $RM opt-lifemapper-certifi
-    $RM opt-lifemapper-chardet
-    $RM opt-lifemapper-idna
+    del_lifemapper_shared_pydeps "${BASE_DEPS[@]}"
+    del_lifemapper_shared_pydeps "${REQUESTS_DEPS[@]}"
+    del_lifemapper_shared_pydeps "${MATPLOTLIB_DEPS[@]}"
+    del_lifemapper_shared_pydeps "${PYTESTCOV_DEPS[@]}"
+    del_lifemapper_shared_pydeps "${OTHER_DEPS[@]}"
     $RM opt-lifemapper-requests
-    $RM opt-lifemapper-urllib3
-    $RM opt-lifemapper-wheel
-
-    module load opt-python
-    $PY3 -m pip uninstall -y wheel
-    module unload opt-python
-
-    if [[ $LMLAB_ROLL_COUNT -eq 0 ]] ; then
-        echo "Removing lmlab/lmserver RPMs shared" >> $LOG
-       $RM opt-lifemapper-cheroot
-       $RM opt-lifemapper-cherrypy
-       $RM opt-lifemapper-mod_wsgi
-       $RM opt-lifemapper-portend
-       $RM opt-lifemapper-pytz
-       $RM opt-lifemapper-six
-       $RM opt-lifemapper-tempora
-       $RM opt-lifemapper-more-itertools
-       $RM opt-lifemapper-contextlib2
-       $RM opt-lifemapper-zc.lockfile
-       $RM opt-lifemapper-backports.functools_lru_cache
-       $RM opt-lifemapper-jaraco.functools
-       $RM     lifemapper-solr
-    fi
 
     if [[ $LMCOMPUTE_ROLL_COUNT -eq 0 ]] ; then
         echo "Removing lmcompute/lmserver RPMs shared" >> $LOG
@@ -97,27 +100,13 @@ del-lifemapper-shared() {
         echo "Removing lmcompute/lmserver shared lifemapper-* and opt-lifemapper-* RPMS" >> $LOG    
         $RM opt-lifemapper-biotaphypy
         $RM     lifemapper-cctools
-        $RM opt-lifemapper-cython
-        $RM opt-lifemapper-dendropy
         $RM     lifemapper-env-data
         $RM opt-lifemapper-gdal
         $RM opt-lifemapper-lmpy
         $RM opt-lifemapper-numpy
         $RM opt-lifemapper-matplotlib
         $RM     lifemapper-proj
-        $RM opt-lifemapper-scipy
-        $RM     lifemapper-tiff
-        
-        echo "Removing lmcompute/lmserver shared python wheels from opt-lifemapper-* RPMs" >> $LOG
-        module load opt-python
-        $PY3 -m pip uninstall -y python-dateutil
-        $PY3 -m pip uninstall -y pyparsing
-        $PY3 -m pip uninstall -y kiwisolver
-        $PY3 -m pip uninstall -y cycler
-        $PY3 -m pip uninstall -y numpy
-        $PY3 -m pip uninstall -y scipy
-        $PY3 -m pip uninstall -y matplotlib
-        module unload opt-python
+        $RM     lifemapper-tiff        
     fi
 }
 
@@ -165,40 +154,46 @@ stop-services () {
 }
 
 del-lifemapper() {
-   echo "Removing lifemapper-* and prerequisite RPMS" >> $LOG
-   $RM     lifemapper-cmd
-   $RM     lifemapper-image-data
-   $RM     lifemapper-libevent
-   $RM     lifemapper-lmserver
-   $RM opt-lifemapper-psycopg2
-   $RM opt-lifemapper-pytest
-   $RM     lifemapper-species-data
-   $RM     lifemapper-webclient
-   $RM rocks-lifemapper
-   $RM roll-lifemapper-server-usersguide
-
-   echo "Removing opt-* RPMS" >> $LOG
-   $RM opt-lifemapper-idigbio
+    echo "Removing lifemapper-* and prerequisite RPMS" >> $LOG
+    $RM     lifemapper-cmd
+    $RM     lifemapper-image-data
+    $RM     lifemapper-libevent
+    $RM     lifemapper-lmserver
+    $RM opt-lifemapper-psycopg2
+    $RM opt-lifemapper-pytest
+    $RM     lifemapper-species-data
+    $RM     lifemapper-webclient
+    $RM rocks-lifemapper
+    $RM roll-lifemapper-server-usersguide
+    
+    $RM opt-lifemapper-cherrypy
+    $RM opt-lifemapper-mod_wsgi
+    $RM     lifemapper-solr
+    del_lifemapper_shared_pydeps "${CHERRYPY_DEPS[@]}"
+    del_lifemapper_shared_pydeps "${CHERRYPY_CORS_DEPS[@]}"
+    
+    echo "Removing opt-* RPMS" >> $LOG
+    $RM opt-lifemapper-idigbio
 }
 
 del-mapserver(){
-   echo "Removing mapserver and dependencies RPMS" >> $LOG
-   $RM opt-lifemapper-mapserver
-   $RM bitstream-vera-sans-fonts
-   $RM bitstream-vera-fonts-common
+    echo "Removing mapserver and dependencies RPMS" >> $LOG
+    $RM opt-lifemapper-mapserver
+    $RM bitstream-vera-sans-fonts
+    $RM bitstream-vera-fonts-common
 }
 
 del-postgres() {
-   echo "Removing postgis, postgres, pgbouncer and dependencies RPMS" >> $LOG
-   $RM postgresql96 postgresql96-libs postgresql96-devel postgresql96-server postgresql96-contrib
-   $RM postgis2_96
-   $RM CGAL
-   $RM SFCGAL SFCGAL-libs
-   $RM boost-serialization
-   $RM c-ares  c-ares-devel
-   $RM postgresql10-libs
-   $RM python2-psycopg2
-   $RM pgbouncer
+    echo "Removing postgis, postgres, pgbouncer and dependencies RPMS" >> $LOG
+    $RM postgresql96 postgresql96-libs postgresql96-devel postgresql96-server postgresql96-contrib
+    $RM postgis2_96
+    $RM CGAL
+    $RM SFCGAL SFCGAL-libs
+    $RM boost-serialization
+    $RM c-ares  c-ares-devel
+    $RM postgresql10-libs
+    $RM python2-psycopg2
+    $RM pgbouncer
 }
 
 del-sysRPM() {

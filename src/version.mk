@@ -50,8 +50,11 @@ GRID_CELLSIZE			= 1
 GRID_NUM_SIDES			= 4
 
 # Code version
-LMCODE_VERSION			  = 3.4.9.p3
-LMVIZ_VERSION            = 2.3.1
+LMCODE_VERSION          = 3.4.9.p3
+LMVIZ_VERSION           = 2.3.1
+
+WHEEL                   = whl
+
 
 
 
