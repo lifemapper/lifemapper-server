@@ -51,27 +51,27 @@ DL_PKG=@ARCHIVENAME@-@VERSION@-py2.py3-none-any.@WHEEL@
 
 get_wheel_files () {
   echo "Fetch CherryPy dependencies"
-  wget $MITERTOOLS_URL/@MITERTOOLS@
-  wget $PYTZ_URL/@PYTZ@
-  wget $TEMPORA_URL/@TEMPORA@
-  wget $PORTEND_URL/@PORTEND@
-  wget $SIX_URL/@SIX@
-  wget $JFTOOLS_URL/@JFTOOLS@
-  wget $CHEROOT_URL/@CHEROOT@
-  wget $SETUPT_URL/@SETUPT@
-  wget $ZC_URL/@ZC@
-  wget $ZIPP_URL/@ZIPP@
-  wget $IMPLIB_URL/@IMPLIB@  
-  wget $JTEXT_URL/@JTEXT@
-  wget $JCOLLS_URL/@JCOLLS@
-  wget $JCLASSES_URL/@JCLASSES@
+  wget $MITERTOOLS_URL/$$MITERTOOLS
+  wget $PYTZ_URL/$PYTZ
+  wget $TEMPORA_URL/$TEMPORA
+  wget $PORTEND_URL/$PORTEND
+  wget $SIX_URL/$SIX
+  wget $JFTOOLS_URL/$JFTOOLS
+  wget $CHEROOT_URL/$CHEROOT
+  wget $SETUPT_URL/$SETUPT
+  wget $ZC_URL/$ZC
+  wget $ZIPP_URL/$ZIPP
+  wget $IMPLIB_URL/$IMPLIB  
+  wget $JTEXT_URL/$JTEXT
+  wget $JCOLLS_URL/$JCOLLS
+  wget $JCLASSES_URL/$JCLASSES
 
   echo "Fetch CherryPy CORS handler and wheel to build httpagentparser dependency"
-  wget $WHEEL_URL/@WHEEL_CORS@
-  wget $CORS_URL/@CP_CORS@
+  wget $WHEEL_URL/$WHEEL_CORS
+  wget $CORS_URL/$CP_CORS
 
   echo "Fetch CherryPy"
-  wget $DL_URL/$DL_PKG
+  wget $DL_URL/$$DL_PKG
 }
 
 ### main ###
