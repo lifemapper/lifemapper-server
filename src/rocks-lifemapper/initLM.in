@@ -30,15 +30,15 @@ fi
 
 set_python_dependency_arrays() {
     # shared dependencies
-    BASE_DEPS="numpy pyparsing pytz setuptools six wheel zipp"
+    BASE_DEPS="contextlib2 numpy pyparsing pytz setuptools six wheel zipp"
     REQUESTS_DEPS="chardet certifi idna urllib3 requests"
-    # ordered package dependencies (some dependencies repeated for clarity)
-    CHERRYPY_DEPS="more-itertools pytz tempora portend six jaraco.functools cheroot setuptools zc.lockfile jaraco.classes zipp importlib-resources jaraco.text jaraco.collections CherryPy"
-    CHERRYPY_CORS_DEPS="wheel httpagentparser cherrypy-cors"
-    MATPLOTLIB_DEPS="six cycler numpy kiwisolver Pillow python_dateutil pyparsing matplotlib"
-    PYTESTCOV_DEPS="attrs iniconfig coverage py typing-extensions zipp importlib-metadata toml pyparsing packaging pluggy pytest pytest-cov"
-    LMPY_DEPS="Rtree numpy DendroPy"
-    OTHER_DEPS="cython idigbio"
+    # ordered package dependencies (some dependencies shared from BASE_DEPS)
+    CHERRYPY_DEPS="more-itertools tempora portend jaraco.functools cheroot zc.lockfile jaraco.classes importlib-resources jaraco.text jaraco.collections CherryPy"
+    CHERRYPY_CORS_DEPS="httpagentparser cherrypy-cors"
+    MATPLOTLIB_DEPS="cycler kiwisolver Pillow python_dateutil matplotlib"
+    PYTESTCOV_DEPS="attrs iniconfig coverage py typing-extensions importlib-metadata toml packaging pluggy pytest pytest-cov"
+    LMPY_DEPS="Rtree DendroPy"
+    OTHER_DEPS="biotaphypy Cython idigbio lmpy"
 }
 
 set_defaults() {

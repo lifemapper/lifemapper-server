@@ -13,6 +13,7 @@ RELEASE 		= 0
 # zipp (cherrypy
 #
 # idigbio (?)
+# contextlib2 (?)
 
 RPM.EXTRAS = "AutoReq: no"
 

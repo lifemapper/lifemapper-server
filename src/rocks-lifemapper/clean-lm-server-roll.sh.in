@@ -33,15 +33,15 @@ set_defaults() {
 
 set_python_dependency_arrays() {
     # shared dependencies
-    BASE_DEPS="numpy pyparsing pytz setuptools six wheel zipp"
+    BASE_DEPS="contextlib2 numpy pyparsing pytz setuptools six wheel zipp"
     REQUESTS_DEPS="chardet certifi idna urllib3 requests"
-    # ordered package dependencies (some dependencies repeated for clarity)
-    CHERRYPY_DEPS="more-itertools pytz tempora portend six jaraco.functools cheroot setuptools zc.lockfile jaraco.classes zipp importlib-resources jaraco.text jaraco.collections CherryPy"
-    CHERRYPY_CORS_DEPS="wheel httpagentparser cherrypy-cors"
-    MATPLOTLIB_DEPS="six cycler numpy kiwisolver Pillow python_dateutil pyparsing matplotlib"
-    PYTESTCOV_DEPS="attrs iniconfig coverage py typing-extensions zipp importlib-metadata toml pyparsing packaging pluggy pytest pytest-cov"
-    LMPY_DEPS="Rtree numpy DendroPy"
-    OTHER_DEPS="cython idigbio"
+    # ordered package dependencies (some dependencies shared from BASE_DEPS)
+    CHERRYPY_DEPS="more-itertools tempora portend jaraco.functools cheroot zc.lockfile jaraco.classes importlib-resources jaraco.text jaraco.collections CherryPy"
+    CHERRYPY_CORS_DEPS="httpagentparser cherrypy-cors"
+    MATPLOTLIB_DEPS="cycler kiwisolver Pillow python_dateutil matplotlib"
+    PYTESTCOV_DEPS="attrs iniconfig coverage py typing-extensions importlib-metadata toml packaging pluggy pytest pytest-cov"
+    LMPY_DEPS="Rtree DendroPy"
+    OTHER_DEPS="biotaphypy Cython idigbio lmpy"
 }
 
 del_lifemapper_shared_pydeps () {
@@ -61,6 +61,7 @@ del-lifemapper-shared() {
     del_lifemapper_shared_pydeps "${REQUESTS_DEPS[@]}"
     del_lifemapper_shared_pydeps "${MATPLOTLIB_DEPS[@]}"
     del_lifemapper_shared_pydeps "${PYTESTCOV_DEPS[@]}"
+    del_lifemapper_shared_pydeps "${LMPY_DEPS[@]}"
     del_lifemapper_shared_pydeps "${OTHER_DEPS[@]}"
     $RM opt-lifemapper-requests
 
@@ -106,7 +107,10 @@ del-lifemapper-shared() {
         $RM opt-lifemapper-numpy
         $RM opt-lifemapper-matplotlib
         $RM     lifemapper-proj
-        $RM     lifemapper-tiff        
+        $RM     lifemapper-tiff
+        $RM opt-lifemapper-pytest-cov
+        $RM opt-lifemapper-pydeps
+        $RM opt-lifemapper-cython
     fi
 }
 
@@ -194,11 +198,9 @@ del-postgres() {
     $RM postgresql10-libs
     $RM python2-psycopg2
     $RM pgbouncer
-}
 
-del-sysRPM() {
-   echo "Removing pgdg repo" >> $LOG
-   $RM pgdg-centos96
+    echo "Removing pgdg repo" >> $LOG
+    $RM pgdg-centos96
 }
 
 del-config () {
@@ -355,7 +357,6 @@ if [[ $TRYLATER -eq 0 ]]; then
     
     del-opt-python 
     del-lifemapper
-    del-sysRPM
     del-directories
     del-webstuff
     del-attr
