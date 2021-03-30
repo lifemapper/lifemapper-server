@@ -41,7 +41,7 @@ set_defaults () {
         DATA_SOURCE=`grep -i ^DATA_SOURCE $BOOM_PARAMS | awk '{print $2}'`
         ARCHIVE_USER=`grep -i ^ARCHIVE_USER $BOOM_PARAMS | awk '{print $2}'`
         ARCHIVE_NAME=`grep -i ^ARCHIVE_NAME $BOOM_PARAMS | awk '{print $2}'`
-        SCEN_PKG==`grep -i ^SCENARIO_PACKAGE $BOOM_PARAMS | awk '{print $2}'`
+        SCEN_PKG=`grep -i ^SCENARIO_PACKAGE $BOOM_PARAMS | awk '{print $2}'`
         
         TREE_BASENAME=`grep -i ^TREE $BOOM_PARAMS | awk '{print $2}'`
         BIOGEO_HYPOTHESES=`grep -i ^BIOGEO_HYPOTHESES $BOOM_PARAMS | awk '{print $2}'`
@@ -103,7 +103,7 @@ cmd_opt_python () {
 
 ### populate lifemapper DB with Algorithms and default metadata, no makeflow
 populate_defaults () {
-    if [ -f $BORG_DEFCAT_PY ] ; then
+    if [ -f $DEFCAT_PY ] ; then
         echo "Cataloging default inputs and parameters with '$DEFCAT_PY' ..." | tee -a $LOG
         cmd_opt_python load
         @PYBIN@ $DEFCAT_PY 2>&1 | tee -a $LOG
