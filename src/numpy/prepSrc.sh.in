@@ -6,7 +6,7 @@ WHL=@ARCHIVENAME@-@VERSION@-cp36-cp36m-manylinux1_x86_64.@WHEEL@
 
 get_wheel () {
   echo "Fetch @ARCHIVENAME@ wheel"
-  wget "$DL_URL/$DL_WHL"
+  wget "$URL/$WHL"
 }
 
 ### main ###
