@@ -1,8 +1,9 @@
 #!/bin/bash
 
-# Purpose: Fetch @ARCHIVENAME@ wheel
+# Purpose: Fetch @ARCHIVENAME@ and dependencies
+PYPI_URL=https://files.pythonhosted.org/packages
 
-PYPARS_URL=https://files.pythonhosted.org/packages/8a/bb/488841f56197b13700afd5658fc279a2025a39e22449b7cf29864669b15d
+PYPARS_URL=$PYPI_URL/8a/bb/488841f56197b13700afd5658fc279a2025a39e22449b7cf29864669b15d
 PYPARS=pyparsing-2.4.7-py2.py3-none-any.@WHEEL_POSTFIX@
 
 PYTZ_URL=$PYPI_URL/70/94/784178ca5dd892a98f113cdd923372024dc04b8d40abe77ca76b5fb90ca6
