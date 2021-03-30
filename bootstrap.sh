@@ -137,23 +137,6 @@ python3.6 -m ensurepip --default-pip
 pip3 install --upgrade pip
 module unload opt-python
 
-# # setuptools and wheel for backports.functools_lru_cache install
-# cd src/setuptools
-# make prep
-# cd ../..
-# module load opt-python
-# compile setuptools
-# module unload opt-python
-# install opt-lifemapper-setuptools
-
-cd src/wheel
-make prep
-module load opt-python
-python3.6 -m ensurepip --default-pip
-python3.6 -m pip install *.whl
-cd ../..
-compile wheel
-module unload opt-python
 
 # # install newer verson of proj for gdal
 cd src/proj
@@ -172,44 +155,6 @@ rpm -i src/RPMS/gdal-libs-1.11.4-12.rhel7.x86_64.rpm
 rpm -i src/RPMS/gdal-1.11.4-12.rhel7.x86_64.rpm
 rpm -i src/RPMS/gdal-devel-1.11.4-12.rhel7.x86_64.rpm
 
-# cython > 0.23.4 for scipy 
-cd src/cython
-make prep
-cd ../..
-module load opt-python
-compile cython
-module unload opt-python
-install opt-lifemapper-cython
-
-# numpy for scipy and matplotlib
-cd src/numpy
-make prep
-module load opt-python
-python3.6 -m ensurepip --default-pip
-python3.6 -m pip install *.whl
-cd ../..
-compile numpy
-module unload opt-python
-
-# matplotlib and dependencies (for biotaphypy)
-# rpm only installs wheel files
-cd src/matplotlib
-make prep
-module load opt-python
-python3.6 -m ensurepip --default-pip
-python3.6 -m pip install *.whl
-cd ../..
-module unload opt-python
-
-cd src/scipy
-make prep
-module load opt-python
-python3.6 -m ensurepip --default-pip
-python3.6 -m pip install *.whl
-cd ../..
-compile scipy
-module unload opt-python
-install opt-lifemapper-scipy
 
 # install postgresql
 # yum --enablerepo base update openssl
@@ -220,54 +165,6 @@ rpm -i src/RPMS/postgresql96-server-9.6.15-1PGDG.rhel7.x86_64.rpm
 rpm -i src/RPMS/postgresql96-contrib-9.6.15-1PGDG.rhel7.x86_64.rpm
 /sbin/ldconfig  /usr/pgsql-9.6/lib/
 
-
-# pytest-cov requires:
-
-# needed for cheroot build (on devapp, not in LM install?)
-cd src/six
-make prep
-cd ../..
-module load opt-python
-compile six
-module unload opt-python
-install opt-lifemapper-six
-/sbin/ldconfig
-
-cd src/cheroot
-make prep
-cd ../..
-module load opt-python
-compile cheroot
-module unload opt-python
-install opt-lifemapper-cheroot
-/sbin/ldconfig
-
-cd src/pytz
-make prep
-cd ../..
-module load opt-python
-compile pytz
-module unload opt-python
-install opt-lifemapper-pytz
-/sbin/ldconfig
-
-cd src/tempora
-make prep
-cd ../..
-module load opt-python
-compile tempora
-module unload opt-python
-install opt-lifemapper-tempora
-/sbin/ldconfig
-
-cd src/portend
-make prep
-cd ../..
-module load opt-python
-compile portend
-module unload opt-python
-install opt-lifemapper-portend
-/sbin/ldconfig
 
 # Leave with opt-python loaded
 module load opt-python
