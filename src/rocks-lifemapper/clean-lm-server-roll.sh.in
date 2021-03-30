@@ -164,7 +164,6 @@ del-lifemapper() {
     $RM     lifemapper-libevent
     $RM     lifemapper-lmserver
     $RM opt-lifemapper-psycopg2
-    $RM opt-lifemapper-pytest
     $RM     lifemapper-species-data
     $RM     lifemapper-webclient
     $RM rocks-lifemapper
