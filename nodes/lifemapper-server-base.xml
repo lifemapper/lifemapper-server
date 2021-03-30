@@ -75,7 +75,7 @@
     <package>opt-lifemapper-gdal</package>
 	<package>opt-lifemapper-cython</package>
     <package>opt-lifemapper-numpy</package> 
-    <package>opt-lifemapper-pydep</package>
+    <package>opt-lifemapper-pydeps</package>
 	<package>opt-lifemapper-pytest-cov</package>
     <package>opt-lifemapper-lmpy</package>    
     <package>opt-lifemapper-matplotlib</package>
