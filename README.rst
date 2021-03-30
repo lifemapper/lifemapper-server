@@ -212,8 +212,7 @@ Execute first command from the location of the ISO ::
 
    # rocks add roll lifemapper-server-6.2-0.x86_64.disk1.iso   
    # rocks enable roll lifemapper-server
-   # (cd /export/rocks/install; rocks create distro)  
-   # yum clean all
+   # (cd /export/rocks/install; rocks create distro; yum clean all)  
    # rocks run roll lifemapper-server > add-server.sh  
    # bash add-server.sh  > add-server.out 2>&1
 
