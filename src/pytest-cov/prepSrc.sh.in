@@ -3,7 +3,7 @@
 # dependencies from pydep rpm:
 #   pyparsing
 #   zipp
-PYPI_URL=$PYPI_URL
+PYPI_URL=https://files.pythonhosted.org/packages
 
 ATTRS_URL=$PYPI_URL/c3/aa/cb45262569fcc047bf070b5de61813724d6726db83259222cd7b4c79821a
 ATTRS=attrs-20.3.0-py2.py3-none-any.@WHEEL@
@@ -39,7 +39,7 @@ PYTESTCOV_URL=$PYPI_URL/e3/1a/6affecd2344efee7f2487fac82242474cbac09f9e04929da59
 PYTESTCOV=@ARCHIVENAME@-@VERSION@-py2.py3-none-any.@WHEEL@
 
 get_wheel_files () {
-  echo "Fetch @ARCHIVENAME@ dependencies"
+  echo "Fetch @ARCHIVENAME@ and dependencies"
   wget "$ATTRS_URL/$ATTRS"
   wget "$INICFG_URL/$INICFG"
   wget "$COV_URL/$COV"
@@ -51,9 +51,6 @@ get_wheel_files () {
   wget "$PLGGY_URL/$PLGGY"
   wget "$PYTEST_URL/$PYTEST"
   wget "$PYTESTCOV_URL/$PYTESTCOV"
-  
-  echo "Fetch @ARCHIVENAME@ wheel"
-  wget "$DL_URL/$DL"
 }
 
 ### main ###
