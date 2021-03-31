@@ -106,32 +106,32 @@ PROFILES = \
 	lifemapper.csh 
 
 SCRIPTS = \
+    dbAddFunctions.sql \
 	dbDefineTables.sql \
-	dbAddFunctions.sql \
 	dbUpdateTables.sql \
-    clean-lm-server-roll.sh \
 	lifemapper.conf \
 	lifemapper-server.conf
 
 CRONS = \
-	lmserver_cycle_matt \
-	lmserver_count_completed
+	lmserver_count_completed \
+    lmserver_cycle_matt \
+	lmserver_troubleshoot_jobs
 
 PROGS = \
 	catalogDefaultDataInputs \
+    checkLibs \
+    clean-lm-server-roll \
+    clearData \
+    exportTaxonomyToCsv \
+    getBoomPackageForUser \
+    getScenPackageForUser \
+    indexTaxonomySolr \
+    initDbserver \
+    initLM \
+    initPostgis \
 	initWorkflow \
-	checkLibs \
-	clearData \
-	confconst.py \
+    installServerCronJobs \
 	matt_daemon \
-	exportTaxonomyToCsv \
-	initDbserver \
-	initLM \
-	initPostgis \
-	installServerCronJobs \
-	getScenPackageForUser \
-	getBoomPackageForUser \
-	indexTaxonomySolr \
 	updateDB \
 	updateCfg \
 	updateLM \
@@ -181,7 +181,6 @@ install::
 	install -m 755 $(EXECFILES) $(ROOT)/$(PKGROOT)/rocks/bin
 
 	mkdir -p $(ROOT)/$(PKGROOT)/rocks/etc
-	install -m 644 clean-lm-server-roll.sh $(ROOT)/$(PKGROOT)/rocks/etc
 	install -m 755 $(CRONS) $(ROOT)/$(PKGROOT)/rocks/etc
 
 	mkdir -p $(ROOT)/$(PKGROOT)/rocks/sql
