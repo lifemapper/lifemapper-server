@@ -12,8 +12,6 @@ PIP3=/opt/python/bin/pip3.6
 ROCKS_CMD=/opt/rocks/bin/rocks
 LMUSER_COUNT=`/bin/egrep -i "^lmwriter" /etc/passwd  | wc -l`
 LMROLL_COUNT=`$ROCKS_CMD list roll | grep lifemapper | wc -l`
-LMLAB_ROLL_COUNT=`$ROCKS_CMD list roll | grep lifemapper-lab |  wc -l`
-LMCOMPUTE_ROLL_COUNT=`$ROCKS_CMD list roll | grep lifemapper-compute |  wc -l`
 NEED_SYNC=0
 
 TimeStamp () {
@@ -64,54 +62,51 @@ del-lifemapper-shared() {
     del_lifemapper_shared_pydeps "${LMPY_DEPS[@]}"
     del_lifemapper_shared_pydeps "${OTHER_DEPS[@]}"
     $RM opt-lifemapper-requests
+    $RM opt-lifemapper-matplotlib
+    $RM opt-lifemapper-pytest-cov
+    $RM opt-lifemapper-lmpy
+    # OTHER_DEPS
+    $RM opt-lifemapper-biotaphypy
+    $RM opt-lifemapper-cython
+    $RM opt-lifemapper-lmpy
 
-    if [[ $LMCOMPUTE_ROLL_COUNT -eq 0 ]] ; then
-        echo "Removing lmcompute/lmserver RPMs shared" >> $LOG
-        # gdal-libs + deps
-        $RM gdal-libs
-        $RM CharLS 
-        $RM SuperLU 
-        $RM armadillo
-        $RM arpack
-        $RM atlas atlas-devel
-        $RM blas  blas-devel
-        $RM cfitsio 
-        $RM freexl 
-        $RM geos geos-devel
-        $RM hdf5 hdf5-devel
-        $RM lapack lapack-devel
-        $RM libaec libaec-devel
-        $RM libdap 
-        $RM libgeotiff libgeotiff-devel
-        $RM libgta
-        $RM libtiff-devel
-        $RM netcdf 
-        $RM ogdi 
-        $RM openblas-openmp 
-        $RM openjpeg2 
-        $RM postgresql-libs
-        $RM proj 
-        $RM unixODBC 
-        $RM xerces-c 
-        # gdal deps
-        $RM gpsbabel
-        $RM libusb
-        $RM shapelib
-        
-        echo "Removing lmcompute/lmserver shared lifemapper-* and opt-lifemapper-* RPMS" >> $LOG    
-        $RM opt-lifemapper-biotaphypy
-        $RM     lifemapper-cctools
-        $RM     lifemapper-env-data
-        $RM opt-lifemapper-gdal
-        $RM opt-lifemapper-lmpy
-        $RM opt-lifemapper-numpy
-        $RM opt-lifemapper-matplotlib
-        $RM     lifemapper-proj
-        $RM     lifemapper-tiff
-        $RM opt-lifemapper-pytest-cov
-        $RM opt-lifemapper-pydeps
-        $RM opt-lifemapper-cython
-    fi
+    echo "Removing lmcompute/lmserver RPMs shared" >> $LOG
+    # gdal-libs + deps
+    $RM gdal-libs
+    $RM CharLS 
+    $RM SuperLU 
+    $RM armadillo
+    $RM arpack
+    $RM atlas atlas-devel
+    $RM blas  blas-devel
+    $RM cfitsio 
+    $RM freexl 
+    $RM geos geos-devel
+    $RM hdf5 hdf5-devel
+    $RM lapack lapack-devel
+    $RM libaec libaec-devel
+    $RM libdap 
+    $RM libgeotiff libgeotiff-devel
+    $RM libgta
+    $RM libtiff-devel
+    $RM netcdf 
+    $RM ogdi 
+    $RM openblas-openmp 
+    $RM openjpeg2 
+    $RM postgresql-libs
+    $RM proj 
+    $RM unixODBC 
+    $RM xerces-c 
+    # gdal deps
+    $RM gpsbabel
+    $RM libusb
+    $RM shapelib
+    
+    echo "Removing lmcompute/lmserver shared lifemapper-* and opt-lifemapper-* RPMS" >> $LOG    
+    $RM     lifemapper-cctools
+    $RM     lifemapper-env-data
+    $RM     lifemapper-proj
+    $RM     lifemapper-tiff
 }
 
 
@@ -151,7 +146,7 @@ stop-services () {
     fi
 
     SOLR_PROCESSES=`ps -Af | grep solr | grep -v "grep" | wc -l`
-    if [[ $LMLAB_ROLL_COUNT -eq 0  &&  $SOLR_PROCESSES -eq 1 ]]; then
+    if [[ $LMROLL_COUNT -eq 0  &&  $SOLR_PROCESSES -eq 1 ]]; then
         echo "-- stop Solr process " >> $LOG
         /usr/sbin/service solr stop
     fi
@@ -211,7 +206,7 @@ del-config () {
     rm -rf  /etc/sysctl.d/lifemapper.postgresd
     rm -f   /etc/systemd/system/httpd.service.d/lifemapper_umask.conf
 
-    if [[ $LMLAB_ROLL_COUNT -eq 0 ]]; then
+    if [[ $LMROLL_COUNT -eq 0 ]]; then
         rm -rf  /etc/security/limits.d/lifemapper.solr.conf
     fi
 }
@@ -253,8 +248,7 @@ del-webstuff () {
 
 del-user-group () {
     # Deletes solr, pgbounder, postgres users and sets NEED_SYNC flag
-    LMLAB_ROLL_COUNT=`$ROCKS_CMD list roll | grep lifemapper-lab |  wc -l`
-    if [[ $LMLAB_ROLL_COUNT -eq 0 ]] ; then
+    if [[ $LMROLL_COUNT -eq 0 ]] ; then
         /bin/egrep -i "^solr" /etc/passwd
         if [[ $? -eq 0 ]]; then
             echo "Remove solr user" >> $LOG
@@ -364,6 +358,7 @@ if [[ $TRYLATER -eq 0 ]]; then
     del-automount-entry
     
     if [[ $LMROLL_COUNT -eq 1 ]]; then
+        echo "Removing the last lifemapper roll"  >> $LOG
         del-shared-solr-stuff
     	del-lifemapper-shared
     	del-shared-directories

@@ -234,7 +234,6 @@ finish_wheel_installs () {
 
     echo "-- install python wheels with dependencies ..." >> $LOG
     set_python_dependency_arrays
-    
     order_wheel_installs "${BASE_DEPS[@]}"
     order_wheel_installs "${REQUESTS_DEPS[@]}"
     order_wheel_installs "${CHERRYPY_DEPS[@]}"
