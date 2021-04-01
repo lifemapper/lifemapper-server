@@ -220,8 +220,8 @@ order_wheel_installs () {
     echo "Install dependencies " $DEPENDENCIES
     for d in $DEPENDENCIES
         do
-            echo "install $d ..."
-            wname=$WHL_DIR/$dep*whl
+            echo "install dependency $d from $WHL_DIR ..."
+            wname=$WHL_DIR/$d*whl
             @PYBIN@ -m pip install $wname
         done    
 }
