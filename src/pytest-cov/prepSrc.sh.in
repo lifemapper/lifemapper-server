@@ -17,8 +17,8 @@ COV=coverage-5.5-cp36-cp36m-manylinux1_x86_64.@WHEEL@
 PYY_URL=$PYPI_URL/67/32/6fe01cfc3d1a27c92fdbcdfc3f67856da8cbadf0dd9f2e18055202b2dc62
 PYY=py-1.10.0-py2.py3-none-any.@WHEEL@
 
-TYPING_URL=$PYPI_URL/3b/c0/e44213fcb799eac02881e2485724ba5b0914600bc9df6ed922e364fdc059
-TYPING=typing-3.7.4.3-py2-none-any.@WHEEL@
+TYPING_URL=$PYPI_URL/60/7a/e881b5abb54db0e6e671ab088d079c57ce54e8a01a3ca443f561ccadb37e
+TYPING=typing_extensions-3.7.4.3-py3-none-any.@WHEEL@
 
 IMPLIB_URL=$PYPI_URL/80/5d/0bbca82b16e01313cf0343167d4cfb90f6fade747cd4d10d368094b2883a
 IMPLIB=importlib_metadata-3.7.3-py3-none-any.@WHEEL@
