@@ -244,15 +244,15 @@ del-webstuff () {
    rm -rf /var/www/tmp
 
    echo "Removing symlinks" >> $LOG
-   rm -rf /var/www/html/$LMCLIENT
-   rm -rf /var/www/html/$DASHBOARD
+   rm -rf /var/www/html/@LMCLIENT@
+   rm -rf /var/www/html/@DASHBOARD@
    
    echo "Removing lifemapper web config" >> $LOG
    rm -f /etc/httpd/conf.d/lifemapper.conf
 }
 
 del-user-group () {
-    # Deletes solr and lmwriter users and sets NEED_SYNC in del-shared-solr-stuff
+    # Deletes solr, pgbounder, postgres users and sets NEED_SYNC flag
     LMLAB_ROLL_COUNT=`$ROCKS_CMD list roll | grep lifemapper-lab |  wc -l`
     if [[ $LMLAB_ROLL_COUNT -eq 0 ]] ; then
         /bin/egrep -i "^solr" /etc/passwd
@@ -351,6 +351,7 @@ if [[ $TRYLATER -eq 0 ]]; then
     
     stop-services
     
+    del-user-group
     del-postgres
     del-mapserver 
     
