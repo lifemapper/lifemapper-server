@@ -10,7 +10,6 @@ module unload opt-python
 
 yum install src/RPMS/screen-4.1.0-0.25.20120314git3c2946.el7.x86_64.rpm
 yum install src/RPMS/pgdg-centos96-9.6-3.noarch.rpm 
-yum install src/RPMS/epel-release-latest-7.noarch.rpm
 
 # yumdownloader --resolve --enablerepo epel cmake3
 rpm -i src/RPMS/cmake3-3.17.1-2.el7.x86_64.rpm     

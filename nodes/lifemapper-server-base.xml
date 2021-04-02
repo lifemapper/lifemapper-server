@@ -78,6 +78,7 @@
     <package>opt-lifemapper-pydeps</package>
 	<package>opt-lifemapper-pytest-cov</package>
     <package>opt-lifemapper-lmpy</package>    
+    <package>opt-lifemapper-lmtest</package>    
     <package>opt-lifemapper-matplotlib</package>
 	<package>opt-lifemapper-requests</package>
 	
