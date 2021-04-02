@@ -8,7 +8,6 @@
 
 RM="rpm -evl --quiet --nodeps"
 PY3=@PYBIN@
-PIP3=/opt/python/bin/pip3.6
 ROCKS_CMD=/opt/rocks/bin/rocks
 LMUSER_COUNT=`/bin/egrep -i "^lmwriter" /etc/passwd  | wc -l`
 LMROLL_COUNT=`$ROCKS_CMD list roll | grep lifemapper | wc -l`
@@ -26,23 +25,9 @@ set_defaults() {
 
     echo "-- enable modules"  | tee -a $LOG
     source /usr/share/Modules/init/bash
-    set_python_dependency_arrays
 }
 
-set_python_dependency_arrays() {
-    # shared dependencies
-    BASE_DEPS="contextlib2 numpy pyparsing pytz setuptools six wheel zipp"
-    REQUESTS_DEPS="chardet certifi idna urllib3 requests"
-    # ordered package dependencies (some dependencies shared from BASE_DEPS)
-    CHERRYPY_DEPS="more-itertools tempora portend jaraco.functools cheroot zc.lockfile jaraco.classes importlib-resources jaraco.text jaraco.collections CherryPy"
-    CHERRYPY_CORS_DEPS="httpagentparser cherrypy-cors"
-    MATPLOTLIB_DEPS="cycler kiwisolver Pillow python_dateutil matplotlib"
-    PYTESTCOV_DEPS="attrs iniconfig coverage py typing-extensions importlib-metadata toml packaging pluggy pytest pytest-cov"
-    LMPY_DEPS="Rtree DendroPy"
-    OTHER_DEPS="biotaphypy Cython idigbio lmpy"
-}
-
-del_lifemapper_shared_pydeps () {
+delete_python_dependencies () {
     DEPENDENCIES=("$@")
     module load opt-python
     echo "Uninstall shared python dependencies " $DEPENDENCIES
@@ -55,12 +40,15 @@ del_lifemapper_shared_pydeps () {
 
 del-lifemapper-shared() {
     echo "Removing lifemapper RPMs shared" >> $LOG
-    del_lifemapper_shared_pydeps "${BASE_DEPS[@]}"
-    del_lifemapper_shared_pydeps "${REQUESTS_DEPS[@]}"
-    del_lifemapper_shared_pydeps "${MATPLOTLIB_DEPS[@]}"
-    del_lifemapper_shared_pydeps "${PYTESTCOV_DEPS[@]}"
-    del_lifemapper_shared_pydeps "${LMPY_DEPS[@]}"
-    del_lifemapper_shared_pydeps "${OTHER_DEPS[@]}"
+    $BIN/define_python_dependencies
+    delete_python_dependencies  "${BASE_DEPS[@]}"
+    delete_python_dependencies "${REQUESTS_DEPS[@]}"
+    delete_python_dependencies "${MATPLOTLIB_DEPS[@]}"
+    delete_python_dependencies "${PYTESTCOV_DEPS[@]}"
+    delete_python_dependencies "${LMPY_DEPS[@]}"
+    delete_python_dependencies "${LMTEST_DEPS[@]}"
+    delete_python_dependencies "${OTHER_DEPS[@]}"
+
     $RM opt-lifemapper-requests
     $RM opt-lifemapper-matplotlib
     $RM opt-lifemapper-pytest-cov
@@ -167,8 +155,10 @@ del-lifemapper() {
     $RM opt-lifemapper-cherrypy
     $RM opt-lifemapper-mod_wsgi
     $RM     lifemapper-solr
-    del_lifemapper_shared_pydeps "${CHERRYPY_DEPS[@]}"
-    del_lifemapper_shared_pydeps "${CHERRYPY_CORS_DEPS[@]}"
+
+    $BIN/define_python_dependencies
+    delete_python_dependencies "${CHERRYPY_DEPS[@]}"
+    delete_python_dependencies "${CHERRYPY_CORS_DEPS[@]}"
     
     echo "Removing opt-* RPMS" >> $LOG
     $RM opt-lifemapper-idigbio

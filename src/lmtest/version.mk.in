@@ -1,13 +1,15 @@
-NAME              = opt-lifemapper-lmpy
-ARCHIVENAME       = lmpy
-VERSION           = 2.9.99
+NAME              = opt-lifemapper-lmtest
+ARCHIVENAME       = lmtest
+VERSION           = 0.1.0
 RELEASE           = 0
 
-# 2.9.99 Dependencies:
-#   dendropy>=4.0.0
-#   numpy>=1.11.0
-#   rtree
-#   gdal
+# Lifemapper_Testing_Library 0.1.0 Dependencies:
+#   Lifemapper-Client-Library 1.0.0
+#      requests (2.25.1)
+#         certifi>=2017.4.17 (2020.12.5)
+#         chardet<5,>=3.0.2 (4.0.0)
+#         idna<3,>=2.5 (2.10)
+#         urllib3<1.27,>=1.21.1 (1.26.4)
 
 RPM.EXTRAS  = %define __os_install_post /usr/lib/rpm/brp-python-bytecompile  $(PY.PATH)
 

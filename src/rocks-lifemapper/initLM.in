@@ -28,19 +28,6 @@ if [[ $# -ne 0 ]]; then
     exit 0
 fi 
 
-set_python_dependency_arrays() {
-    # shared dependencies
-    BASE_DEPS="contextlib2 numpy pyparsing pytz setuptools six wheel zipp"
-    REQUESTS_DEPS="chardet certifi idna urllib3 requests"
-    # ordered package dependencies (some dependencies shared from BASE_DEPS)
-    CHERRYPY_DEPS="more-itertools tempora portend jaraco.functools cheroot zc.lockfile jaraco.classes importlib-resources jaraco.text jaraco.collections CherryPy"
-    CHERRYPY_CORS_DEPS="httpagentparser cherrypy-cors"
-    MATPLOTLIB_DEPS="cycler kiwisolver Pillow python_dateutil matplotlib"
-    PYTESTCOV_DEPS="attrs iniconfig coverage py typing-extensions importlib-metadata toml packaging pluggy pytest pytest-cov"
-    LMPY_DEPS="Rtree DendroPy"
-    OTHER_DEPS="biotaphypy Cython idigbio lmpy"
-}
-
 set_defaults() {
     LOG=@LMSCRATCHDISK@/log/`/bin/basename $0`.log
     rm -f $LOG
@@ -233,13 +220,15 @@ finish_wheel_installs () {
     WHL_DIR=@PKGROOT@/rocks/etc
 
     echo "-- install python wheels with dependencies ..." >> $LOG
-    set_python_dependency_arrays
+    $BIN/define_python_dependencies
     order_wheel_installs "${BASE_DEPS[@]}"
     order_wheel_installs "${REQUESTS_DEPS[@]}"
     order_wheel_installs "${CHERRYPY_DEPS[@]}"
     order_wheel_installs "${CHERRYPY_CORS_DEPS[@]}"
     order_wheel_installs "${MATPLOTLIB_DEPS[@]}"
     order_wheel_installs "${PYTESTCOV_DEPS[@]}"
+    order_wheel_installs "${LMPY_DEPS[@]}"
+    order_wheel_installs "${LMTEST_DEPS[@]}"
     order_wheel_installs "${OTHER_DEPS[@]}"
     
     INSTALLED_PKGS=`@PYBIN@ -m pip list | /usr/bin/grep -v Package | /usr/bin/grep -v "^----" | /usr/bin/awk '{print $1}'`
