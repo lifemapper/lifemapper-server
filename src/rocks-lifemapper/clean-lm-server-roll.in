@@ -13,9 +13,11 @@ LMUSER_COUNT=`/bin/egrep -i "^lmwriter" /etc/passwd  | wc -l`
 LMROLL_COUNT=`$ROCKS_CMD list roll | grep lifemapper | wc -l`
 NEED_SYNC=0
 
+
 TimeStamp () {
     echo $1 `/bin/date` >> $LOG
 }
+
 
 set_defaults() {
     THISNAME=`/bin/basename $0`
@@ -26,6 +28,7 @@ set_defaults() {
     echo "-- enable modules"  | tee -a $LOG
     source /usr/share/Modules/init/bash
 }
+
 
 delete_python_dependencies () {
     DEPENDENCIES=("$@")
@@ -38,8 +41,9 @@ delete_python_dependencies () {
     module unload opt-python
 }
 
+
 del-lifemapper-shared() {
-    echo "Removing lifemapper RPMs shared" >> $LOG
+    echo "Removing shared python wheels" >> $LOG
     $BIN/define_python_dependencies
     delete_python_dependencies  "${BASE_DEPS[@]}"
     delete_python_dependencies "${REQUESTS_DEPS[@]}"
@@ -49,6 +53,7 @@ del-lifemapper-shared() {
     delete_python_dependencies "${LMTEST_DEPS[@]}"
     delete_python_dependencies "${OTHER_DEPS[@]}"
 
+    echo "Removing shared lifemapper-* and opt-lifemapper-* RPMS" >> $LOG    
     $RM opt-lifemapper-requests
     $RM opt-lifemapper-matplotlib
     $RM opt-lifemapper-pytest-cov
@@ -56,9 +61,13 @@ del-lifemapper-shared() {
     # OTHER_DEPS
     $RM opt-lifemapper-biotaphypy
     $RM opt-lifemapper-cython
-    $RM opt-lifemapper-lmpy
 
-    echo "Removing lmcompute/lmserver RPMs shared" >> $LOG
+    $RM     lifemapper-cctools
+    $RM     lifemapper-env-data
+    $RM     lifemapper-proj
+    $RM     lifemapper-tiff
+
+    echo "Removing shared standard RPMS" >> $LOG    
     # gdal-libs + deps
     $RM gdal-libs
     $RM CharLS 
@@ -88,13 +97,7 @@ del-lifemapper-shared() {
     # gdal deps
     $RM gpsbabel
     $RM libusb
-    $RM shapelib
-    
-    echo "Removing lmcompute/lmserver shared lifemapper-* and opt-lifemapper-* RPMS" >> $LOG    
-    $RM     lifemapper-cctools
-    $RM     lifemapper-env-data
-    $RM     lifemapper-proj
-    $RM     lifemapper-tiff
+    $RM shapelib    
 }
 
 
@@ -107,6 +110,7 @@ del-shared-directories() {
    echo "Removing shared lifemapper PID directory" >> $LOG
    rm -rf /var/run/lifemapper
 }
+
 
 del-shared-user-group () {
     echo "Remove lmwriter user/group/dirs" >> $LOG
@@ -140,6 +144,7 @@ stop-services () {
     fi
 }
 
+
 del-lifemapper() {
     echo "Removing lifemapper-* and prerequisite RPMS" >> $LOG
     $RM     lifemapper-cmd
@@ -164,12 +169,14 @@ del-lifemapper() {
     $RM opt-lifemapper-idigbio
 }
 
+
 del-mapserver(){
     echo "Removing mapserver and dependencies RPMS" >> $LOG
     $RM opt-lifemapper-mapserver
     $RM bitstream-vera-sans-fonts
     $RM bitstream-vera-fonts-common
 }
+
 
 del-postgres() {
     echo "Removing postgis, postgres, pgbouncer and dependencies RPMS" >> $LOG
@@ -187,6 +194,7 @@ del-postgres() {
     $RM pgdg-centos96
 }
 
+
 del-config () {
     echo "Removing system configuration files used by lifemapper" >> $LOG
     # Configured @UNIXSOCKET@ == /var/run/postgresql in version.mk constants
@@ -200,6 +208,7 @@ del-config () {
         rm -rf  /etc/security/limits.d/lifemapper.solr.conf
     fi
 }
+
 
 del-directories () {   
    echo "Removing  directories used by postgres and pgbouncer" >> $LOG
@@ -217,12 +226,8 @@ del-directories () {
    
    echo "Removing data directories" >> $LOG
    rm -rf /state/partition1/lmserver
-
-#    echo "Removing jcc installed by bootstrap" >> $LOG
-#    rm -rf /opt/python/lib/python2.7/site-packages/jcc
-#    rm -rf /opt/python/lib/python2.7/site-packages/libjcc.so 
-#    rm -rf /opt/python/lib/python2.7/site-packages/JCC-2.18-py2.7.egg-info  
 }
+
 
 del-webstuff () {
    echo "Removing mapserver tmp directory" >> $LOG
@@ -235,6 +240,7 @@ del-webstuff () {
    echo "Removing lifemapper web config" >> $LOG
    rm -f /etc/httpd/conf.d/lifemapper.conf
 }
+
 
 del-user-group () {
     # Deletes solr, pgbounder, postgres users and sets NEED_SYNC flag
@@ -270,6 +276,7 @@ del-user-group () {
     fi
 }
 
+
 del-attr () {
    $ROCKS_CMD list host attr localhost | /bin/egrep -i LM_dbserver
    if [[ $? -eq 0 ]]; then
@@ -284,11 +291,12 @@ del-attr () {
    fi
 }
 
-# remove obsolete Lifemapper cron jobs
+
 del-cron-jobs () {
    rm -vf  /etc/cron.*/lmserver_*
    echo "Removed old cron jobs on frontend in /etc directories cron.d, cron.daily and cron.monthly ..."  >> $LOG
 }
+
 
 del-automount-entry () {
    if [[ $LMROLL_COUNT -eq 1 ]]; then
@@ -299,6 +307,7 @@ del-automount-entry () {
        /bin/cp /tmp/auto.share.nolmserver /etc/auto.share
    fi
 }
+
 
 finish-cleanup () {
     echo >> $LOG
@@ -325,8 +334,8 @@ check-lm-processes () {
     fi
 }
 
-### main ###
 
+### main ###
 check-lm-processes
 if [[ $TRYLATER -eq 0 ]]; then 
     
