@@ -323,50 +323,41 @@ finish-cleanup () {
 
 
 check-lm-processes () {
-    TRYLATER=0
     LMUSER_PROCESSES=`ps -Alf | grep lmwriter | grep -v grep | wc -l`
     if [[ $LMUSER_PROCESSES -ne 0 ]]; then
         echo "Stop all lmwriter processes before running this script"
-        TRYLATER=1
+        exit 0
     fi 
-    if [[ -f /state/partition1/lmscratch/run/mattDaemon.pid ]]; then
-        echo "-- login as lmwriter to stop mattDaemon before running this script"
-        TRYLATER=1
-    fi
 }
 
 
 ### main ###
 check-lm-processes
-if [[ $TRYLATER -eq 0 ]]; then 
     
-    set_defaults
-    TimeStamp "# Start"
-    
-    stop-services
-    
-    del-user-group
-    del-postgres
-    del-mapserver 
-    
-    del-opt-python 
-    del-lifemapper
-    del-directories
-    del-webstuff
-    del-attr
-    del-cron-jobs
-    del-automount-entry
-    
-    if [[ $LMROLL_COUNT -eq 1 ]]; then
-        echo "Removing the last lifemapper roll"  >> $LOG
-        del-shared-solr-stuff
-    	del-lifemapper-shared
-    	del-shared-directories
-    	del-shared-user-group
-    fi
-    
-    finish-cleanup
-else
-    echo 'Try again'
+set_defaults
+TimeStamp "# Start"
+
+stop-services
+
+del-user-group
+del-postgres
+del-mapserver 
+
+del-opt-python 
+del-lifemapper
+del-directories
+del-webstuff
+del-attr
+del-cron-jobs
+del-automount-entry
+
+if [[ $LMROLL_COUNT -eq 1 ]]; then
+    echo "Removing the last lifemapper roll"  >> $LOG
+    del-shared-solr-stuff
+	del-lifemapper-shared
+	del-shared-directories
+	del-shared-user-group
 fi
+
+finish-cleanup
 TimeStamp "# End"
