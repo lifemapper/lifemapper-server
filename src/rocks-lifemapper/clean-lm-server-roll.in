@@ -57,7 +57,9 @@ del-lifemapper-shared() {
     $RM opt-lifemapper-requests
     $RM opt-lifemapper-matplotlib
     $RM opt-lifemapper-pytest-cov
+    $RM opt-lifemapper-pydeps
     $RM opt-lifemapper-lmpy
+    $RM opt-lifemapper-lmtest
     # OTHER_DEPS
     $RM opt-lifemapper-biotaphypy
     $RM opt-lifemapper-cython
@@ -187,7 +189,6 @@ del-postgres() {
     $RM boost-serialization
     $RM c-ares  c-ares-devel
     $RM postgresql10-libs
-    $RM python2-psycopg2
     $RM pgbouncer
 
     echo "Removing pgdg repo" >> $LOG
