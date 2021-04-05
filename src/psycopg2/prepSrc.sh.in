@@ -1,11 +1,8 @@
 #!/bin/bash
 
 # Purpose: Fetch @ARCHIVENAME@ source
-DL_URL=https://github.com/psycopg/@ARCHIVENAME@/archive/
-DL_PKG=@PKGNAME@.@TARBALL_POSTFIX@
-
-URL=http://initd.org/psycopg/tarballs/PSYCOPG-2-8/
-PKG=@ARCHIVENAME@-@VERSION@.@TARBALL_POSTFIX@
+DL_URL=$PYPI_URL/fd/ae/98cb7a0cbb1d748ee547b058b14604bd0e9bf285a8e0cc5d148f8a8a952e
+DL_PKG=@ARCHIVENAME@-@VERSION@.@TARBALL_POSTFIX@
 
 get_source_files () {
   echo "Fetch @ARCHIVENAME@ source code"
