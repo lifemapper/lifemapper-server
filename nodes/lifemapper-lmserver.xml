@@ -5,7 +5,7 @@
 
 	<description>
 	Lifemapper-server roll.
-	Server/Database installation 
+	Server/Database and Web installation 
 	</description>
 
 	<copyright>
@@ -29,7 +29,11 @@
 	<package>c-ares-devel</package>
     <package>postgresql10-libs</package>
     <package>python2-psycopg2</package>
-	<package>pgbouncer</package>		
+	<package>pgbouncer</package>
+
+    <!-- Web Stuff -->
+    <package>opt-lifemapper-mod_wsgi</package>  
+    <package>opt-lifemapper-cherrypy</package>
 
 <post>
 # check for attribute before setting
@@ -38,8 +42,18 @@ if [ "$attrDbserver" = "" ] ; then
     /opt/rocks/bin/rocks add host attr localhost LM_dbserver value=true
 fi
 
+attrWebserver=`/opt/rocks/bin/rocks list host attr localhost | /bin/grep LM_webserver | awk '{print $3}'`
+if [ "$attrWebserver" = "" ] ; then
+    /opt/rocks/bin/rocks add host attr localhost LM_webserver value=true
+fi
+
+# for database 
 /usr/sbin/usermod -G postgres pgbouncer
-export PATH=/usr/pgsql-9.2/bin:$PATH
+export PATH=/usr/pgsql-9.6/bin:$PATH
+
+# for writing web logs
+/usr/sbin/usermod -G lmwriter apache
+
 
 # set mode to strict (2) to prevent postgres being killed  by OOM 
 /sbin/sysctl -w vm.overcommit_memory=2
@@ -62,6 +76,19 @@ PG=`basename /usr/lib/systemd/system/postgresql-*.service`
 /usr/bin/systemctl enable $PG
 
 /usr/bin/systemctl enable pgbouncer
+
+# FE directory NOT exported to /share, for web logs, uploads, cherrypy sessions
+/bin/mkdir -p          /state/partition1/lmscratch/log/apache
+/bin/mkdir -p          /state/partition1/lmscratch/sessions
+/bin/mkdir -p          /state/partition1/lmscratch/tmpUpload
+/bin/chgrp -R lmwriter /state/partition1/lmscratch
+/bin/chmod -R g+ws     /state/partition1/lmscratch
+
+# mapserver home is for temp files    
+/bin/mkdir -p /var/www/tmp
+/bin/chown apache:apache /var/www/tmp
+
+/usr/bin/systemctl restart httpd.service
 
 # Execute on reboot. Log output goes to /tmp/post-99-lifemapper-lmserver.debug
 <file name="/etc/rc.d/rocksconfig.d/post-99-lifemapper-lmserver" perms="0700">
