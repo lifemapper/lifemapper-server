@@ -1,9 +1,0 @@
-NAME            = opt-lifemapper-psycopg2
-VERSION         = 2.8.6
-ARCHIVENAME     = psycopg2
-RELEASE         = 0
-TARBALL_POSTFIX = tar.gz
-
-RPM.EXTRAS = "AutoReq: no"
-
-RPM.FILES = $(PYTHON36_PACKAGES)/*

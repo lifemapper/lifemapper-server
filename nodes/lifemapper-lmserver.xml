@@ -22,7 +22,7 @@
     <package>postgresql96-server</package>
     <package>postgresql96-contrib</package>
 
-	<package>opt-lifemapper-psycopg2</package>
+	<package>opt-lifemapper-psycopg2-binary</package>
 
 	<!-- Add pgbouncer from PGDG96 -->
 	<package>c-ares</package>

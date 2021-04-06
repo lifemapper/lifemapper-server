@@ -1,0 +1,9 @@
+NAME            = opt-lifemapper-psycopg2-binary
+VERSION         = 2.8.6
+ARCHIVENAME     = psycopg2-binary
+PKGNAME         = psycopg2_binary
+RELEASE         = 0
+
+RPM.EXTRAS = "AutoReq: no"
+
+RPM.FILES = $(PKGROOT)/*
