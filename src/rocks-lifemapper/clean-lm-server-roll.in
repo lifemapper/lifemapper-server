@@ -153,7 +153,7 @@ del-lifemapper() {
     $RM     lifemapper-image-data
     $RM     lifemapper-libevent
     $RM     lifemapper-lmserver
-    $RM opt-lifemapper-psycopg2
+    $RM opt-lifemapper-psycopg2-binary
     $RM     lifemapper-species-data
     $RM     lifemapper-webclient
     $RM rocks-lifemapper
