@@ -23,18 +23,16 @@ set_defaults() {
     source /usr/share/Modules/init/bash
 }
 
-# REQUESTS_DEPS, CHERRYPY_DEPS, CHERRYPY_CORS_DEPS, FLASK_DEPS, LMPY_DEPS, MATPLOTLIB_DEPS
-# OPENAPICORE_DEPS, OPENAPI3_DEPS, SPECIFY_OAT_DEPS
+# REQUESTS_DEPS, CHERRYPY_DEPS, CHERRYPY_CORS_DEPS, LMPY_DEPS, MATPLOTLIB_DEPS
+# OPENAPICORE_DEPS, OPENAPI3_DEPS
 define_python_dependencies () {
     REQUESTS_DEPS="chardet certifi idna urllib3 requests"
-    FLASK_DEPS="MarkupSafe Jinja2 click itsdangerous Werkzeug Flask"
     CHERRYPY_DEPS="more_itertools pytz tempora portend jaraco.functools six cheroot setuptools zc.lockfile jaraco.classes zipp importlib_resources jaraco.text jaraco.collections CherryPy"
     CHERRYPY_CORS_DEPS="wheel httpagentparser cherrypy_cors"
     LMPY_DEPS="Rtree DendroPy numpy scipy lmpy"
     MATPLOTLIB_DEPS="six cycler numpy kiwisolver Pillow python_dateutil pyparsing matplotlib"
     OPENAPICORE_DEPS="attrs zipp importlib_metadata setuptools pyrsistent jsonschema openapi_schema_validator isodate more_itertools Werkzeug lazy_object_proxy PyYAML openapi_spec_validator six parse openapi_core" 
     OPENAPI3_DEPS="PyYAML openAPI3" # and requests
-    SPECIFY_OAT_DEPS="simplejson termcolor setuptools dataclasses specify-oat"
 }
 
 order_wheel_installs () {
@@ -54,20 +52,17 @@ order_wheel_installs () {
 
 # Install all python wheel files with pip
 finish_wheel_installs () {
-
     echo "-- install python packages (wheels, tarballs) with dependencies ..." >> $LOG
     define_python_dependencies
     # Requests needed for openapi3, lmtrex, specify-oat
     order_wheel_installs "${REQUESTS_DEPS[@]}"
     # Flask needed for lmtrex, specify-oat
-    order_wheel_installs "${FLASK_DEPS[@]}"
     order_wheel_installs "${CHERRYPY_DEPS[@]}"
     order_wheel_installs "${CHERRYPY_CORS_DEPS[@]}"
     order_wheel_installs "${LMPY_DEPS[@]}"
     order_wheel_installs "${MATPLOTLIB_DEPS[@]}"
     order_wheel_installs "${OPENAPICORE_DEPS[@]}"
     order_wheel_installs "${OPENAPI3_DEPS[@]}"
-    order_wheel_installs "${SPECIFY_OAT_DEPS[@]}"
     
     # install mod-wsgi from tar.gz file
     echo "-- install mod-wsgi ..." >> $LOG

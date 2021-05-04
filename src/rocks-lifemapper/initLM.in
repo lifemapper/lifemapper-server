@@ -213,42 +213,18 @@ order_wheel_installs () {
         done    
 }
 
-# Install all python wheel files with pip
-finish_wheel_installs () {
+
+# Install python wheel and tar.gz files with pip
+finish_pip_installs () {
     @PYBIN@ -m ensurepip --default-pip
     @PYBIN@ -m pip install --upgrade pip
     WHL_DIR=@PKGROOT@/rocks/etc
 
-    echo "-- install python wheels with dependencies ..." >> $LOG
-    $BIN/define_python_dependencies
-    order_wheel_installs "${BASE_DEPS[@]}"
-    order_wheel_installs "${REQUESTS_DEPS[@]}"
-    order_wheel_installs "${CHERRYPY_DEPS[@]}"
-    order_wheel_installs "${CHERRYPY_CORS_DEPS[@]}"
-    order_wheel_installs "${MATPLOTLIB_DEPS[@]}"
-    order_wheel_installs "${PYTESTCOV_DEPS[@]}"
-    order_wheel_installs "${LMPY_DEPS[@]}"
-    order_wheel_installs "${LMTEST_DEPS[@]}"
-    order_wheel_installs "${OTHER_DEPS[@]}"
-    
-    INSTALLED_PKGS=`@PYBIN@ -m pip list | /usr/bin/grep -v Package | /usr/bin/grep -v "^----" | /usr/bin/awk '{print $1}'`
-    # install rest of wheel files, ignore previously installed files
-    echo "-- install remaining wheel dependencies ..." >> $LOG
-    FILES=$WHL_DIR/*whl
-    startidx=$((${#WHL_DIR} + 2))
-    for f in $FILES
-        do
-            filelen=${#f}
-            # filename prefix sometimes differs from package name
-            pkgname=$(echo $f | cut -c$startidx-$filelen | cut -d'-' -f1)
-            if [[ ${INSTALLED_PKGS[*]} =~ $pkgname ]]; then
-                echo "$pkgname installed already ..."
-            else
-                echo "install remaining dependency $pkgname ..."
-                @PYBIN@ -m pip install $f
-            fi
-        done
+    echo "-- run install-wheels script ..." >> $LOG
+    $BIN/install-wheels
+    echo "-- completed install-wheels script" >> $LOG
 }
+
 
 
 # update linker paths
@@ -411,7 +387,7 @@ TimeStamp () {
 ####### Main #######
 set_defaults
 TimeStamp "# Start"
-finish_wheel_installs
+finish_pip_installs
 finish_libevent_install
 finish_mapserver_install
 set_permissions
