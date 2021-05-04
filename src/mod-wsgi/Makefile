@@ -68,6 +68,7 @@ SEDSPEC += \
         -e 's%@PYTHON36_PACKAGES@%$(PYTHON36_PACKAGES)%g' \
         -e 's%@ARCHIVENAME@%$(ARCHIVENAME)%g'  \
         -e 's%@VERSION@%$(VERSION)%g'  \
+        -e 's%@LMHOME@%$(LMHOME)%g'  \
         -e 's%@TARBALL_POSTFIX@%$(TARBALL_POSTFIX)%g'
 
 prepSrc.sh: prepSrc.sh.in
@@ -89,27 +90,14 @@ wsgi.conf: wsgi.conf.in
 
 
 build: wsgi.conf
-	tar xzvf  $(ARCHIVENAME)-$(VERSION).$(TARBALL_POSTFIX) 
-	(						\
-        cd $(ARCHIVENAME)-$(VERSION);		\
-        module load opt-python;             \
-        ./configure --with-python=$(PY.PATH) --with-apxs=/usr/bin/apxs;	\
-        $(PY.PATH) setup.py build;          \
-        module unload opt-python;			\
-	)
-	
+    echo $(ARCHIVENAME)-$(VERSION)
+
 install::
+    mkdir -p $(ROOT)/$(PKGROOT)/rocks/etc
+    install -m 664 @ARCHIVENAME@-@VERSION@.tar.gz   $(ROOT)/$(PKGROOT)/rocks/etc
+    
 	mkdir -p $(ROOT)/etc/httpd/conf.modules.d
 	install --mode 644  -T wsgi.conf $(ROOT)/etc/httpd/conf.modules.d/02-wsgi.conf
-	
-	(                                                           \
-		mkdir -p $(ROOT)/usr/lib64/httpd/modules;               \
-		cd $(ARCHIVENAME)-$(VERSION);                           \
-		module load opt-python;                                 \
-        $(PY.PATH) setup.py $@ --root=$(ROOT)/;                 \
-        module unload opt-python;			                    \
-	)
-
 
 clean::
 	rm -rf $(ARCHIVENAME)-$(VERSION) version.mk prepSrc.sh wsgi.conf
