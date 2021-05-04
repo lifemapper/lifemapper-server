@@ -30,28 +30,30 @@ set_defaults() {
 }
 
 
+del-python-packages() {
+    echo "Removing python requests dependencies" >> $LOG
+    $PIP3 uninstall -y chardet certifi idna urllib3 requests
+
 delete_python_dependencies () {
-    DEPENDENCIES=("$@")
     module load opt-python
-    echo "Uninstall shared python dependencies " $DEPENDENCIES
-    for d in $DEPENDENCIES
-        do
-            $PY3 -m pip uninstall -y $d
-        done    
+    echo "Removing python packages" >> $LOG
+    $PIP3 uninstall -y biotaphypy cython mod-wsgi
+    $PIP3 uninstall -y more_itertools pytz tempora portend jaraco.functools six cheroot setuptools zc.lockfile jaraco.classes zipp importlib_resources jaraco.text jaraco.collections CherryPy
+    $PIP3 uninstall -y wheel httpagentparser cherrypy_cors
+    $PIP3 uninstall -y Rtree DendroPy numpy scipy lmpy
+    $PIP3 uninstall -y six cycler numpy kiwisolver Pillow python_dateutil pyparsing matplotlib
+    $PIP3 uninstall -y attrs zipp importlib_metadata setuptools pyrsistent jsonschema openapi_schema_validator isodate more_itertools Werkzeug lazy_object_proxy PyYAML openapi_spec_validator six parse openapi_core 
+    $PIP3 uninstall -y PyYAML openAPI3
     module unload opt-python
 }
 
-
 del-lifemapper-shared() {
     echo "Removing shared python wheels" >> $LOG
-    $BIN/define_python_dependencies
-    delete_python_dependencies  "${BASE_DEPS[@]}"
     delete_python_dependencies "${REQUESTS_DEPS[@]}"
-    delete_python_dependencies "${MATPLOTLIB_DEPS[@]}"
-    delete_python_dependencies "${PYTESTCOV_DEPS[@]}"
     delete_python_dependencies "${LMPY_DEPS[@]}"
-    delete_python_dependencies "${LMTEST_DEPS[@]}"
-    delete_python_dependencies "${OTHER_DEPS[@]}"
+    delete_python_dependencies "${MATPLOTLIB_DEPS[@]}"
+    delete_python_dependencies "${OPENAPICORE_DEPS[@]}"
+    delete_python_dependencies "${OPENAPI3_DEPS[@]}"
 
     echo "Removing shared lifemapper-* and opt-lifemapper-* RPMS" >> $LOG    
     $RM opt-lifemapper-requests
@@ -160,10 +162,9 @@ del-lifemapper() {
     $RM roll-lifemapper-server-usersguide
     
     $RM opt-lifemapper-cherrypy
-    $RM opt-lifemapper-mod_wsgi
+    $RM opt-lifemapper-mod-wsgi
     $RM     lifemapper-solr
 
-    $BIN/define_python_dependencies
     delete_python_dependencies "${CHERRYPY_DEPS[@]}"
     delete_python_dependencies "${CHERRYPY_CORS_DEPS[@]}"
     
@@ -355,6 +356,7 @@ if [[ $LMROLL_COUNT -eq 1 ]]; then
     echo "Removing the last lifemapper roll"  >> $LOG
     del-shared-solr-stuff
 	del-lifemapper-shared
+	delete_python_dependencies
 	del-shared-directories
 	del-shared-user-group
 fi

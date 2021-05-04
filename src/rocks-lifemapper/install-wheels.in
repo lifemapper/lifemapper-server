@@ -23,8 +23,7 @@ set_defaults() {
     source /usr/share/Modules/init/bash
 }
 
-# REQUESTS_DEPS, CHERRYPY_DEPS, CHERRYPY_CORS_DEPS, LMPY_DEPS, MATPLOTLIB_DEPS
-# OPENAPICORE_DEPS, OPENAPI3_DEPS
+# ordered dependencies
 define_python_dependencies () {
     REQUESTS_DEPS="chardet certifi idna urllib3 requests"
     CHERRYPY_DEPS="more_itertools pytz tempora portend jaraco.functools six cheroot setuptools zc.lockfile jaraco.classes zipp importlib_resources jaraco.text jaraco.collections CherryPy"

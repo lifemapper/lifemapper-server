@@ -4,8 +4,7 @@
 
 
 	<description>
-	Lifemapper-server roll.
-	Server/Database and Web installation 
+	Lifemapper-server roll installed on FE only.
 	</description>
 
 	<copyright>
@@ -31,7 +30,7 @@
 	<package>pgbouncer</package>
 
     <!-- Web Stuff -->
-    <package>opt-lifemapper-mod_wsgi</package>  
+    <package>opt-lifemapper-mod-wsgi</package>  
     <package>opt-lifemapper-cherrypy</package>
 
 <post>
