@@ -142,8 +142,11 @@ build:
 	make $(SERVICES)
 
 install::
-	mkdir -p $(ROOT)/$(LMHOME)
-	mv $(TOPDIR)/*  $(ROOT)/$(LMHOME) 
+    mkdir -p $(ROOT)/$(LMHOME)
+    mv $(TOPDIR)/*  $(ROOT)/$(LMHOME)
+    
+    mkdir -p $(ROOT)/rocks/etc
+    mv idigbio*gz  $(ROOT)/rocks/etc/ 
 	
 clean::
 	rm -rf  $(SCRIPTS)  

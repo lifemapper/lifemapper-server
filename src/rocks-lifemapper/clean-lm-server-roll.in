@@ -37,7 +37,7 @@ del-python-packages() {
 delete_python_dependencies () {
     module load opt-python
     echo "Removing python packages" >> $LOG
-    $PIP3 uninstall -y biotaphypy cython mod-wsgi
+    $PIP3 uninstall -y biotaphypy cython mod-wsgi idigbio
     $PIP3 uninstall -y more_itertools pytz tempora portend jaraco.functools six cheroot setuptools zc.lockfile jaraco.classes zipp importlib_resources jaraco.text jaraco.collections CherryPy
     $PIP3 uninstall -y wheel httpagentparser cherrypy_cors
     $PIP3 uninstall -y Rtree DendroPy numpy scipy lmpy
@@ -48,23 +48,15 @@ delete_python_dependencies () {
 }
 
 del-lifemapper-shared() {
-    echo "Removing shared python wheels" >> $LOG
-    delete_python_dependencies "${REQUESTS_DEPS[@]}"
-    delete_python_dependencies "${LMPY_DEPS[@]}"
-    delete_python_dependencies "${MATPLOTLIB_DEPS[@]}"
-    delete_python_dependencies "${OPENAPICORE_DEPS[@]}"
-    delete_python_dependencies "${OPENAPI3_DEPS[@]}"
-
     echo "Removing shared lifemapper-* and opt-lifemapper-* RPMS" >> $LOG    
     $RM opt-lifemapper-requests
     $RM opt-lifemapper-matplotlib
-    $RM opt-lifemapper-pytest-cov
-    $RM opt-lifemapper-pydeps
     $RM opt-lifemapper-lmpy
     $RM opt-lifemapper-lmtest
     # OTHER_DEPS
     $RM opt-lifemapper-biotaphypy
     $RM opt-lifemapper-cython
+    $RM opt-lifemapper-specify-oat
 
     $RM     lifemapper-cctools
     $RM     lifemapper-env-data

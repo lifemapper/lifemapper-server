@@ -1,0 +1,36 @@
+NAME            = opt-lifemapper-specify-oat
+ARCHIVENAME     = specify-oat
+VERSION         = 1.1.1
+RELEASE         = 0
+
+#
+# openapi-core (0.13.7)
+#     attrs  (20.1.0)
+#     openapi-schema-validator (0.1.5)
+#         jsonschema>=3.0.0 (3.2.0)
+#             pyrsistent>=0.14.0  (0.17.3)
+#             setuptools (56.0.0)
+#             importlib-metadata; python_version < "3.8" (1.7.0)
+#                 zipp>=0.5  (3.1.0)
+#     isodate (0.6.0)
+#     more-itertools (8.5.0)
+#     Werkzeug (1.0.1)
+#     lazy-object-proxy (1.6.0)
+#     openapi-spec-validator (0.3.0)
+#         PyYAML>=5.1 (5.4.1)
+#     six  (1.15.0)
+#     parse (1.19.0)
+# Flask and deps in RPM: "MarkupSafe Jinja2 click itsdangerous Werkzeug Flask"
+# openapi3==1.4.0
+#     requests and deps in RPM: "chardet certifi idna urllib3 requests"
+#     PyYaml-5.4.1 openapi3-1.4.0
+# simplejson==3.17.2
+# termcolor==1.1.0
+# dataclasses==0.8
+#
+# shared dependencies: Flask and deps
+#                      requests and deps
+#
+RPM.EXTRAS = %define __os_install_post %{nil}
+
+RPM.FILES = $(PKGROOT)/* 
