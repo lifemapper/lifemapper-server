@@ -12,7 +12,7 @@ include Rules.mk
 
 SCRIPTS = \
         solr.txt \
-        solr-lmlab-index
+        solr-index
 
 SEDSPEC += \
         -e 's%@LMHOME@%$(LMHOME)%g' \
@@ -76,7 +76,7 @@ install::
 	install -m 755 $(ROOT)/$(SOLRDIR)/bin/init.d/solr  $(ROOT)/etc/rc.d/init.d
 	
 	mkdir -p $(ROOT)/$(LMHOME)/rocks/bin
-	install -m 755 solr-lmlab-index  $(ROOT)/$(LMHOME)/rocks/bin
+	install -m 755 solr-index  $(ROOT)/$(LMHOME)/rocks/bin
 
 clean::
 	rm -rf $(ARCHIVENAME)-$(VERSION) 
