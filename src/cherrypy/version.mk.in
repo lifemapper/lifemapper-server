@@ -3,25 +3,26 @@ VERSION     = 18.6.0
 ARCHIVENAME = CherryPy
 RELEASE		= 0
 
-
 # cherrypy (18.6.0)
-#     more-itertools (from cherrypy) (8.7.0)
-#     portend>=2.1.1 (from cherrypy) (2.7.1)
-#         tempora>=1.8 (from portend>=2.1.1->cherrypy) (4.0.1)
-#             pytz (from tempora>=1.8->portend>=2.1.1->cherrypy) (2021.1)
-#     cheroot>=8.2.1 (from cherrypy) (8.5.2)
-#         jaraco.functools (from cheroot>=8.2.1->cherrypy) (3.2.1)
-#         six>=1.11.0 (from cheroot>=8.2.1->cherrypy) (1.15.0)
-#     zc.lockfile (from cherrypy) (2.0)
-#         setuptools (from zc.lockfile->cherrypy) (28.8.0)
-#     jaraco.collections (from cherrypy) (3.2.0)
-#         jaraco.text (from jaraco.collections->cherrypy) (3.5.0)
-#             importlib-resources (from jaraco.text->jaraco.collections->cherrypy) (5.1.2)
-#                 zipp>=0.4 (from importlib-resources->jaraco.text->jaraco.collections->cherrypy) (3.4.1)
-#         jaraco.classes (from jaraco.collections->cherrypy) (3.2.1)
-# cherrypy-cors in /opt/python/lib/python3.6/site-packages (1.6)
-#     httpagentparser>=1.5 in /opt/python/lib/python3.6/site-packages (from cherrypy-cors) (1.9.1)
+#     more-itertools (8.7.0)
+#     portend>=2.1.1 (2.7.1)
+#         tempora>=1.8 (4.0.1)
+#             pytz (2021.1)
+#     cheroot>=8.2.1 (8.5.2)
+#         jaraco.functools (3.2.1)
+#         six>=1.11.0 (1.15.0)
+#     zc.lockfile (2.0)
+#         setuptools (28.8.0)
+#     jaraco.collections (3.2.0)
+#         jaraco.text (3.5.0)
+#             importlib-resources (5.1.2)
+#                 zipp>=0.4 (3.4.1)
+#         jaraco.classes (3.2.1)
+#
+# cherrypy-cors (1.6)
+#     httpagentparser>=1.5 (1.9.1)
 #         wheel
 # 
-
+# shared dependencies: more-itertools, six, zipp
+#
 RPM.FILES =  $(PKGROOT)/*

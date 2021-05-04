@@ -1,0 +1,104 @@
+#!/bin/bash
+#
+# This script installs python wheels in order so that dependency versions are controlled 
+# and not pulled in automatically. 
+# The script can be run at any time to re-install included wheels.
+
+set_defaults() {
+    # Source function library.
+    INITD=/etc/rc.d/init.d
+    . $INITD/functions
+
+    # log errors
+    LOG=@LMSCRATCHDISK@/log/`/bin/basename $0`.log
+    rm -f $LOG
+    touch $LOG
+
+    BIN=@PKGROOT@/rocks/bin
+    WHL_DIR=@PKGROOT@/rocks/etc
+
+    PY3=@PYBIN@
+
+    echo "-- enable modules"  | tee -a $LOG
+    source /usr/share/Modules/init/bash
+}
+
+# REQUESTS_DEPS, CHERRYPY_DEPS, CHERRYPY_CORS_DEPS, FLASK_DEPS, LMPY_DEPS, MATPLOTLIB_DEPS
+# OPENAPICORE_DEPS, OPENAPI3_DEPS, SPECIFY_OAT_DEPS
+define_python_dependencies () {
+    REQUESTS_DEPS="chardet certifi idna urllib3 requests"
+    FLASK_DEPS="MarkupSafe Jinja2 click itsdangerous Werkzeug Flask"
+    CHERRYPY_DEPS="more_itertools pytz tempora portend jaraco.functools six cheroot setuptools zc.lockfile jaraco.classes zipp importlib_resources jaraco.text jaraco.collections CherryPy"
+    CHERRYPY_CORS_DEPS="wheel httpagentparser cherrypy_cors"
+    LMPY_DEPS="Rtree DendroPy numpy scipy lmpy"
+    MATPLOTLIB_DEPS="six cycler numpy kiwisolver Pillow python_dateutil pyparsing matplotlib"
+    OPENAPICORE_DEPS="attrs zipp importlib_metadata setuptools pyrsistent jsonschema openapi_schema_validator isodate more_itertools Werkzeug lazy_object_proxy PyYAML openapi_spec_validator six parse openapi_core" 
+    OPENAPI3_DEPS="PyYAML openAPI3" # and requests
+    SPECIFY_OAT_DEPS="simplejson termcolor setuptools dataclasses specify-oat"
+}
+
+order_wheel_installs () {
+    # httpagentparser (cherrypy), 
+    # pyrsistent, parse, termcolor, open-api-tools (specify-oat)
+    #   are all pip-installable tar.gz file
+    DEPENDENCIES=("$@")
+    echo "***" >> $LOG
+    echo "Install ordered dependencies " $DEPENDENCIES >> $LOG
+    for d in $DEPENDENCIES
+        do
+            echo "install dependency $d from $WHL_DIR ..." >> $LOG
+            wname=$WHL_DIR/$d*
+            $PY3 -m pip install $wname >> $LOG
+        done    
+}
+
+# Install all python wheel files with pip
+finish_wheel_installs () {
+
+    echo "-- install python packages (wheels, tarballs) with dependencies ..." >> $LOG
+    define_python_dependencies
+    # Requests needed for openapi3, lmtrex, specify-oat
+    order_wheel_installs "${REQUESTS_DEPS[@]}"
+    # Flask needed for lmtrex, specify-oat
+    order_wheel_installs "${FLASK_DEPS[@]}"
+    order_wheel_installs "${CHERRYPY_DEPS[@]}"
+    order_wheel_installs "${CHERRYPY_CORS_DEPS[@]}"
+    order_wheel_installs "${LMPY_DEPS[@]}"
+    order_wheel_installs "${MATPLOTLIB_DEPS[@]}"
+    order_wheel_installs "${OPENAPICORE_DEPS[@]}"
+    order_wheel_installs "${OPENAPI3_DEPS[@]}"
+    order_wheel_installs "${SPECIFY_OAT_DEPS[@]}"
+    
+    # install mod-wsgi from tar.gz file
+    echo "-- install mod-wsgi ..." >> $LOG
+    tarname=$WHL_DIR/mod_wsgi*tar.gz
+    $PY3 -m pip install $tarname >> $LOG
+
+    INSTALLED_PKGS=`$PY3 -m pip list | /usr/bin/grep -v Package | /usr/bin/grep -v "^----" | /usr/bin/awk '{print $1}'`
+    # install rest of wheel files, ignore previously installed files
+    echo "-- install remaining wheel dependencies ..." >> $LOG
+    FILES=$WHL_DIR/*whl
+    startidx=$((${#WHL_DIR} + 2))
+    for f in $FILES
+        do
+            filelen=${#f}
+            # filename prefix sometimes differs from package name
+            pkgname=$(echo $f | cut -c$startidx-$filelen | cut -d'-' -f1)
+            if [[ ${INSTALLED_PKGS[*]} =~ $pkgname ]]; then
+                echo "$pkgname installed already ..."
+            else
+                echo "install remaining dependency $pkgname ..."
+                $PY3 -m pip install $f
+            fi
+        done
+}
+
+time_stamp () {
+    echo $1 `/bin/date` >> $LOG
+}
+
+####### Main #######
+set_defaults
+time_stamp "# Start"
+finish_wheel_installs
+time_stamp "# End"

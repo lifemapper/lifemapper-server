@@ -65,8 +65,7 @@ RPM.EXTRAS += "AutoReq: 0"
 
 SEDSPEC += \
         -e 's%@ARCHIVENAME@%$(ARCHIVENAME)%g'  \
-        -e 's%@VERSION@%$(VERSION)%g'  \
-        -e 's%@WHEEL@%$(WHEEL)%g'
+        -e 's%@VERSION@%$(VERSION)%g'
 
 prepSrc.sh: prepSrc.sh.in
 	$(SED) $(SEDSPEC) $^ > $@
@@ -89,7 +88,7 @@ build: version.mk
 
 install::
 	mkdir -p $(ROOT)/$(PKGROOT)/rocks/etc
-	install -m 664 *.$(WHEEL)  $(ROOT)/$(PKGROOT)/rocks/etc
+	install -m 664 *.whl  $(ROOT)/$(PKGROOT)/rocks/etc
 
 clean::
 	rm -rf $(ARCHIVENAME)-$(VERSION) version.mk prepSrc.sh
