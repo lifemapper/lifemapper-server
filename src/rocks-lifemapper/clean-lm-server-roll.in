@@ -40,12 +40,13 @@ delete-python-dependencies () {
     $PY3 -m pip uninstall -y Rtree DendroPy numpy scipy lmpy
     $PY3 -m pip uninstall -y six cycler numpy kiwisolver Pillow python_dateutil pyparsing matplotlib
     $PY3 -m pip uninstall -y attrs zipp importlib_metadata setuptools pyrsistent jsonschema openapi_schema_validator isodate more_itertools Werkzeug lazy_object_proxy PyYAML openapi_spec_validator six parse openapi_core 
-    $PY3 -m pip uninstall -y PyYAML openAPI3
+    $PY3 -m pip uninstall -y PyYAML openAPI3 simplejson termcolor dataclasses lm-test GDAL
     module unload opt-python
 }
 
 del-lifemapper-shared() {
-    echo "Removing shared lifemapper-* and opt-lifemapper-* RPMS" >> $LOG    
+    echo "Removing shared lifemapper-* and opt-lifemapper-* RPMS" >> $LOG
+    $RM opt-lifemapper-gdal    
     $RM opt-lifemapper-requests
     $RM opt-lifemapper-matplotlib
     $RM opt-lifemapper-lmpy
