@@ -1,5 +1,5 @@
 
-.. highlight:: rest
+.. highlight:: 
 
 Install or Update a Lifemapper Server/Compute installation
 ==========================================================
@@ -153,7 +153,6 @@ Check LmServer
      
 #. Check database contents ::  
 
-   # export PGPASSWORD=`grep admin /opt/lifemapper/rocks/etc/users | awk '{print $2}'`
    # psql -U admin -d borg
    psql (9.6.15)
    Type "help" for help.
