@@ -145,8 +145,8 @@ install::
 	mkdir -p $(ROOT)/$(LMHOME)
 	mv $(TOPDIR)/*  $(ROOT)/$(LMHOME)
 	
-	mkdir -p $(ROOT)/rocks/etc
-	mv idigbio*gz  $(ROOT)/rocks/etc/ 
+	mkdir -p $(ROOT)/$(PKGROOT)/rocks/etc
+	install -m 664 idigbio*gz  $(ROOT)/$(PKGROOT)/rocks/etc
 	
 clean::
 	rm -rf  $(SCRIPTS)  
