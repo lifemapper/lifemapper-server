@@ -17,95 +17,12 @@ For PRAGMA27 student challenge please see `Lifemapper Student Challenge`_
 .. _Lifemapper Student Challenge : docs/student-challenge.rst
 
 
-Prerequisites
-~~~~~~~~~~~~~
-
-This section lists all the prerequisites for lifemapper code dependencies.
-The dependencies are either build from source or installed from RPMs 
-during the roll build.
- 
-#. RPM repos ``epel`` and ``pgdg91`` 
-#. RPMs from standard yum repos:  
-
-   :base:     cmake, sqlite-devel, giflib-devel, byacc, readline-devel 
-              hdf5, hdf5-devel
-   :epel:     fribidi, json-c, mapserver
-   :pgdg91:   postgresql91, postgresql91-devel, postgis2_91, pgbouncer
-
-#. Source distributions: 
-   
-   :binaries: gdal proj geos libevent libspatialindex tiff mod_wsgi cctools 
-              dendropy solr
-   :python modules: CherryPy, Cython,     
-                    faulthandler,  numexpr,   
-                    psycopg2, setuptools, rdflib, isodate, processing
-    
-Downloads
-~~~~~~~~~
-
-This section lists all the packages that were downloaded and used in the roll. 
-The packages are a part of the roll source (or downloaded by bootstrap.sh). 
-
-#. **pgdg91 repo**  ::
-
-    wget http://yum.postgresql.org/9.1/redhat/rhel-6-x86_64/pgdg-centos91-9.1-4.noarch.rpm  
-
-#. **vera fonts for mapserver**  ::
-
-    wget ftp://ftp.pbone.net/mirror/atrpms.net/el6-x86_64/atrpms/stable/bitstream-vera-sans-fonts-1.10-18.el6.noarch.rpm  
-    wget ftp://ftp.pbone.net/mirror/atrpms.net/el6-i386/atrpms/stable/bitstream-vera-fonts-common-1.10-18.el6.noarch.rpm  
-
-#. **sources**  ::
-
-    wget http://download.osgeo.org/geos/geos-3.4.2.tar.bz2  
-    wget http://www.cython.org/release/Cython-0.20.tar.gz  
-    wget http://sourceforge.net/projects/pytables/files/pytables/3.1.0/tables-3.1.0rc2.tar.gz  
-    wget http://download.osgeo.org/libspatialindex/spatialindex-src-1.8.1.tar.gz  
-    wget http://download.cherrypy.org/cherrypy/3.1.2/CherryPy-3.1.2.tar.gz  
-    wget http://dist.modpython.org/dist/mod_python-3.5.0.tgz  
-    wget https://rdflib.googlecode.com/files/rdflib-3.2.0.tar.gz
-    wget --no-check-certificate https://pypi.python.org/packages/source/n/numexpr/numexpr-2.3.tar.gz  
-    wget --no-check-certificate http://pypi.python.org/packages/source/s/setuptools/setuptools-2.1.tar.gz  
-    wget --no-check-certificate https://pypi.python.org/packages/source/R/Rtree/Rtree-0.7.0.tar.gz  
-    wget --no-check-certificate https://pypi.python.org/packages/source/p/psycopg2/psycopg2-2.5.2.tar.gz  
-    wget --no-check-certificate https://pypi.python.org/packages/source/M/MySQL-python/MySQL-python-1.2.5.zip  
-    wget --no-check-certificate https://pypi.python.org/packages/source/f/faulthandler/faulthandler-2.3.tar.gz  
-    wget --no-check-certificate https://pypi.python.org/packages/source/i/isodate/isodate-0.5.0.tar.gz
-    wget --no-check-certificate  https://pypi.python.org/packages/source/p/processing/processing-0.52.zip`
-
-    solr
-    wget http://mirror.metrocast.net/apache/lucene/solr/5.3.0/solr-5.3.0.tgz
-    wget http://www.vividsolutions.com/jts/bin/jts-1.8.0.zip
-
-    makeflow + work_queue
-    wget http://ccl.cse.nd.edu/software/files/cctools-5.4.2-source.tar.gz
-
-Individual package dependencies
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-This section is for information on some packages build dependencies. These dependencies are handled
-by the bootstrap.sh 
-
-:**pytables**:    cython and numexpr python packages; hdf5 and hdf5-devel RPMS   
-:**rtree**:       spatialindex, setuptools
-:**mapserver**:   epel repo, bitstream-vera-*fonts* RPMs, geos
-:**postgis2_91**: geos  
-:**psycopg2**:    gdal, postgresql91  
-
-Required Rolls
-~~~~~~~~~~~~~~
-
-Required rolls must be added at the same time when the lifemapper-server roll is isntalled. 
-See ``Adding a roll`` section for details.
-
-:**python**:    Python roll provides python2.7 and numpy
-
 Building a roll
 ---------------
 
 Checkout roll distribution from git repo :: 
 
-   # git clone https://github.com/pragmagrid/lifemapper-server.git 
+   # git clone https://github.com/lifemapper/lifemapper-server.git 
    # cd lifemapper-server/
 
 To build a roll, first execute a script that downloads and installs some packages 
@@ -113,29 +30,10 @@ and RPMS that are prerequisites for other packages during the roll build stage: 
 
    # ./bootstrap.sh  
 
-When the script finishes, it prints the next step instruction to get the 
-lifemapper source, default input data, and solr source code ::  
-
-   # cd src/lmserver/
-   # make prep
-   #
-   # cd src/lmdata-climate
-   # make prep
-   #
-   # cd src/lmdata-species
-   # make prep
-   #
-   # cd src/solr
-   # make prep 
-
-The first 2 commands will produce lifemappser-server-X.tar.gz 
-The X is the tag in lifemapper's core Github repository . The X is recorded in 
-version.mk.in.  Assumption: X is production ready revision and is a working code.
-The roll will be using the X revision of lifemapper code.
- 
 To build individual packages ::
 
    # cd src/pkgname 
+   # make prep
    # make rpm 
 
 When all individual packages are building without errors build a roll via 
