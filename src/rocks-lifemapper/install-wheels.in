@@ -23,7 +23,7 @@ set_defaults() {
     source /usr/share/Modules/init/bash
 }
 
-# ordered dependencies
+# ordered dependencies (use filename prefixes, sometimes diff from packagename)
 define_python_dependencies () {
     REQUESTS_DEPS="chardet certifi idna urllib3 requests"
     CHERRYPY_DEPS="more_itertools pytz tempora portend jaraco.functools six cheroot setuptools zc.lockfile jaraco.classes zipp importlib_resources jaraco.text jaraco.collections CherryPy"
@@ -32,7 +32,7 @@ define_python_dependencies () {
     MATPLOTLIB_DEPS="six cycler numpy kiwisolver Pillow python_dateutil pyparsing matplotlib"
     OPENAPICORE_DEPS="attrs zipp importlib_metadata setuptools pyrsistent jsonschema openapi_schema_validator isodate more_itertools Werkzeug lazy_object_proxy PyYAML openapi_spec_validator six parse openapi_core" 
     OPENAPI3_DEPS="PyYAML openAPI3" # and requests
-    OTHER_DEPS="mod-wsgi idigbio"
+    OTHER_DEPS="mod-wsgi idigbio psycopg2_binary"
 }
 
 order_wheel_installs () {
