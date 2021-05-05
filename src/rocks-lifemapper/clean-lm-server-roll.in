@@ -30,13 +30,10 @@ set_defaults() {
 }
 
 
-del-python-packages() {
-    echo "Removing python requests dependencies" >> $LOG
-    $PIP3 uninstall -y chardet certifi idna urllib3 requests
-
-delete_python_dependencies () {
+delete-python-dependencies () {
     module load opt-python
     echo "Removing python packages" >> $LOG
+    $PIP3 uninstall -y chardet certifi idna urllib3 requests
     $PIP3 uninstall -y biotaphypy cython mod-wsgi idigbio psycopg2_binary
     $PIP3 uninstall -y more_itertools pytz tempora portend jaraco.functools six cheroot setuptools zc.lockfile jaraco.classes zipp importlib_resources jaraco.text jaraco.collections CherryPy
     $PIP3 uninstall -y wheel httpagentparser cherrypy_cors
@@ -348,7 +345,7 @@ if [[ $LMROLL_COUNT -eq 1 ]]; then
     echo "Removing the last lifemapper roll"  >> $LOG
     del-shared-solr-stuff
 	del-lifemapper-shared
-	delete_python_dependencies
+	delete-python-dependencies
 	del-shared-directories
 	del-shared-user-group
 fi

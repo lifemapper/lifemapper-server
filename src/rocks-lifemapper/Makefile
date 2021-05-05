@@ -128,6 +128,7 @@ PROGS = \
     indexTaxonomySolr \
     initDbserver \
     initLM \
+    install-wheels \
     initPostgis \
 	initWorkflow \
     installServerCronJobs \
