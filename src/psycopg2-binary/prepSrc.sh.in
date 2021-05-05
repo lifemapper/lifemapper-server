@@ -5,7 +5,7 @@ PYPI_URL=https://files.pythonhosted.org/packages
 
 
 DL_URL=$PYPI_URL/f2/1b/720b36697158113ca1b2221a8e96a470088ccf3770d182214689d1a96a07
-DL_FNAME=@PKGNAME@-@VERSION@-cp36-cp36m-manylinux1_x86_64.@WHEEL@
+DL_FNAME=@PKGNAME@-@VERSION@-cp36-cp36m-manylinux1_x86_64.whl
 
 get_wheel () {
   echo "Fetch @ARCHIVENAME@ wheel"
