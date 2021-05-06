@@ -96,7 +96,7 @@ del-lifemapper-shared() {
 
 
 del-shared-directories() {
-   echo "Removing lifemapper installation directory" >> $LOG
+   echo "Removing lifemapper instopt-python allation directory" >> $LOG
    rm -rf @LMHOME@
    echo "Removing shared lifemapper temp and data directories" >> $LOG
    rm -rf @LMSCRATCHDISK@
@@ -153,13 +153,7 @@ del-lifemapper() {
     
     $RM opt-lifemapper-cherrypy
     $RM opt-lifemapper-mod-wsgi
-    $RM     lifemapper-solr
-
-    delete_python_dependencies "${CHERRYPY_DEPS[@]}"
-    delete_python_dependencies "${CHERRYPY_CORS_DEPS[@]}"
-    
-    echo "Removing opt-* RPMS" >> $LOG
-    $RM opt-lifemapper-idigbio
+    $RM     lifemapper-solr    
 }
 
 
@@ -334,7 +328,6 @@ del-user-group
 del-postgres
 del-mapserver 
 
-del-opt-python 
 del-lifemapper
 del-directories
 del-webstuff
