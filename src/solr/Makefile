@@ -77,6 +77,9 @@ install::
 	
 	mkdir -p $(ROOT)/$(LMHOME)/rocks/bin
 	install -m 755 solr-index  $(ROOT)/$(LMHOME)/rocks/bin
+	
+	mkdir -p $(ROOT)/$(LMHOME)/rocks/etc
+	install -m 644 pysolr*tar.gz $(ROOT)/$(LMHOME)/rocks/etc
 
 clean::
 	rm -rf $(ARCHIVENAME)-$(VERSION) 
