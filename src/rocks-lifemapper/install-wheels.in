@@ -31,8 +31,8 @@ define_python_dependencies () {
     LMPY_DEPS="Rtree DendroPy numpy scipy lmpy"
     MATPLOTLIB_DEPS="six cycler numpy kiwisolver Pillow python_dateutil pyparsing matplotlib"
     OPENAPICORE_DEPS="attrs zipp importlib_metadata setuptools pyrsistent jsonschema openapi_schema_validator isodate more_itertools Werkzeug lazy_object_proxy PyYAML openapi_spec_validator six parse openapi_core" 
-    OAT_DEPS="PyYAML openAPI3 simplejson termcolor dataclasses"  # and requests
-    OTHER_DEPS="biotaphypy cython mod-wsgi idigbio psycopg2_binary lm-test"
+    OAT_DEPS="PyYAML openapi3 simplejson termcolor dataclasses"  # and requests
+    OTHER_DEPS="biotaphypy Cython mod_wsgi idigbio psycopg2_binary lm_test"
 }
 
 order_wheel_installs () {
