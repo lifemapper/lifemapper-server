@@ -128,6 +128,23 @@ Install bugfixes
 #. Compute Nodes - check/fix node group permissions on /state/partition1/lmscratch ::
 
    # /opt/lifemapper/rocks/bin/fixNodePermissions
+   
+Open HTTPS
+-----------
+
+Remove old rule and add newer.  Retain old info in case Kickstart fails::
+
+   # rocks report host firewall localhost
+	   ...
+	   #  A40-HTTPS-PUBLIC-LAN (host) : 
+		-A INPUT -i eth1 -p tcp --dport https -m state --state NEW --source &Kickstart_PublicNetwork;/&Kickstart_PublicNetmask; -j ACCEPT
+	   ...
+
+   # rocks remove firewall host=localhost rulename=A40-HTTPS-PUBLIC-LAN
+   # rocks add firewall host=localhost network=public protocol=tcp service=https chain=INPUT    action=ACCEPT flags="-m state --state NEW --source 0.0.0.0/0.0.0.0"    rulename=A40-HTTPS-PUBLIC-NEW
+   # rocks report host firewall localhost
+   # rocks sync host firewall localhost
+
       
 Look for Errors
 ---------------
