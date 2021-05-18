@@ -153,6 +153,7 @@ Check LmServer
      
 #. Check database contents ::  
 
+   # export PGPASSWORD=`grep admin <dbfile> | awk '{print $2}'`
    # psql -U admin -d borg
    psql (9.6.15)
    Type "help" for help.

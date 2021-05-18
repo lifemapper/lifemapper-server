@@ -220,9 +220,9 @@ finish_pip_installs () {
     @PYBIN@ -m pip install --upgrade pip
     WHL_DIR=@PKGROOT@/rocks/etc
 
-    echo "-- run install-wheels script ..." >> $LOG
-    $BIN/install-wheels
-    echo "-- completed install-wheels script" >> $LOG
+    echo "-- run install_server_wheels script ..." >> $LOG
+    $BIN/install_server_wheels
+    echo "-- completed install_server_wheels script" >> $LOG
 }
 
 
