@@ -3,10 +3,11 @@ LoadModule wsgi_module "@PYTHON36_PACKAGES@/mod_wsgi/server/mod_wsgi-py36.cpytho
 WSGIPythonHome "/opt/python"
 WSGIPythonPath "@LMHOME@:@PYTHON36_PACKAGES@"
 
-# Enable environment for config file 
+# Enable environment for config files 
+SetEnv LIFEMAPPER_LAB_CONFIG_FILE "@LMHOME@/config/config.lmlab.ini"
 SetEnv LIFEMAPPER_SERVER_CONFIG_FILE "@LMHOME@/config/config.lmserver.ini"
 SetEnv LIFEMAPPER_SITE_CONFIG_FILE "@LMHOME@/config/config.site.ini"
 
 # TODO: a script that encompasses all API endpoints (resolver, broker, syftorium, etc)
-# Mod_wsgi script for content, installed by opt-lifemapper-lmserver
-#WSGIScriptAliasMatch ^/(api) /var/www/lmserver/wsgi-cp.py/$1
+# Mod_wsgi script for content, installed by opt-lifemapper-lmtrex
+#WSGIScriptAliasMatch ^/(api) @LMHOME@/rocks/bin/wsgi-cp.py/$1

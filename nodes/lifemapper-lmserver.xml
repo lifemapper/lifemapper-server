@@ -86,6 +86,9 @@ PG=`basename /usr/lib/systemd/system/postgresql-*.service`
 /bin/mkdir -p /var/www/tmp
 /bin/chown apache:apache /var/www/tmp
 
+# enable mod-wsgi for httpd
+/opt/lifemapper/rocks/bin/install-mod-wsgi
+
 /usr/bin/systemctl restart httpd.service
 
 # Execute on reboot. Log output goes to /tmp/post-99-lifemapper-lmserver.debug
