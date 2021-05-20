@@ -6,7 +6,7 @@
 SOLR_HOME=@SOLRDATA@/data
 LMHOME=@LMHOME@
 
-cp -rp $LMHOME/LmWebServer/config/solrcores/*    $SOLR_HOME/cores/
+cp -rp $LMHOME/rocks/solrcores/*    $SOLR_HOME/cores/
 
 # set owner of newly installed cores
 /bin/chown -R @SOLRUSER@:@SOLRUSER@ $SOLR_HOME

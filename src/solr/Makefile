@@ -10,10 +10,6 @@ REDHAT.ROOT = $(CURDIR)/../../
 -include $(ROCKSROOT)/etc/Rules.mk
 include Rules.mk
 
-SCRIPTS = \
-        solr.txt \
-        solr-index
-
 SEDSPEC += \
         -e 's%@LMHOME@%$(LMHOME)%g' \
         -e 's%@LMCOREDISK@%$(LMCOREDISK)%g' \
@@ -28,6 +24,10 @@ SEDSPEC += \
         -e 's%@JTSDIR@%$(JTSDIR)%g' \
         -e 's%@TARBALL_POSTFIX@%$(TARBALL_POSTFIX)%g' \
         -e 's%@VERSION@%$(VERSION)%g'
+
+SCRIPTS = \
+        solr.txt \
+        solr-index
 
 version.mk:
 	cat ../version.mk version.mk.in > version.mk
@@ -74,9 +74,6 @@ install::
 	# Use defaults for SOLR_INSTALL_DIR, SOLR_ENV, and RUNAS, so no var substitution here
 	mkdir -p $(ROOT)/etc/rc.d/init.d
 	install -m 755 $(ROOT)/$(SOLRDIR)/bin/init.d/solr  $(ROOT)/etc/rc.d/init.d
-	
-	mkdir -p $(ROOT)/$(LMHOME)/rocks/bin
-	install -m 755 solr-index  $(ROOT)/$(LMHOME)/rocks/bin
 	
 	mkdir -p $(ROOT)/$(LMHOME)/rocks/etc
 	install -m 644 pysolr*tar.gz $(ROOT)/$(LMHOME)/rocks/etc

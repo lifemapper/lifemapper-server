@@ -140,11 +140,16 @@ build:
 	tar xzvf $(NAME)-$(VERSION).tar.gz  
 	make $(SCRIPTS)
 	make $(SERVICES)
+cp -rp $LMHOME/LmWebServer/config/solrcores/*    $SOLR_HOME/cores/
 
 install::
+	mkdir -p $(ROOT)/$(PKGROOT)/rocks/solrcores
+	mv $(TOPDIR)/config/solrcores/*  $(ROOT)/$(PKGROOT)/rocks/solrcores
+	rmdir $(TOPDIR)/config/solrcores
+
 	mkdir -p $(ROOT)/$(LMHOME)
 	mv $(TOPDIR)/*  $(ROOT)/$(LMHOME)
-	
+		
 	mkdir -p $(ROOT)/$(PKGROOT)/rocks/etc
 	install -m 664 idigbio*gz  $(ROOT)/$(PKGROOT)/rocks/etc
 	
