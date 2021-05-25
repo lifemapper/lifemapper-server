@@ -65,7 +65,9 @@ RPM.EXTRAS += "AutoReq: 0"
 PY.PATH = /opt/python/bin/$(PYTHONVER)
 
 SEDSPEC += \
+        -e 's%@PKGROOT@%$(PKGROOT)%g' \
         -e 's%@PYTHON36_PACKAGES@%$(PYTHON36_PACKAGES)%g' \
+        -e 's%@PYBIN@%$(PY.PATH)%g' \
         -e 's%@ARCHIVENAME@%$(ARCHIVENAME)%g'  \
         -e 's%@VERSION@%$(VERSION)%g'  \
         -e 's%@LMHOME@%$(LMHOME)%g'  \
@@ -79,8 +81,6 @@ prep: prepSrc.sh
 	rm -rf version.mk
 	make version.mk
 	make prepSrc.sh
-	make wsgi.conf
-	make install-mod-wsgi
 	./prepSrc.sh
 
 version.mk:
@@ -92,8 +92,9 @@ wsgi.conf: wsgi.conf.in
 install-mod-wsgi: install-mod-wsgi.in
 	$(SED) $(SEDSPEC) $^ > $@
 
-build: wsgi.conf
-	echo $(ARCHIVENAME)-$(VERSION)
+build:
+	make wsgi.conf
+	make install-mod-wsgi
 
 install::
 	mkdir -p $(ROOT)/$(PKGROOT)/rocks/etc
