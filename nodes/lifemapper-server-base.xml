@@ -122,13 +122,13 @@
 		/bin/mkdir -p          /state/partition1/lmserver/data/species
 		/bin/mkdir -p          /state/partition1/lmserver/data/image
 		/bin/mkdir -p          /state/partition1/lmserver/data/test
-		/bin/mkdir -p          /state/partition1/lmserver/data/solr/data/cores
-		/bin/mkdir -p          /state/partition1/lmserver/data/solr/data/logs
+		/bin/mkdir -p          /state/partition1/lmserver/solr/data/cores
+		/bin/mkdir -p          /state/partition1/lmserver/solr/data/logs
 		/bin/chgrp -R lmwriter /state/partition1/lmserver
 		/bin/chmod -R g+ws     /state/partition1/lmserver
 		# reset solr permissions
-		/bin/chown -R solr:solr /state/partition1/lmserver/data/solr
-		/bin/chmod -R 775       /state/partition1/lmserver/data/solr
+		/bin/chown -R solr:solr /state/partition1/lmserver/solr
+		/bin/chmod -R 775       /state/partition1/lmserver/solr
 		
 		# FE directory NOT exported to /share
 		/bin/mkdir -p          /state/partition1/lmscratch
