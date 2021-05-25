@@ -140,12 +140,10 @@ build:
 	tar xzvf $(NAME)-$(VERSION).tar.gz  
 	make $(SCRIPTS)
 	make $(SERVICES)
-cp -rp $LMHOME/LmWebServer/config/solrcores/*    $SOLR_HOME/cores/
 
 install::
 	mkdir -p $(ROOT)/$(PKGROOT)/rocks/solrcores
-	mv $(TOPDIR)/config/solrcores/*  $(ROOT)/$(PKGROOT)/rocks/solrcores
-	rmdir $(TOPDIR)/config/solrcores
+	cp -r $(TOPDIR)/config/solrcores/*  $(ROOT)/$(PKGROOT)/rocks/solrcores/
 
 	mkdir -p $(ROOT)/$(LMHOME)
 	mv $(TOPDIR)/*  $(ROOT)/$(LMHOME)
