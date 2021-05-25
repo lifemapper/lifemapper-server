@@ -9,6 +9,7 @@ LMDISK			= /share/lm
 DATADIR_SHARED  = /share/lm/data
 
 DATADIR_SERVER  = /share/lmserver/data
+SOLRDATA        = /state/partition1/lmserver/solr
 LMSCRATCHDISK	= /state/partition1/lmscratch
 
 ENV_DATA_DIR		= layers
