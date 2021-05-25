@@ -85,9 +85,9 @@ build: version.mk
 install::
 	mkdir -p $(ROOT)/$(PKGROOT)/rocks/etc
 	install -m 664 *.whl  $(ROOT)/$(PKGROOT)/rocks/etc
-	install -m 664 parse*.gz  $(ROOT)/$(PKGROOT)/rocks/etc
-	install -m 664 pyrsistent*.gz  $(ROOT)/$(PKGROOT)/rocks/etc
-	install -m 664 termcolor*.gz  $(ROOT)/$(PKGROOT)/rocks/etc
+	install -m 664 parse*.tar.gz  $(ROOT)/$(PKGROOT)/rocks/etc
+	install -m 664 pyrsistent*.tar.gz  $(ROOT)/$(PKGROOT)/rocks/etc
+	install -m 664 termcolor*.tar.gz  $(ROOT)/$(PKGROOT)/rocks/etc
 	install -m 664 $(ARCHIVENAME)-$(VERSION).tar.gz  $(ROOT)/$(PKGROOT)/rocks/etc
 
 clean::
