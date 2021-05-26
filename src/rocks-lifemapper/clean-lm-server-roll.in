@@ -187,7 +187,7 @@ del-config () {
     rm -rf  /etc/ld.so.conf.d/lifemapper-server.conf
     rm -rf  /etc/logrotate.d/lifemapper-httpd
     rm -rf  /etc/profile.d/lifemapper.*
-    rm -rf  /etc/sysctl.d/lifemapper.postgresd
+    rm -rf  /etc/sysctl.d/lifemapper-postgresd.conf
     rm -f   /etc/systemd/system/httpd.service.d/lifemapper_umask.conf
 
     if [[ $LMROLL_COUNT -eq 0 ]]; then
