@@ -1,101 +1,100 @@
 <?xml version="1.0" standalone="no"?>
 
 <kickstart>
-
+	
 	<description>
 	Lifemapper-server roll. 
 	LMserver and LMweb servers common install 
 	</description>
-
+	
 	<copyright>
 	Copyright (c) 2000 - 2012 The Regents of the University of California.
 	All rights reserved. Rocks(r) v5.5/v6.0 www.rocksclusters.org
 	</copyright>
-
+	
 	<changelog> </changelog>
-
-    <package>screen</package>
-
-    <!-- gdal-libs -->
-    <package>gdal-libs</package>
-    <package>CharLS</package> 
-    <package>SuperLU</package> 
-    <package>armadillo</package>
-    <package>arpack</package>
-    <package>atlas</package>
-    <package>atlas-devel</package>
-    <package>blas</package> 
-    <package>blas-devel</package>
-    <package>cfitsio</package> 
-    <package>freexl</package> 
-    <package>geos</package>
-    <package>geos-devel</package>
-    <package>hdf5</package>
-    <package>hdf5-devel</package>
-    <package>lapack</package>
-    <package>lapack-devel</package>
-    <package>libaec</package>
-    <package>libaec-devel</package>
-    <package>libdap</package> 
-    <package>libgeotiff</package>
-    <package>libgeotiff-devel</package>
-    <package>libgta</package>
-    <package>libtiff-devel</package>
-    <package>netcdf</package> 
-    <package>ogdi</package> 
-    <package>openblas-openmp</package> 
-    <package>openjpeg2</package> 
-    <package>postgresql-libs</package>
-    <package>proj</package> 
-    <package>unixODBC</package> 
-    <package>xerces-c</package> 
-    <!-- gdal -->
-    <package>gpsbabel</package>
-    <package>libusb</package>
-    <package>shapelib</package>
-    <!-- postgis -->
-    <package>CGAL</package>
-    <package>boost-serialization</package> 
-    <package>SFCGAL-libs</package> 
-    <package>SFCGAL</package>
-
-    <!-- mapserver and deps -->
-    <package>postgis2_96</package>
+	
+	<package>screen</package>
+	
+	<!-- gdal-libs -->
+	<package>gdal-libs</package>
+	<package>CharLS</package> 
+	<package>SuperLU</package> 
+	<package>armadillo</package>
+	<package>arpack</package>
+	<package>atlas</package>
+	<package>atlas-devel</package>
+	<package>blas</package> 
+	<package>blas-devel</package>
+	<package>cfitsio</package> 
+	<package>freexl</package> 
+	<package>geos</package>
+	<package>geos-devel</package>
+	<package>hdf5</package>
+	<package>hdf5-devel</package>
+	<package>lapack</package>
+	<package>lapack-devel</package>
+	<package>libaec</package>
+	<package>libaec-devel</package>
+	<package>libdap</package> 
+	<package>libgeotiff</package>
+	<package>libgeotiff-devel</package>
+	<package>libgta</package>
+	<package>libtiff-devel</package>
+	<package>netcdf</package> 
+	<package>ogdi</package> 
+	<package>openblas-openmp</package> 
+	<package>openjpeg2</package> 
+	<package>postgresql-libs</package>
+	<package>proj</package> 
+	<package>unixODBC</package> 
+	<package>xerces-c</package> 
+	<!-- gdal -->
+	<package>gpsbabel</package>
+	<package>libusb</package>
+	<package>shapelib</package>
+	<!-- postgis -->
+	<package>CGAL</package>
+	<package>boost-serialization</package> 
+	<package>SFCGAL-libs</package> 
+	<package>SFCGAL</package>
+	
+	<!-- mapserver and deps -->
+	<package>postgis2_96</package>
 	<package>bitstream-vera-fonts-common</package>
 	<package>bitstream-vera-sans-fonts</package>
 	<package>opt-lifemapper-mapserver</package>
-
+	
 	<package>lifemapper-proj</package>	
 	<package>lifemapper-cctools</package>
 	<package>lifemapper-cmd</package>
 	<package>lifemapper-libevent</package>
 	<package>lifemapper-solr</package>
-
+	
 	<!-- python prerequisites -->
-    <package>opt-lifemapper-gdal</package>
-    <package>opt-lifemapper-biotaphypy</package>
+	<package>opt-lifemapper-gdal</package>
+	<package>opt-lifemapper-biotaphypy</package>
 	<package>opt-lifemapper-cython</package>
-    <package>opt-lifemapper-lmpy</package>    
-    <package>opt-lifemapper-lmtest</package>    
-    <package>opt-lifemapper-matplotlib</package>
+	<package>opt-lifemapper-lmpy</package>    
+	<package>opt-lifemapper-lmtest</package>    
+	<package>opt-lifemapper-matplotlib</package>
 	<package>opt-lifemapper-requests</package>
-    <package>opt-lifemapper-specify-oat</package>
+	<package>opt-lifemapper-specify-oat</package>
 	
 	<!-- biotaphy connectors -->
-
+	
 	<!-- lifemapper distro -->
 	<package>lifemapper-lmserver</package>
 	<package>lifemapper-webclient</package>
 	<package>rocks-lifemapper</package>
 	<package>roll-lifemapper-server-usersguide</package>
-
+	
 	<!-- lifemapper data -->
 	<package>lifemapper-env-data</package>
 	<package>lifemapper-image-data</package>
 	<package>lifemapper-species-data</package>
-
-	<post>
 	
+	<post>
 		/sbin/ldconfig
 		
 		# set up lmwriter user
@@ -113,8 +112,7 @@
 		if [ "$ID" == "" ] ; then
 		    # adding solr user
 		    /usr/sbin/useradd -c "Solr user" solr
-		fi
-	
+		fi		
 	</post>
 
 	<post>
@@ -131,8 +129,9 @@
 		/bin/chmod -R 775       /state/partition1/lmserver/solr
 		
 		# FE directory NOT exported to /share
-		/bin/mkdir -p          /state/partition1/lmscratch
-		/bin/mkdir -p          /state/partition1/lmscratch/log
+		/bin/mkdir -p          /state/partition1/lmscratch/log/apache
+		/bin/mkdir -p          /state/partition1/lmscratch/sessions
+		/bin/mkdir -p          /state/partition1/lmscratch/tmpUpload
 		/bin/mkdir -p          /state/partition1/lmscratch/log/users
 		/bin/mkdir -p          /state/partition1/lmscratch/log/errors
 		/bin/mkdir -p          /state/partition1/lmscratch/makeflow
@@ -142,7 +141,6 @@
 		/bin/chmod -R g+ws     /state/partition1/lmscratch
 		
 		# FE directory shared with lifemapper-compute, exported to /share
-		/bin/mkdir -p          /state/partition1/lm
 		/bin/mkdir -p          /state/partition1/lm/data/layers
 		/bin/mkdir -p          /state/partition1/lm/data/archive
 		/bin/chgrp -R lmwriter /state/partition1/lm
@@ -153,19 +151,20 @@
 		    /bin/chmod -R g+ws     /opt/lifemapper/$item
 		done
 
-<file name="/etc/auto.share" mode="append">
-lmserver &Kickstart_PrivateHostname;:/export/&amp;
-lm &Kickstart_PrivateHostname;:/export/&amp;
-</file>
+		<file name="/etc/auto.share" mode="append">
+		lmserver &Kickstart_PrivateHostname;:/export/&amp;
+		lm &Kickstart_PrivateHostname;:/export/&amp;
+		</file>
 
 		/usr/bin/systemctl restart autofs 
 		/opt/rocks/bin/rocks sync users
 		
-		# add solr index files
+		# Set run-level management of solr, copy solr cores to solr data dir
+		/usr/bin/systemctl stop solr.service
+		/usr/sbin/chkconfig --add solr 
+		/usr/sbin/chkconfig  solr on
 		/opt/lifemapper/rocks/bin/solr-index
-		
-		chkconfig --add solr 
-		chkconfig  solr on
+		/usr/bin/systemctl restart solr.service
 	
 	</post>
 

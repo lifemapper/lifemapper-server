@@ -16,7 +16,6 @@
 	<changelog>
 	</changelog>
 
-	<!-- for lmserver -->
         <edge from="server" to="lifemapper-lmserver"/>
         <edge from="server" to="lifemapper-server-base"/>
 
@@ -24,18 +23,9 @@
                 <tail>lifemapper-lmserver</tail>
         </order>
 
-	<!-- for lmweb -->
-        <!-- <edge from="server" to="lifemapper-lmweb"/>
-        <edge from="server" to="lifemapper-server-base"/>
-
-        <order head="lifemapper-server-base">
-                <tail>lifemapper-lmweb</tail>
-        </order> -->
-
         <!-- put lifemapper server last -->
         <order head="TAIL">
                 <tail>lifemapper-server-base</tail>
-                <!-- <tail>lifemapper-lmweb</tail> -->
                 <tail>lifemapper-lmserver</tail>
         </order>
 
