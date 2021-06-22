@@ -151,18 +151,19 @@
 		    /bin/chmod -R g+ws     /opt/lifemapper/$item
 		done
 
-		<file name="/etc/auto.share" mode="append">
-		lmserver &Kickstart_PrivateHostname;:/export/&amp;
-		lm &Kickstart_PrivateHostname;:/export/&amp;
-		</file>
+<file name="/etc/auto.share" mode="append">
+lmserver &Kickstart_PrivateHostname;:/export/&amp;
+lm &Kickstart_PrivateHostname;:/export/&amp;
+</file>
 
 		/usr/bin/systemctl restart autofs 
 		/opt/rocks/bin/rocks sync users
 		
-		# Set run-level management of solr, copy solr cores to solr data dir
 		/usr/bin/systemctl stop solr.service
-		/usr/sbin/chkconfig --add solr 
-		/usr/sbin/chkconfig  solr on
+		# Set run-level management of solr
+		# /usr/sbin/chkconfig --add solr 
+		# /usr/sbin/chkconfig  solr on
+		# Copy solr cores to solr data dir
 		/opt/lifemapper/rocks/bin/solr-index
 		/usr/bin/systemctl restart solr.service
 	
