@@ -10,7 +10,12 @@ Introduction
 This roll installs dbserver and webserver parts of Lifemapper.
 All prerequisite software listed below are a part of the roll and 
 will be installed and configured during roll installation. 
-The roll has been tested with Rocks 6.2.
+The roll has been tested with Rocks 7.0.
+
+Data 
+-----
+The current version of GBIF data was pulled on June 22, 2021, see metadata at https://www.gbif.org/occurrence/download/0309469-200613084148143 
+
 
 For PRAGMA27 student challenge please see `Lifemapper Student Challenge`_
 
