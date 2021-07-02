@@ -8,9 +8,9 @@ usage ()
 {
     echo "Usage: $0 <initialization filename>"
     echo "This script is run by the superuser. It will populate the database by running"
-    echo "     - catalogDefaults.py for default users, datasources and algorithms"
-    echo "     - catalogScenPkg.py for environmental scenarios for the public user"
-    echo "     - initWorkflow.py to create the archive defined by the"
+    echo "     - LmDbServer.tools.catalog_defaults for default users, datasources and algorithms"
+    echo "     - LmDbServer.tools.catalog_scen_package.py for environmental scenarios for the public user"
+    echo "     - LmDbServer.boom.init_workflow.py to create the archive defined by the"
     echo "       provided initialization file "
     echo "   "
     echo "The output of the script is in @LMSCRATCHDISK@/log/`/bin/basename $0`.log"
