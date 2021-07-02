@@ -72,9 +72,10 @@ set_defaults() {
     DASHBOARD_DIR=@LMHOME@/LmWebServer/public_html/@DASHBOARD@
     
     # config files
-    CONFIG_FILE=@LMHOME@/config/config.lmserver.ini
-    SITE_CONFIG_FILE=@LMHOME@/config/config.site.ini
-    PUBLIC_ARCHIVE_CONFIG_FILE=@LMHOME@/config/boom.public.params
+    CONF_DIR=@LMHOME@/config
+    CONFIG_FILE=$CONF_DIR/config.lmserver.ini
+    SITE_CONFIG_FILE=$CONF_DIR/config.site.ini
+    PUBLIC_ARCHIVE_CONFIG_FILE=$CONF_DIR/boom.public.params
     
     # Find SCENARIO_PACKAGE
     if [[ -f $PUBLIC_ARCHIVE_CONFIG_FILE ]] ; then        
@@ -379,6 +380,14 @@ make_web_links () {
     fi
 }
 
+make_apache_conf_link () {
+    if [[ -d /var/www/lifemapper ]] ; then
+        echo "-- link to apache config" >> $LOG
+        (cd /etc/httpd/conf.d; /usr/bin/ln -s $CONF_DIR/lifemapper-apache.conf)
+        # (cd /etc/httpd/conf.d; /usr/bin/ln -s $CONF_DIR/lifemapper.conf)
+    fi
+}
+
 
 TimeStamp () {
     echo $1 `/bin/date` >> $LOG
@@ -417,5 +426,6 @@ if [[ $EXISTING_DB = false ]] ; then
 fi
 
 make_web_links
+make_apache_conf_link
 
 TimeStamp "# End"

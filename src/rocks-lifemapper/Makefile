@@ -110,6 +110,7 @@ SCRIPTS = \
 	dbDefineTables.sql \
 	dbUpdateTables.sql \
 	lifemapper.conf \
+	lifemapper-apache.conf \
 	lifemapper-server.conf
 
 CRONS = \
@@ -164,9 +165,14 @@ install::
 	mkdir -p $(ROOT)/etc/sysctl.d
 	install -m 644 lifemapper-postgresd.conf $(ROOT)/etc/sysctl.d
 	
-	mkdir -p $(ROOT)/etc/httpd/conf.d
-	install -m 644 lifemapper.conf $(ROOT)/etc/httpd/conf.d
-
+	# mkdir -p $(ROOT)/etc/httpd/conf.d
+	# install -m 644 lifemapper.conf $(ROOT)/etc/httpd/conf.d
+	
+	# install in config, then link in /etc/httpd/conf.d/
+	mkdir -p $(ROOT)/$(PKGROOT)/config
+	install -m 644 lifemapper.conf $(ROOT)/$(PKGROOT)/config
+	install -m 644 lifemapper-apache.conf $(ROOT)/$(PKGROOT)/config
+	
 	mkdir -p $(ROOT)/etc/ld.so.conf.d
 	install -m 644 lifemapper-server.conf $(ROOT)/etc/ld.so.conf.d
 	

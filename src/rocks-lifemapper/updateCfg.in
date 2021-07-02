@@ -16,6 +16,7 @@ usage ()
 }
 
 set_defaults() {
+	CONF_DIR=@LMHOME@/config
     THISNAME=`/bin/basename $0`
     LOG=@LMSCRATCHDISK@/log/$THISNAME.log
     rm -f $LOG
@@ -35,10 +36,8 @@ getMakeflowParams () {
         nodecount=`/opt/rocks/bin/rocks list host | grep Compute | wc -l`
         node1cpus=`/opt/rocks/bin/rocks list host | grep Compute | awk '{print $3}' | sed -n '1 p'`
         cpuTotal=$(( $nodecount * $node1cpus ))
-        echo 'alternate method:' >> $LOG
-        echo '  nodecount is' $nodecount >> $LOG
-        echo '  nodecpus is' $nodecpus >> $LOG
-        echo '  cpuTotal is' $cpuTotal >> $LOG
+        echo 'Alt method found:'
+        echo '$nodecount nodes, $nodecpus cpus on node 1, total cpus $cpuTotal' >> $LOG
     fi
     MaxWorkers=$cpuTotal
     tmpMaxMFs=$(( $cpuTotal / 10 ))
@@ -100,6 +99,47 @@ updateConfigVars () {
           s%@EXTRA_WORKER_OPTIONS@%$WorkerOptions%g" $infile > $outfile
 }
 
+update_config () {
+    fname=$1
+    
+    bakext=`/bin/date +%F`
+    backf=$fname.$bakext
+    
+    if [[ -f $fname ]] ; then 
+	echo '  Saving to ' $fname.$bakext  >> $LOG
+        mv -f $fname  $fname.$bakext
+
+	echo '  Creating ' $outfile ' from ' $fname >> $LOG
+	sed $SEDSPEC  $fname.$bakext  >  $fname
+    else
+	echo '  Missing input ' $$fname  >> $LOG
+    fi
+}
+
+
+get_sedspec () {
+    # public host address
+    # Addr=`/opt/rocks/bin/rocks list host attr localhost | grep Kickstart_PublicFQDN | awk '{print $3}'`
+    # IPAddr=`/usr/sbin/ifconfig eth1 | grep inet | grep broadcast  | awk '{print $2}'`
+    HOSTNAME=`/usr/bin/hostname`
+    CERTFILE=/etc/letsencrypt/live/$HOSTNAME/fullchain.pem
+    CERTKEYFILE=/etc/letsencrypt/live/$HOSTNAME/privkey.pem
+    SSL_OPTIONS_FILE=/etc/letsencrypt/options-ssl-apache.conf
+    CHAIN_FILE=/etc/letsencrypt/live/$HOSTNAME/chain.pem
+    SEDSPEC='-e s%@FQDN@%'$HOSTNAME'%g \
+             -e s%@CERTFILE@%'$CERTFILE'%g \
+             -e s%@CERTKEYFILE@%'$CERTKEYFILE'%g  \
+             -e s%@SSL_OPTIONS_FILE@%'$SSL_OPTIONS_FILE'%g \
+             -e s%@CHAIN_FILE@%'$CHAIN_FILE'%g \
+             -e s%@PUBLIC_FQDN@%'$Addr'%g \
+             -e s%@WEB_FQDN@%'$AddrWebserver'%g \
+             -e s%@DB_FQDN@%'$AddrDbserver'%g \
+             -e s%@MAX_MAKEFLOWS@%'$MaxMakeflows'%g \
+             -e s%@MAX_WORKERS@%'$MaxWorkers'%g \
+             -e s%@EXTRA_WORKER_OPTIONS@%'$WorkerOptions'%g'
+}
+
+
 updateWebhost () {
     infile=@DATADIR_SERVER@/sdm/elm.js.in
     outfile=@DATADIR_SERVER@/sdm/elm.js
@@ -139,6 +179,12 @@ getAddress
 ## updateWebhost
 getMakeflowParams
 getWorkerOptions
-updateConfigVars
+# updateConfigVars
+
+get_sedspec
+update_config  $CONF_DIR/config.lmserver.ini
+update_config  $CONF_DIR/lifemapper.conf
+update_config  $CONF_DIR/lifemapper-apache.conf
+
 updatePerms
 echo "# End" `/bin/date` >> $LOG

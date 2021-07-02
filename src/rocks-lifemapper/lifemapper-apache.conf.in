@@ -1,0 +1,65 @@
+# Apache config
+<VirtualHost *:80>
+    ServerName @FQDN@
+    # Redirect HTTP traffic to HTTPS
+    Redirect permanent /api/ https://@FQDN@/api/
+</VirtualHost>
+
+# prefork MPM
+<IfModule prefork.c>
+StartServers       3
+MinSpareServers    1
+MaxSpareServers    3
+ServerLimit       15
+MaxClients        10
+MaxRequestsPerChild  50
+</IfModule>
+
+# For lifemapper-server roll
+<VirtualHost *:443>
+    ServerName @FQDN@
+    SSLEngine on
+    SSLCertificateFile @CERTFILE@
+    SSLCertificateKeyFile @CERTKEYFILE@
+    Include @SSL_OPTIONS_FILE@
+    SSLCertificateChainFile @CHAIN_FILE@
+
+
+	# Enable MapServer debugging
+	SetEnv MS_ERRORFILE "@MAPSERVER_TMP@/mapserver_error.txt"
+	SetEnv MS_DEBUGLEVEL 2
+	
+	# Custom logs
+	LogLevel debug
+	CustomLog @LMSCRATCHDISK@/log/apache/lifemapper_access combined
+	ErrorLog  @LMSCRATCHDISK@/log/apache/lifemapper_error
+	
+	# Make sure Mapserver finds projection files
+	SetEnv PROJ_LIB "@LMHOME@/share/proj"
+	
+	# Root for lifemapper content
+	RewriteEngine on
+	
+	<Directory "@LMHOME@/LmWebServer/services/common/">
+	    Require all granted
+	</Directory>
+	
+	# LmDashboard
+	Alias /dashboard "@LMHOME@/LmWebServer/public_html/lmdashboard/"
+	<Directory "@LMHOME@/LmWebServer/public_html/lmdashboard">
+	   Options FollowSymLinks Indexes
+	   AllowOverride None
+	   Require all granted
+	</Directory>
+	
+	# Download directory
+	Alias /dl "@LMHOME@/LmWebServer/public_html/dl/"
+	<Directory "@LMHOME@/LmWebServer/public_html/dl">
+	   Options FollowSymLinks Indexes
+	   AllowOverride None
+	   Require all granted
+	</Directory>
+	
+	# Favicon.ico and robots.txt
+
+</VirtualHost>
