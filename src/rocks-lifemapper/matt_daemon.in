@@ -23,6 +23,14 @@ set_defaults () {
 		exit 0
 	fi
 
+	debug_level=$1
+    if [[ $debug_level -ge 0 ]] && [[ $debug_level -le 2 ]]; then 
+        MATT_OPTIONS=" -dl=$debug_level -dm=$debug_level -do=$debug_level"
+    else
+        MATT_OPTIONS=" -dl=0 -dm=1 -do=0"
+    fi
+    echo "   debug_options $MATT_OPTIONS" >> $LOG
+
 	# load opt-python and environment
     source /usr/share/Modules/init/bash
     module load opt-python
@@ -41,29 +49,28 @@ test_inputs () {
     cmd=$1 
     debug_level=$2
     
-    MATT_COUNT=`ps -Alf | grep matt_daemon | grep 'start' | wc -l`
-    echo "MATT_COUNT = $MATT_COUNT" >> $LOG
     if [[ $cmd == 'start' ]]; then
-        if [[ $MATT_COUNT -ne 0 ]]; then
+        if [[ -f $PIDFILE ]]; then
             echo "   matt_daemon is already running" >> $LOG
             exit 0
+        else
+        	echo "   start matt" >> $LOG
         fi
+       
     elif [[ $cmd == 'stop' ]]; then
-        if [[ $MATT_COUNT -eq 0 ]]; then
+        if [[  -f $PIDFILE  ]]; then
+        	echo "   stop matt" >> $LOG
+        else
             echo "   matt_daemon is not running" >> $LOG
             exit 0
         fi
-    elif [[ $cmd != 'restart' ]]; then
-        usage
+       
+    elif [[ $cmd == 'restart' ]]; then
+    	echo "   restart matt" >> $LOG
+    	
+    else
+    	echo "   invalid commmand $cmd" >> $LOG
         exit 0
-    fi
-
-    if [[ $cmd == 'start' ]] || [[ $cmd != 'restart' ]]; then 
-        if [[ $debug_level -ge 0 ]] && [[ $debug_level -le 2 ]]; then 
-            debug_options=" -dl=$debug_level -dm=$debug_level -do=$debug_level"
-        else
-            debug_options=""
-        fi
     fi
 }    
 
@@ -84,9 +91,9 @@ stop_matt () {
 # restart matt_daemon
 restart_matt () {
     echo "-- restart matt_daemon" >> $LOG
-    if [ $MATT_COUNT -ne 0 ]; then
+    if [[ -f $PIDFILE ]]; then
         stop_matt
-        MATT_COUNT=`ps -Alf | grep matt_daemon | grep 'start' | wc -l`
+        MATT_COUNT=`ps -Alf | grep $MATT_DAEMON | grep 'start' | wc -l`
         if [ $MATT_COUNT -eq 0 ]; then
             echo "   matt_daemon has stopped" >> $LOG
             start_matt
@@ -118,8 +125,8 @@ else
     debug_level=$2
 fi
 
-set_defaults
-test_inputs $cmd $debug_level
+set_defaults $debug_level
+test_inputs $cmd 
 
 time_stamp "# Start"
 
