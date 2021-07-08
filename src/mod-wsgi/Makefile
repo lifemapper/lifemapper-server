@@ -86,25 +86,18 @@ prep: prepSrc.sh
 version.mk:
 	cat ../version.mk version.mk.in > version.mk
 
-wsgi.conf: wsgi.conf.in
-	$(SED) $(SEDSPEC) $^ > $@
-
 install-mod-wsgi: install-mod-wsgi.in
 	$(SED) $(SEDSPEC) $^ > $@
 
 build:
-	make wsgi.conf
 	make install-mod-wsgi
 
 install::
 	mkdir -p $(ROOT)/$(PKGROOT)/rocks/etc
 	install -m 664 $(ARCHIVENAME)-$(VERSION).tar.gz   $(ROOT)/$(PKGROOT)/rocks/etc
 	
-	mkdir -p $(ROOT)/etc/httpd/conf.modules.d
-	install --mode 644  -T wsgi.conf $(ROOT)/etc/httpd/conf.modules.d/02-wsgi.conf
-	
 	mkdir -p $(ROOT)/$(PKGROOT)/rocks/bin
 	install -m 755 install-mod-wsgi  $(ROOT)/$(PKGROOT)/rocks/bin
 
 clean::
-	rm -rf $(ARCHIVENAME)-$(VERSION) version.mk prepSrc.sh wsgi.conf install-mod-wsgi
+	rm -rf $(ARCHIVENAME)-$(VERSION) version.mk prepSrc.sh install-mod-wsgi

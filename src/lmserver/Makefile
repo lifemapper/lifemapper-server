@@ -70,6 +70,7 @@ DY=`date +'%_d'`
 
 SEDSPEC += \
         -e 's%@PKGROOT@%$(PKGROOT)%g' \
+        -e 's%@PYTHON36_PACKAGES@%$(PYTHON36_PACKAGES)%g' \
         -e 's%@LMDISK@%$(LMDISK)%g' \
         -e 's%@PYBIN@%$(PY.PATH)%g' \
         -e 's%@PYTHONVER@%$(PYTHONVER)%g' \
@@ -126,6 +127,9 @@ boom.public.params: $(TOPDIR)/LmServer/config/boom.public.params.in
 	$(SED) -i $(SEDSPEC) $^ 
 	cat $^ > $(TOPDIR)/config/$@
 
+wsgi.conf: $(TOPDIR)/LmWebServer/config/wsgi.conf.in
+	$(SED) $(SEDSPEC) $^ > $@
+
 prepSrc.sh: prepSrc.sh.in
 	$(SED) $(SEDSPEC) $^ > $@
 	chmod 755 $@
@@ -138,6 +142,7 @@ prep: prepSrc.sh
 
 build: 
 	tar xzvf $(NAME)-$(VERSION).tar.gz  
+	make wsgi.conf
 	make $(SCRIPTS)
 	make $(SERVICES)
 
@@ -145,6 +150,12 @@ install::
 	mkdir -p $(ROOT)/$(PKGROOT)/rocks/solrcores
 	cp -r $(TOPDIR)/config/solrcores/*  $(ROOT)/$(PKGROOT)/rocks/solrcores/
 
+	mkdir -p $(ROOT)/etc/lmtest/conf.d/
+	cp -r $(TOPDIR)/LmTest/server_test_config/*  $(ROOT)/etc/lmtest/conf.d/
+
+	mkdir -p $(ROOT)/etc/httpd/conf.modules.d
+	install --mode 644  -T wsgi.conf $(ROOT)/etc/httpd/conf.modules.d/02-wsgi.conf
+	
 	mkdir -p $(ROOT)/$(LMHOME)
 	mv $(TOPDIR)/*  $(ROOT)/$(LMHOME)
 		
@@ -154,4 +165,4 @@ install::
 clean::
 	rm -rf  $(SCRIPTS)  
 	rm -rf  $(TOPDIR)
-	rm -rf  version.mk prepSrc.sh
+	rm -rf  version.mk prepSrc.sh wsgi.conf
