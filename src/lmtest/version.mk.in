@@ -1,7 +1,7 @@
 NAME              = opt-lifemapper-lmtest
 ARCHIVENAME       = lmtest
 VERSION           = 1.0.0b5
-RELEASE           = 0
+RELEASE           = 2
 
 # Requires specify-open-api-tools
 
@@ -9,4 +9,4 @@ RPM.EXTRAS  = %define __os_install_post /usr/lib/rpm/brp-python-bytecompile  $(P
 
 RPM.FILES   =   \
     $(PKGROOT)/*                \n\
-    /etc/lmtest/* 
+    /etc/lmtest/conf.d/* 

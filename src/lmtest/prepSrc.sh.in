@@ -1,13 +1,23 @@
 #!/bin/bash
 
 # Purpose: Fetch @ARCHIVENAME@ release
-URL=https://github.com/lifemapper/@ARCHIVENAME@/releases/download/@VERSION@/
+URL=https://github.com/lifemapper/@ARCHIVENAME@/releases/download/@VERSION@
 PKG=@ARCHIVENAME@-@VERSION@-py3-none-any.whl
+
+URL2=https://github.com/lifemapper/@ARCHIVENAME@/blob/@VERSION@/example_tests
+
 
 get_wheel () {
   echo "Fetch @ARCHIVENAME@ wheel"
   wget "$URL/$PKG"
 }
 
+get_tests () {
+	echo "Fetch standard tests"
+	wget "$URL2/cpu_usage_test.json"
+	wget "$URL2/disk_usage_test.json"
+	wget "$URL2/memory_usage_test.json"
+}
 ### main ###
 get_wheel
+get_tests
