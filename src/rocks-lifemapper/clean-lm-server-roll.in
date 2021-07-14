@@ -292,6 +292,8 @@ del-automount-entry () {
        cat /etc/auto.share  | grep -v "^lmserver " > /tmp/auto.share.nolmserver
        /bin/cp /tmp/auto.share.nolmserver /etc/auto.share
    fi
+	/usr/bin/systemctl restart autofs.service
+	/opt/rocks/bin/rocks run host compute "/usr/bin/systemctl restart autofs.service"
 }
 
 
