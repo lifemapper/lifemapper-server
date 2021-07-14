@@ -17,6 +17,7 @@ usage ()
 
 set_defaults() {
 	CONF_DIR=@LMHOME@/config
+	APACHE_CONF_DIR=/etc/httpd/conf.d
     THISNAME=`/bin/basename $0`
     LOG=@LMSCRATCHDISK@/log/$THISNAME.log
     rm -f $LOG
@@ -183,8 +184,7 @@ getWorkerOptions
 
 get_sedspec
 update_config  $CONF_DIR/config.lmserver.ini
-update_config  $CONF_DIR/lifemapper.conf
-update_config  $CONF_DIR/lifemapper-apache.conf
+update_config  $APACHE_CONF_DIR/lifemapper-apache.conf
 
 updatePerms
 echo "# End" `/bin/date` >> $LOG
