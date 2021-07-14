@@ -73,7 +73,8 @@
 		# enable mod-wsgi for httpd
 		/opt/lifemapper/rocks/bin/install-mod-wsgi
 		
-		/usr/bin/systemctl restart httpd.service
+		# Apache will not start until after var replacement in post-install scripts
+		# /usr/bin/systemctl restart httpd.service
 
 		# Execute on reboot. Log output goes to /tmp/post-99-lifemapper-lmserver.debug
 		<file name="/etc/rc.d/rocksconfig.d/post-99-lifemapper-lmserver" perms="0700">
