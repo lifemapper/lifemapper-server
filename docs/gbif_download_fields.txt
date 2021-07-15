@@ -1,6 +1,5 @@
 # From meta.xml in GBIF download DwCA, fields to use from occurrence.txt datafile 
 # Group by acceptedTaxonKey or acceptedScientificName
-
     <field index="0" term="http://rs.gbif.org/terms/1.0/gbifID"/>
     <field index="59" term="http://rs.tdwg.org/dwc/terms/institutionCode"/>
     <field index="60" term="http://rs.tdwg.org/dwc/terms/collectionCode"/>
@@ -8,34 +7,23 @@
     <field index="63" term="http://rs.tdwg.org/dwc/terms/basisOfRecord"/>
     <field index="67" term="http://rs.tdwg.org/dwc/terms/occurrenceID"/>
     <field index="68" term="http://rs.tdwg.org/dwc/terms/catalogNumber"/>
-
     <field index="70" term="http://rs.tdwg.org/dwc/terms/recordedBy"/>
-
     <field index="190" term="http://rs.tdwg.org/dwc/terms/kingdom"/>
     <field index="191" term="http://rs.tdwg.org/dwc/terms/phylum"/>
     <field index="192" term="http://rs.tdwg.org/dwc/terms/class"/>
     <field index="193" term="http://rs.tdwg.org/dwc/terms/order"/>
     <field index="194" term="http://rs.tdwg.org/dwc/terms/family"/>
     <field index="195" term="http://rs.tdwg.org/dwc/terms/genus"/>
-
     <field index="226" term="http://rs.gbif.org/terms/1.0/genusKey"/>
-    
     <field index="228" term="http://rs.gbif.org/terms/1.0/speciesKey"/>
     <field index="229" term="http://rs.gbif.org/terms/1.0/species"/>
-
     <field index="199" term="http://rs.tdwg.org/dwc/terms/taxonRank"/>
-    
     <field index="203" term="http://rs.tdwg.org/dwc/terms/taxonomicStatus"/>
-    
     <field index="206" term="http://rs.gbif.org/terms/1.0/datasetKey"/>
-    
     <field index="220" term="http://rs.gbif.org/terms/1.0/acceptedTaxonKey"/>
-    
     <field index="231" term="http://rs.gbif.org/terms/1.0/acceptedScientificName"/>
-
     <field index="132" term="http://rs.tdwg.org/dwc/terms/decimalLatitude"/>
     <field index="133" term="http://rs.tdwg.org/dwc/terms/decimalLongitude"/>
-
     <field index="102" term="http://rs.tdwg.org/dwc/terms/year"/>
     <field index="103" term="http://rs.tdwg.org/dwc/terms/month"/>
     <field index="104" term="http://rs.tdwg.org/dwc/terms/day"/>
