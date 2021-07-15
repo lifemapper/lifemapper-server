@@ -1,14 +1,11 @@
-# From occurrence.txt
+# From meta.xml in GBIF download DwCA, fields to use from occurrence.txt datafile 
 # Group by acceptedTaxonKey or acceptedScientificName
 
     <field index="0" term="http://rs.gbif.org/terms/1.0/gbifID"/>
-    
     <field index="59" term="http://rs.tdwg.org/dwc/terms/institutionCode"/>
     <field index="60" term="http://rs.tdwg.org/dwc/terms/collectionCode"/>
     <field index="61" term="http://rs.tdwg.org/dwc/terms/datasetName"/>
-
     <field index="63" term="http://rs.tdwg.org/dwc/terms/basisOfRecord"/>
-
     <field index="67" term="http://rs.tdwg.org/dwc/terms/occurrenceID"/>
     <field index="68" term="http://rs.tdwg.org/dwc/terms/catalogNumber"/>
 
@@ -43,4 +40,33 @@
     <field index="103" term="http://rs.tdwg.org/dwc/terms/month"/>
     <field index="104" term="http://rs.tdwg.org/dwc/terms/day"/>
 
-
+# LM metadata for subsetted GBIF data
+{   
+    "0": {"name": "gbifID", "type": "int", "role": "uniqueid"},
+    "1": {"name": "institutionCode", "type": "string"},
+    "2": {"name": "collectionCode", "type": "string"},
+    "3": {"name": "datasetName", "type": "string"},
+    "4": {"name": "basisOfRecord", "type": "string"},
+    "5": {"name": "occurrenceID", "type": "string"},
+    "6": {"name": "catalogNumber", "type": "string"},
+    "7": {"name": "recordedBy", "type": "string"},
+    "8": {"name": "kingdom", "type": "string"},
+    "9": {"name": "phylum", "type": "string"},
+    "10": {"name": "class", "type": "string"},
+    "11": {"name": "order", "type": "string"},
+    "12": {"name": "family", "type": "string"},
+    "13": {"name": "genus", "type": "string"},
+    "14": {"name": "genusKey", "type": "string"},
+    "15": {"name": "speciesKey", "type": "string"},
+    "16": {"name": "species", "type": "string"},
+    "17": {"name": "taxonRank", "type": "string"},
+    "18": {"name": "taxonomicStatus", "type": "string"},
+    "19": {"name": "datasetKey", "type": "string"},
+    "20": {"name": "acceptedTaxonKey", "type": "int", "role": "groupby"},
+    "21": {"name": "acceptedScientificName", "type": "string", "role": "taxaname"},
+    "22": {"name": "decimalLatitude", "real", "role": "latitude"},
+    "23": {"name": "decimalLongitude", "real", "role": "longitude"},
+    "24": {"name": "year", "type": "int"},
+    "25": {"name": "month", "type": "int"},
+    "26": {"name": "day", "type": "int"}
+}

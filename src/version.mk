@@ -41,9 +41,9 @@ MAPUNITS			= dd
 PUBLIC_USER			= kubi
 
 GBIF_TAXONOMY		= gbif_taxonomy
-GBIF_OCCURRENCES	= gbif_occ_subset
 GBIF_PROVIDER		= gbif_orgs
-GBIF_VERSION        = 2021.06.22
+GBIF_OCCURRENCES	= gbif_occ_subset
+GBIF_VERSION        = 2021.07.15
 
 GRID_NAME				= lmgrid_1d
 GRID_CELLSIZE			= 1
