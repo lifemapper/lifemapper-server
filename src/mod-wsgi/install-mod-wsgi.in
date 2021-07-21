@@ -16,7 +16,7 @@ set-defaults () {
 	module load opt-python
 
 	HAS_WSGI=`$PY3 -m pip list | grep wsgi | grep @VERSION@ | wc -l`
-	HAS_SETUP=`$PY3 -m pip list | grep setuptools`
+	HAS_SETUP=`$PY3 -m pip list | grep setuptools | wc -l`
 }
 
 
@@ -51,6 +51,8 @@ time-stamp () {
 ####### Main #######
 time-stamp "# Start"
 set-defaults
+$PY3 -m ensurepip --default-pip
+$PY3 -m pip install --upgrade pip
 
 if [[ $HAS_WSGI -eq 0 ]]; then
 	install-setuptools

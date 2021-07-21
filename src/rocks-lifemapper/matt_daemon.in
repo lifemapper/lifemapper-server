@@ -17,19 +17,25 @@ usage ()
 }
 
 set_defaults () {
+	debug_level=$1
+
 	USR=`whoami | awk '{print $1}'`
 	if [[ $USR != 'lmwriter' ]]; then
 		echo 'This script must be run as lmwriter user'
 		exit 0
 	fi
+	PY3=@PYBIN@
 
-	debug_level=$1
+	# Log latest results of this cron job
+	LOG=/tmp/`/bin/basename $0`.log
+	rm -f $LOG
+	touch $LOG
+
     if [[ $debug_level -ge 0 ]] && [[ $debug_level -le 2 ]]; then 
         MATT_OPTIONS=" -dl=$debug_level -dm=$debug_level -do=$debug_level"
     else
         MATT_OPTIONS=" -dl=0 -dm=1 -do=0"
     fi
-    echo "   debug_options $MATT_OPTIONS" >> $LOG
 
 	# load opt-python and environment
     source /usr/share/Modules/init/bash
@@ -37,42 +43,9 @@ set_defaults () {
     . /etc/profile.d/lifemapper.sh
 	
 	MATT_DAEMON=@LMHOME@/LmServer/tools/matt_daemon.py
-	PIDFILE=@LMSCRATCHDISK@/run/matt_daemon.pid
-	
-	# Log latest results of this cron job
-	LOG=/tmp/`/bin/basename $0`.log
-	rm -f $LOG
-	touch $LOG
+	PIDFILE=@LMSCRATCHDISK@/run/matt_daemon.pid	
 }
 
-test_inputs () {
-    cmd=$1 
-    debug_level=$2
-    
-    if [[ $cmd == 'start' ]]; then
-        if [[ -f $PIDFILE ]]; then
-            echo "   matt_daemon is already running" >> $LOG
-            exit 0
-        else
-        	echo "   start matt" >> $LOG
-        fi
-       
-    elif [[ $cmd == 'stop' ]]; then
-        if [[  -f $PIDFILE  ]]; then
-        	echo "   stop matt" >> $LOG
-        else
-            echo "   matt_daemon is not running" >> $LOG
-            exit 0
-        fi
-       
-    elif [[ $cmd == 'restart' ]]; then
-    	echo "   restart matt" >> $LOG
-    	
-    else
-    	echo "   invalid commmand $cmd" >> $LOG
-        exit 0
-    fi
-}    
 
 time_stamp () {
     echo $1 `/bin/date` >> $LOG
@@ -81,34 +54,46 @@ time_stamp () {
 
 # stop matt_daemon
 stop_matt () {
-    echo "-- stop matt_daemon " >> $LOG
-    @PYBIN@ $MATT_DAEMON stop >> $LOG 2>&1
-    echo "   sleep 10 min ..." >> $LOG
-    /bin/sleep 600    
-    echo "   done sleeping" >> $LOG
+	if [[  -f $PIDFILE  ]]; then
+    	echo "   Stop matt_daemon " >> $LOG
+	    $PY3 $MATT_DAEMON stop >> $LOG 2>&1
+	    echo "   sleep 10 min ..." >> $LOG
+	    /bin/sleep 600    
+	    echo "   done sleeping" >> $LOG
+	else
+	    echo "   Nothing to do - matt_daemon is not running" >> $LOG
+	    exit 0
+	fi
 }
 
 # restart matt_daemon
 restart_matt () {
-    echo "-- restart matt_daemon" >> $LOG
+    echo "   Restart matt_daemon"  >> $LOG
     if [[ -f $PIDFILE ]]; then
         stop_matt
         MATT_COUNT=`ps -Alf | grep $MATT_DAEMON | grep 'start' | wc -l`
         if [ $MATT_COUNT -eq 0 ]; then
-            echo "   matt_daemon has stopped" >> $LOG
-            start_matt
+            echo "   matt_daemon is not running" >> $LOG
         else
-            echo "   matt_daemon failed to stop" >> $LOG
+            echo "   matt_daemon failed to stop within 10 min" >> $LOG
         fi
-    else
-        echo "   matt_daemon is not running" >> $LOG
+    fi
+
+    MATT_COUNT=`ps -Alf | grep $MATT_DAEMON | grep 'start' | wc -l`
+    if [ $MATT_COUNT -eq 0 ]; then
+        start_matt
     fi
 }
 
 # start matt_daemon
 start_matt () {	
-	echo "-- start matt_daemon with debug_options = $debug_options" >> $LOG
-	@PYBIN@ $MATT_DAEMON start $debug_options
+    if [[ -f $PIDFILE ]]; then
+        echo "   Nothing to do - matt_daemon is already running" >> $LOG
+        exit 0
+    else
+    	echo "   Start matt with options " $MATT_OPTIONS >> $LOG
+		$PY3 $MATT_DAEMON start $MATT_OPTIONS
+    fi
 }
 
 
@@ -126,8 +111,7 @@ else
 fi
 
 set_defaults $debug_level
-test_inputs $cmd 
-
+echo "   matt options: $MATT_OPTIONS" >> $LOG
 time_stamp "# Start"
 
 if [[ $cmd == 'start' ]]; then
@@ -136,6 +120,8 @@ elif [[ $cmd == 'stop' ]]; then
     stop_matt
 elif [[ $cmd == 'restart' ]]; then
     restart_matt
+else
+	echo "   Nothing to do - invalid commmand $cmd" >> $LOG
 fi
 
 time_stamp "# End"

@@ -7,12 +7,11 @@
 #    user accounts and groups : postgres, pgbouncer, solr, lmwriter
 
 RM="rpm -evl --quiet --nodeps"
-PY3=@PYTHON36@
+PY3=@PYBIN@
 ROCKS_CMD=/opt/rocks/bin/rocks
 LMUSER_COUNT=`/bin/egrep -i "^lmwriter" /etc/passwd  | wc -l`
 LMROLL_COUNT=`$ROCKS_CMD list roll | grep lifemapper | wc -l`
 NEED_SYNC=0
-
 
 TimeStamp () {
     echo $1 `/bin/date` >> $LOG
@@ -29,20 +28,42 @@ set_defaults() {
     source /usr/share/Modules/init/bash
 }
 
+# ordered dependencies (use filename prefixes, sometimes diff from packagename)
+# match definitions in install_server_wheels
+define_python_dependencies () {
+    REQUESTS_DEPS="chardet certifi idna urllib3 requests"
+    CHERRYPY_DEPS="more_itertools pytz tempora portend jaraco.functools six cheroot setuptools zc.lockfile jaraco.classes zipp importlib_resources jaraco.text jaraco.collections CherryPy"
+    CHERRYPY_CORS_DEPS="wheel httpagentparser cherrypy_cors"
+    LMPY_DEPS="Rtree DendroPy numpy scipy lmpy"
+    MATPLOTLIB_DEPS="six cycler numpy kiwisolver Pillow python_dateutil pyparsing matplotlib"
+    OPENAPICORE_DEPS="attrs zipp importlib_metadata setuptools pyrsistent jsonschema openapi_schema_validator isodate more_itertools Werkzeug lazy_object_proxy PyYAML openapi_spec_validator six parse openapi_core" 
+    OAT_DEPS="PyYAML openapi3 simplejson termcolor dataclasses"  # and requests
+    OTHER_DEPS="biotaphypy Cython mod_wsgi idigbio psycopg2_binary lm_test"
+}
 
-del-shared-python-dependencies () {
+del-shared-lm-python-dependencies () {
     module load opt-python
-    echo "Removing python packages" >> $LOG
-    $PY3 -m pip uninstall -y chardet certifi idna urllib3 requests
-    $PY3 -m pip uninstall -y biotaphypy Cython mod-wsgi idigbio psycopg2-binary
-    $PY3 -m pip uninstall -y more-itertools pytz tempora portend jaraco.functools six cheroot setuptools zc.lockfile jaraco.classes zipp importlib-resources jaraco.text jaraco.collections CherryPy
-    $PY3 -m pip uninstall -y wheel httpagentparser cherrypy-cors
-    $PY3 -m pip uninstall -y Rtree DendroPy numpy scipy lmpy
-    $PY3 -m pip uninstall -y six cycler numpy kiwisolver Pillow python-dateutil pyparsing matplotlib
-    $PY3 -m pip uninstall -y attrs zipp importlib-metadata setuptools pyrsistent jsonschema openapi-schema-validator isodate more-itertools Werkzeug lazy-object-proxy PyYAML openapi-spec-validator six parse openapi-core 
-    $PY3 -m pip uninstall -y PyYAML openapi3 simplejson termcolor dataclasses lm-test GDAL pysolr
+    define_python_dependencies
+    echo "Removing shared lm python packages" >> $LOG
+    $PY3 -m pip uninstall -y $REQUESTS_DEPS
+    $PY3 -m pip uninstall -y $LMPY_DEPS
+    $PY3 -m pip uninstall -y $MATPLOTLIB_DEPS
+    $PY3 -m pip uninstall -y $OPENAPICORE_DEPS
+    $PY3 -m pip uninstall -y $OAT_DEPS
+    $PY3 -m pip uninstall -y biotaphypy Cython idigbio lm_test
     module unload opt-python
 }
+
+del-lmserver-python-dependencies () {
+    module load opt-python
+    define_python_dependencies
+    echo "Removing shared lm python packages" >> $LOG
+    $PY3 -m pip uninstall -y $CHERRYPY_DEPS
+    $PY3 -m pip uninstall -y $CHERRYPY_CORS_DEPS
+    $PY3 -m pip uninstall -y mod_wsgi psycopg2_binary
+    module unload opt-python
+}
+
 
 del-shared-lifemapper() {
     echo "Removing shared lifemapper-* and opt-lifemapper-* RPMS" >> $LOG
@@ -134,7 +155,7 @@ stop-services () {
     SOLR_PROCESSES=`ps -Af | grep solr | grep -v "grep" | wc -l`
     if [[ $LMROLL_COUNT -eq 0  &&  $SOLR_PROCESSES -eq 1 ]]; then
         echo "-- stop Solr process " >> $LOG
-        /usr/sbin/service solr stop
+        /usr/bin/systemctl stop solr
     fi
 }
 
@@ -326,6 +347,7 @@ TimeStamp "# Start"
 
 stop-services
 
+del-lmserver-python-dependencies
 del-user-group
 del-postgres
 del-mapserver 
@@ -339,9 +361,8 @@ del-automount-entry
 
 if [[ $LMROLL_COUNT -eq 1 ]]; then
     echo "Removing the last lifemapper roll"  >> $LOG
-    del-shared-solr-stuff
 	del-shared-lifemapper
-	del-shared-python-dependencies
+	del-shared-lm-python-dependencies
 	del-shared-directories
 	del-shared-user-group
 fi

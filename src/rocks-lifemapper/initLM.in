@@ -56,6 +56,8 @@ set_defaults() {
     PROFILE=/var/lib/pgsql/.bash_profile
     BIN=@PKGROOT@/rocks/bin
     USERSFILE=@PKGROOT@/rocks/etc/users
+    
+    PY3=@PYBIN@
 
     DEFINE_TABLES_SQL=@LMHOME@/rocks/sql/dbDefineTables.sql
     UPDATE_TABLES_SQL=@LMHOME@/rocks/sql/dbUpdateTables.sql
@@ -127,7 +129,7 @@ cmd_opt_python () {
 	cmd=$1
     echo "-- $1 opt-python" >> $LOG
     module $1 opt-python
-    @PYBIN@ --version >> $LOG
+    $PY3 --version >> $LOG
 }
 
 set_permissions () {
@@ -210,15 +212,15 @@ order_wheel_installs () {
         do
             echo "install dependency $d from $WHL_DIR ..."
             wname=$WHL_DIR/$d*whl
-            @PYBIN@ -m pip install $wname
+            $PY3 -m pip install $wname
         done    
 }
 
 
 # Install python wheel and tar.gz files with pip
 finish_pip_installs () {
-    @PYBIN@ -m ensurepip --default-pip
-    @PYBIN@ -m pip install --upgrade pip
+    $PY3 -m ensurepip --default-pip
+    $PY3 -m pip install --upgrade pip
     WHL_DIR=@PKGROOT@/rocks/etc
 
     echo "-- run install_server_wheels script ..." >> $LOG
@@ -333,15 +335,15 @@ install_cron_jobs () {
     echo "-- End installServerCronJobs" >> $LOG
 }
 
-install_opt_python_dependent_rpms() {
-    # opt-lifemapper-mapserver cannot be installed with other rpms by yum 
-    # because it depends on python3.6 and yum cannot co-exist with opt-python
-    DIST_DIR=/state/partition1/rocks/install/rocks-dist/x86_64/RedHat/RPMS
-    RPM_FILE=$DIST_DIR/opt-lifemapper-mapserver*rpm
-    cmd_opt_python load
-    echo "-- Install opt-lifemapper-mapserver rpm" >> $LOG
-    rpm -i $RPM_FILE >> $LOG
-}
+# install_opt_python_dependent_rpms() {
+#     # opt-lifemapper-mapserver cannot be installed with other rpms by yum 
+#     # because it depends on python3.6 and yum cannot co-exist with opt-python
+#     DIST_DIR=/state/partition1/rocks/install/rocks-dist/x86_64/RedHat/RPMS
+#     RPM_FILE=$DIST_DIR/opt-lifemapper-mapserver*rpm
+#     cmd_opt_python load
+#     echo "-- Install opt-lifemapper-mapserver rpm" >> $LOG
+#     rpm -i $RPM_FILE >> $LOG
+# }
 
 # set unix socket; restart postgres and pgbouncer with new config
 start_services() {
@@ -380,14 +382,6 @@ make_web_links () {
     fi
 }
 
-make_apache_conf_link () {
-    if [[ -d /var/www/lifemapper ]] ; then
-        echo "-- link to apache config" >> $LOG
-        (cd /etc/httpd/conf.d; /usr/bin/ln -s $CONF_DIR/lifemapper-apache.conf)
-        # (cd /etc/httpd/conf.d; /usr/bin/ln -s $CONF_DIR/lifemapper.conf)
-    fi
-}
-
 
 TimeStamp () {
     echo $1 `/bin/date` >> $LOG
@@ -418,7 +412,6 @@ fi
 
 add_lm_functions
 install_cron_jobs
-#install_opt_python_dependent_rpms
 update_config
 
 if [[ $EXISTING_DB = false ]] ; then
@@ -426,6 +419,5 @@ if [[ $EXISTING_DB = false ]] ; then
 fi
 
 make_web_links
-make_apache_conf_link
 
 TimeStamp "# End"

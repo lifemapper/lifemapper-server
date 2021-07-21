@@ -24,6 +24,7 @@ set_defaults() {
 }
 
 # ordered dependencies (use filename prefixes, sometimes diff from packagename)
+# match definitions in clean-lm-server-roll
 define_python_dependencies () {
     REQUESTS_DEPS="chardet certifi idna urllib3 requests"
     CHERRYPY_DEPS="more_itertools pytz tempora portend jaraco.functools six cheroot setuptools zc.lockfile jaraco.classes zipp importlib_resources jaraco.text jaraco.collections CherryPy"
@@ -54,6 +55,8 @@ order_wheel_installs () {
 finish_wheel_installs () {
     echo "-- install python packages (wheels, tarballs) with dependencies ..." >> $LOG
     define_python_dependencies
+    $PY3 -m ensurepip --default-pip
+    $PY3 -m pip install --upgrade pip
     # Requests needed for openapi3, lmtrex, specify-oat
     order_wheel_installs "${REQUESTS_DEPS[@]}"
     # Flask needed for lmtrex, specify-oat
