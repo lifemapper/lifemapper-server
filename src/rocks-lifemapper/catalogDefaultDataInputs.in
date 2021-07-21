@@ -33,7 +33,6 @@ set_defaults () {
 
     # scripts
     DEFCAT_PY=@LMHOME@/LmDbServer/tools/catalog_defaults.py    
-    SCENCAT_PY=@LMHOME@/LmDbServer/tools/catalog_sen_package.py    
     BOOMCAT_PY=@LMHOME@/LmDbServer/boom/init_workflow.py
 
     if [ -f $BOOM_PARAMS ] ; then
@@ -109,18 +108,6 @@ populate_defaults () {
         @PYBIN@ $DEFCAT_PY 2>&1 | tee -a $LOG
     else
         echo "Error: Missing file $DEFCAT_PY" | tee -a $LOG
-        exit 1
-    fi
-}
-
-### populate lifemapper DB with environmental scenario inputs for default users, no makeflow
-PopulateScenariosForPublic () {
-    if [ -f $SCENCAT_PY ] ; then
-        echo "Cataloging env data $SCEN_PKG for user $PUBLIC_USER with '$SCENCAT_PY' ..." | tee -a $LOG
-        cmd_opt_python load  
-        @PYBIN@ $SCENCAT_PY  $PUBLIC_USER  $SCEN_PKG 2>&1 | tee -a $LOG
-    else
-        echo "Error: Missing file $SCENCAT_PY" | tee -a $LOG
         exit 1
     fi
 }
