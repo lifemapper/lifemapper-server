@@ -322,10 +322,8 @@ finish-cleanup () {
     echo >> $LOG
     echo "Removing roll lifemapper-server" >> $LOG 
     $ROCKS_CMD remove roll lifemapper-server
-    echo >> $LOG    
-    echo "Next, rebuild the distro with '(" >> $LOG
-    echo "   with '(module unload opt-python; cd /export/rocks/install; rocks create distro; yum clean all)'" >> $LOG
-    echo >> $LOG
+    echo "Next, rebuild the distro with "
+    echo "   '(module unload opt-python; cd /export/rocks/install; rocks create distro; yum clean all)'"
 
     #module unload opt-python
     #(cd /export/rocks/install; $ROCKS_CMD create distro; yum clean all)
